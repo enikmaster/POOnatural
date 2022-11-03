@@ -3,7 +3,10 @@
 #include <string>
 
 class Animal {
+public:
 
+private:
+    int id;
 };
 
 
