@@ -1,3 +1,0 @@
-C:/Users/filip_4sxaizl/Documents/Filipe/00-ISEC/SO/cmake-build-debug/CMakeFiles/SO.dir
-C:/Users/filip_4sxaizl/Documents/Filipe/00-ISEC/SO/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/filip_4sxaizl/Documents/Filipe/00-ISEC/SO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
