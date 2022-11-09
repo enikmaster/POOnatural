@@ -1,5 +1,5 @@
-#ifndef SO_ANIMAL_H
-#define SO_ANIMAL_H
+#ifndef POO_ANIMAL_H
+#define POO_ANIMAL_H
 #include <string>
 
 class Animal {
@@ -10,4 +10,4 @@ private:
 };
 
 
-#endif //SO_ANIMAL_H
+#endif //POO_ANIMAL_H
