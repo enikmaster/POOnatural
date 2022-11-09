@@ -1,5 +1,5 @@
-#ifndef POO_ALIMENTO_H
-#define POO_ALIMENTO_H
+#ifndef POONATURAL_ALIMENTO_H
+#define POONATURAL_ALIMENTO_H
 #include <string>
 
 class Alimento {
@@ -17,4 +17,4 @@ private:
 };
 
 
-#endif //POO_ALIMENTO_H
+#endif //POONATURAL_ALIMENTO_H
