@@ -5,15 +5,15 @@
 class Animal {
 public:
     // con/de-structors
-    Animal(char especie, int linha, int coluna);
+    //Animal(char especie, int linha, int coluna);
     ~Animal();
     // getters
-    string getAnimalName();
+    //string getAnimalName();
     // setters
-    void setAnimalName();
+    //void setAnimalName();
 private:
     unsigned animalId;
-    string animalName;
+    //string animalName;
 };
 
 

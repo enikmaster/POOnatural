@@ -8,12 +8,12 @@ public:
     Alimento();
     ~Alimento();
     // getters
-    void getFoodId();
+    //void getFoodId();
     // setters
-    void setFoodId();
+    //void setFoodId();
 private:
     unsigned foodId;
-    string name;
+    //string name;
 };
 
 
