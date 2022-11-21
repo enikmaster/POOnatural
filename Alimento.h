@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 #include "Animal.h"
-#include "Animal.cpp"
-using namespace std;
 
+using namespace std;
+/*
 string getCheiro(int x){
 
     vector<string> cheiros2;
@@ -13,11 +13,11 @@ string getCheiro(int x){
     cheiros2.push_back("verdura");
     cheiros2.push_back("carne");
     cheiros2.push_back("ketchup");
+return 0;
+};
+*/
 
-}
-
-
-
+/*
 class Relva{
     int VRelva = 20;
     int nutri = 3;
@@ -30,7 +30,7 @@ class Cenoura{
     int toxic = 1; // funcao toxic c ticks
     string cheiro = "verdura";
 };
-
+*/
 class Alimento {
 public:
     // con/de-structors\
@@ -41,12 +41,11 @@ public:
     // setters
     void setFoodId();
 
-
-    int nutri;
-    int toxic;
 private:
     unsigned foodId;
     string name;
+    int nutri;
+    int toxic;
 };
 
 
