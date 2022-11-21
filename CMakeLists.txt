@@ -3,4 +3,4 @@ project(POOnatural)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(POOnatural main.cpp)
+add_executable(POOnatural main.cpp Alimento.cpp Alimento.h Animal.cpp Animal.h Macaco.cpp Macaco.h)

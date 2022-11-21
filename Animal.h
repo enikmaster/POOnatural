@@ -15,8 +15,7 @@ private:
     int hp;
     int peso;
 public:
-
-    //Animal(char especie, int linha, int coluna);
+    // construtres destrutores
     Animal();
     ~Animal();
     // getters
@@ -32,7 +31,6 @@ class Coelho : public Animal {
 public:
     Coelho();
     int SCoelho;
-
 };
 */
 
