@@ -7,6 +7,13 @@
 using namespace std;
 
 class Animal {
+private:
+    int x, y;
+    unsigned animalID;
+    char letra;
+    int fome;
+    int hp;
+    int peso;
 public:
     // construtres destrutores
     Animal();
@@ -15,26 +22,16 @@ public:
     string getAnimalName();
     // setters
     void setAnimalName();
-    // actions
-    void checkSurroundings();
-private:
-    int lin, col;
     void move(int x, int y);
-    const unsigned animalID;
-    const int letra;
-    int fome;
-    int hp;
-    int peso;
+    void checkSurroundings(int x, int y, int radius);
+    int escolhePeso();
 };
-
+/*
 class Coelho : public Animal {
 public:
     Coelho();
-    int escolhePeso();
-    void move();
-private:
-    char letra;
     int SCoelho;
 };
+*/
 
 #endif //POONATURAL_ANIMAL_H
