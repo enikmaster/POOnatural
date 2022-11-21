@@ -46,10 +46,8 @@ void Animal::checkSurroundings(int x, int y, int radius) {
     // radius = quantas posiçoes ele consegue ver
     int lenTotal = ((radius * 2) + 1) * 2;
 
-    for (int i = y+radius; i < y-radius; i--) {
-        cout << "ola" << endl;
+    for (int i = y+radius; i > y-radius; i--) {
         for (int j = x-radius; j < x+radius; j++) {
-            cout << "ola" << endl;
             if ( i == y && j == x ) {
                 cout << "ola" << endl;
                 continue;
