@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Animal.h"
 #include "Alimento.h"
+#include "curses.h"
+#include "Terminal.h"
 
 
 using namespace std;

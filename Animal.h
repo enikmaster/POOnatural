@@ -6,27 +6,63 @@
 #include "Alimento.h"
 using namespace std;
 
+struct registoAlimentar{
+    string nome;
+    int toxic;
+    int nutri;
+};
+
 class Animal {
 private:
-    int x, y;
+    int posX, posY;
     unsigned animalID;
     char letra;
     int fome;
-    int hp;
+    int saude; //SAnimal
+    int vida; //VAnimal (ao fim de x ticks, o animaal vai morrer)
     int peso;
+    bool agressividade;
+    struct registoAlimentar;
 public:
 
-    //Animal(char especie, int linha, int coluna);
+    // constructores:
     Animal();
     ~Animal();
     // getters
     string getAnimalName();
+    void getPosXY();
+    void getAnimalID();
+    void getLetra();
+    void getFome();
+    void getSaude();
+    void getVida();
+    void getPeso();
+    void getAgressividade();
+    void getRegistoAlimentar();
+
     // setters
-    void setAnimalName();
-    void move(int x, int y);
+    string setAnimalName();
+    void setPosXY();
+    void snimalID();
+    void setLetra();
+    void setFome();
+    void setSaude();
+    void setVida();
+    void setPeso();
+    void setAgressividade();
+    void setRegistoAlimentar();
+
+    // actions
+    void move(int posX, int posY);
     void checkSurroundings(int x, int y, int radius);
     int escolhePeso();
+    void dies();
+    void birth();
+    void feed();
+    void repro();
+
 };
+
 /*
 class Coelho : public Animal {
 public:

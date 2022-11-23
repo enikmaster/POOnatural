@@ -1,0 +1,54 @@
+animal c 0 0
+animal o 0 0
+animal l 0 0
+animal g 0 0
+animal m 0 0
+
+animal c
+animal o
+animal l
+animal g
+animal m
+
+food r 0 0
+food c 0 0
+food b 0 0
+food m 0 0
+
+food r
+food c
+food b
+food m
+
+feed 50 50 999 2
+feedid 3 90 5
+
+nofood 0 0
+nofood 3
+
+empty 5 5
+
+see 0 0
+
+info 10
+
+n
+n 2
+n 2 2
+
+anim
+
+visanim
+
+store saveFile
+
+restore saveFile
+
+load comandos.txt
+
+slide up 20 20
+slide down 20 20
+slide left 20 20
+slide right 20 20
+
+exit
