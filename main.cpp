@@ -7,10 +7,16 @@
 // Pode ser aumentada com funcionalidades novas (desde que funcionem)
 
 #include <string>
+
+#include <vector>
+#include <iostream>
+#include "Animal.h"
+#include "Alimento.h"
+#include "curses.h"
+#include "Terminal.h"
 #include <sstream>
 #include <iomanip>
-#include "Terminal.h"
-#include "curses.h"
+
 
 using namespace term;
 
