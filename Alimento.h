@@ -9,17 +9,15 @@
 using namespace std;
 /*
 string getCheiro(int x){
-
     vector<string> cheiros2;
     cheiros2.push_back("erva");
     cheiros2.push_back("verdura");
     cheiros2.push_back("carne");
     cheiros2.push_back("ketchup");
+
 return 0;
 };
-*/
 
-/*
 class Relva{
     int VRelva = 20;
     int nutri = 3;
@@ -70,6 +68,4 @@ private:
     int vida; // durancao no tabuleiro
     vector<string> cheiros;
 };
-
-
 #endif //POONATURAL_ALIMENTO_H

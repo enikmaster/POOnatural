@@ -1,3 +1,4 @@
+#include "Animal.h"
 #include <string>
 #include <vector>
 #include <iostream>
