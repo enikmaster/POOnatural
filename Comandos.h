@@ -7,6 +7,7 @@
 #include "Animal.h"
 using namespace std;
 
+void checkComandoUser(string &input);
 void criaAnimal(char especie);
 void criaAnimal(char especie, int lin, int col);
 void killAnimal(int lin, int col);

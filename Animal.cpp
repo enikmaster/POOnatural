@@ -26,6 +26,7 @@ int Animal::escolhePeso() {
     srand(time(0));
     int random = rand() % 4 + 1 ;
     return random;
+
 }
 
 void Animal::move(int x, int y) {

@@ -4,7 +4,10 @@
 #include <vector>
 #include <iostream>
 #include "Alimento.h"
+#include "Comandos.h"
 using namespace std;
+
+// int s = cin >> getline(contantes.txt);
 
 struct registoAlimentar{
     string nome;
@@ -66,7 +69,7 @@ public:
 /*
 class Coelho : public Animal {
 public:
-    Coelho();
+    Coelho() : letra('C'), saude(s);
     int SCoelho;
 
 };
