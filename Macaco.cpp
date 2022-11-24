@@ -15,5 +15,5 @@ unsigned Macaco::setPercecao() {
 
 }
 string Macaco::setName() {
-    this->name = "M" + this->getId();
+    //this->name = "M" + this->getId();
 }
