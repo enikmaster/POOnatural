@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <iostream>
 #include "Alimento.h"
 #include "Comandos.h"
 #include "Animal.h"
@@ -13,6 +14,70 @@ const vector<string> listComandos {"animal", "kill", "killid", "food", "feed",
                             "feedid", "nofood", "empty", "see",
                             "info", "n", "anim", "visanim", "store",
                             "restore", "load", "slide", "exit"};
+
+vector<string> split(const string& line) {
+    vector<string> ret;
+    typedef string::size_type string_size;
+    string_size i = 0;
+
+    // invariant: we have processed characters [original value of i, i)
+    while (i != line.size()) {
+        // ignore leading blanks
+        // invariant: characters in range [original i, current i) are all spaces
+        while (i != line.size() && isspace(line.at(i)))
+            ++i;
+
+        // find end of next word
+        string_size j = i;
+        // invariant: none of the characters in range [original j, current j)is a space
+        while (j != line.size() && !isspace(line.at(j)))
+            j++;
+
+        // if we found some nonwhitespace characters
+        if (i != j) {
+            // copy from s starting at i and taking j - i chars
+            ret.push_back(line.substr(i, j - i));
+            i = j;
+        }
+    }
+    return ret;
+}
+int numArgs(std::stringstream& teste, std::string&temp ) {
+    int cnt{0};
+    while(teste >> temp)
+        ++cnt;
+    return cnt;
+}
+void getInput() {
+    string input{};
+    cout << "O que pretende validar: " << endl;
+    getline(cin, input);
+    do {
+        stringstream iss (input);
+        string temp{};
+        int nArgs = numArgs(iss, temp);
+        if(nArgs > 5) {
+            cout << "demasiada informacao..." << endl;
+            cout << "O que pretende validar: " << endl;
+            continue;
+        }
+        if(nArgs < 1) {
+            cout << "sem instrucoes..." << endl;
+            cout << "O que pretende validar: " << endl;
+            continue;
+        }
+        vector<string> args = split(input);
+        // chamar a função de validar cenas
+        // verCmd(args.at(0));
+
+//        escreve os argumentos no terminal
+//        for (std::vector<std::string>::size_type i = 0; i != args.size(); ++i) {
+//            std::cout << args.at(i) << std::endl;
+//        }
+
+        cout << "O que pretende validar: " << endl;
+    }while(getline(cin, input));
+}
 
 void verNrArg(int &len, string &input) {
     int cont=0;

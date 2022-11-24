@@ -3,4 +3,5 @@ project(POOnatural)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(POOnatural main.cpp Alimento.cpp Alimento.h Animal.cpp Animal.h Macaco.cpp Macaco.h)
+add_executable(${PROJECT_NAME} main.cpp Comandos.cpp)
+target_link_libraries(${PROJECT_NAME} C:/Users/filip_4sxaizl/Documents/Filipe/00-ISEC/pdcurses.a)

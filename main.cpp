@@ -7,34 +7,29 @@
 // Pode ser aumentada com funcionalidades novas (desde que funcionem)
 
 #include <string>
-
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include "Animal.h"
-#include "Alimento.h"
+#include <bits/stdc++.h>
+//#include "Animal.h"
+//#include "Alimento.h"
 #include "curses.h"
 #include "Terminal.h"
 #include "Comandos.h"
 
 using namespace term;
 
-void print_size(Terminal& t) {
+/*void print_size(Terminal& t) {
     std::ostringstream o;
     o << std::setw(7) << t.getNumCols() << "x" << t.getNumRows();
     std::string str = o.str();
     t.clear();
     t << set_color(0) << move_to(t.getNumCols()-str.length(), t.getNumRows()-1) << str;
-}
+}*/
 
 int main() {
-
-    string input;
-
-    cout << "Insira um comando: " << endl;
-    getline(cin, input);
-    checkComandoUser(input);
-
+    getInput();
 
     return 0;
 }
