@@ -9,7 +9,7 @@
 #include "Animal.h"
 using namespace std;
 
-const vector<char> listEspecies {'c', 'o', 'l', 'g', 'm'};
+const vector<string> listEspecies {"c", "o", "l", "g", "m"};
 const vector<string> listComandos {"animal", "kill", "killid", "food", "feed",
                             "feedid", "nofood", "empty", "see",
                             "info", "n", "anim", "visanim", "store",
@@ -48,53 +48,6 @@ int numArgs(std::stringstream& teste, std::string&temp ) {
         ++cnt;
     return cnt;
 }
-void getInput() {
-    string input{};
-    cout << "O que pretende validar: " << endl;
-    getline(cin, input);
-    do {
-        stringstream iss (input);
-        string temp{};
-        int nArgs = numArgs(iss, temp);
-        if(nArgs > 5) {
-            cout << "demasiada informacao..." << endl;
-            cout << "O que pretende validar: " << endl;
-            continue;
-        }
-        if(nArgs < 1) {
-            cout << "sem instrucoes..." << endl;
-            cout << "O que pretende validar: " << endl;
-            continue;
-        }
-        vector<string> args = split(input);
-        // chamar a função de validar cenas
-        // verCmd(args.at(0));
-
-//        escreve os argumentos no terminal
-//        for (std::vector<std::string>::size_type i = 0; i != args.size(); ++i) {
-//            std::cout << args.at(i) << std::endl;
-//        }
-
-        cout << "O que pretende validar: " << endl;
-    }while(getline(cin, input));
-}
-
-void verNrArg(int &len, string &input) {
-    int cont=0;
-    for (int i=0; i<len; i++) {
-        if (input.at(i) == ' ') {
-            cont++;
-        }
-    }
-    if (cont > 5) {
-        cout << "Erro! Argumentos a mais!\n";
-        return;
-    }
-    if (cont < 1) {
-        cout << "Erro! Argumentos a menos!\n";
-        return;
-    }
-}
 
 void verCmd(const string &cmd){
         bool xpto = find(listComandos.begin(), listComandos.end(), cmd) != listComandos.end();
@@ -103,10 +56,10 @@ void verCmd(const string &cmd){
             return;
         }
 }
-void verEsp(const char &esp) {
+void verEsp(string &esp) {
         bool xpto = find(listEspecies.begin(), listEspecies.end(), esp) != listEspecies.end();
         if (!xpto){
-            cout << "Inseriu mal o primeiro comando!\n";
+            cout << "Inseriu mal o segundo comando!\n";
             return;
         }
 }
@@ -126,44 +79,65 @@ void verId(const int &id) {
 }
 
 
-void checkComandoUser(string &input) {
+void getInput() {
+    string input{};
+    cout << "O que pretende validar: " << endl;
+    getline(cin, input);
+    do {
+        stringstream iss (input);
+        string temp{};
+        int nArgs = numArgs(iss, temp);
+        if(nArgs > 5) {
+            cout << "demasiada informacao..." << endl;
+            cout << "O que pretende validar: " << endl;
+            continue;
+        }
+        if(nArgs < 1) {
+            cout << "sem instrucoes..." << endl;
+            cout << "O que pretende validar: " << endl;
+            continue;
+        }
+        vector<string> args = split(input);
 
-    int len = input.length();
-    cout << "string: " << input << " " << "tamanho: " << len << endl;
+        // chamar a função de validar cenas
+    // CRIAR FUNCAO checkComando()
+        verCmd(args.at(0));
 
-    //Calcula e verifica o numero de argumentos passados
-    verNrArg(len, input);
+        if ( args.at(0) == "animal") {
+            if (nArgs == 2) {
+                verEsp(args.at(1));
+                //adicionar coords random
+                //criaAnimal(char especie);
+            }
+            else {
+                verEsp(args.at(1));
+                verXY(stoi(args.at(2)), stoi(args.at(3)));
+                criaAnimal(char (args.at(2)[0]), int (stoi(args.at(3))), int (stoi(args.at(4))));
+            }
+        }
+        if ( args.at(0) == "kill") {
+            if (nArgs == 3) {
+                verXY(stoi(args.at(2)), stoi(args.at(3)));
+                killAnimal(int (stoi(args.at(2))), int (stoi(args.at(3))));
+            }
+        }
+        if ( args.at(0) == "killid") {
+            if (nArgs == 2) {
+                // killAnimal(int id);
+                //killAnimal(int id);
+            }
+        }
 
-
-    // Get primeira palavra
-    string cmd = input.substr(0, input.find(' '));
-    cout << cmd << endl;
-    // Verifica se a primeira palavra existe
-    verCmd(cmd);
-
-
-    // Get index da sigla
-    int especie = (input.find(' ') + 1);
-    cout << "index do char: " << especie << endl;
-    // Get sigla
-    char esp;
-    esp = input.at(especie);
-    cout << "char de especie: " << esp << endl;
-    // Verifica se a esp existe
-    verEsp(esp);
-
-    // Animal de 4 parametros (INCOMPLETA)
-    int flin = (input.find(' '  + 3));
-    int fcol = (input.find(' ' + 5));
-    int lin = input.at(flin);
-    int col = input.at(fcol);
-    cout << "lin col : " << lin << col << endl;
-    //Verifica se x e y estao compreendidos entre os limites da Reserva
-    verXY(lin, col);
+        // NEXT: COLOCAR ALIMENTO etc...
 
 
-    // para os comandos que nao precisam de overload, fazer um
-    // vetor para direcionar diretamente as funcoes
+//        escreve os argumentos no terminal
+//        for (std::vector<std::string>::size_type i = 0; i != args.size(); ++i) {
+//            std::cout << args.at(i) << std::endl;
+//        }
+
+        cout << "O que pretende validar: " << endl;
+    }while(getline(cin, input));
 }
 
 

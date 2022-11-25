@@ -7,6 +7,12 @@
 #include "Animal.h"
 using namespace std;
 void getInput();
+vector<string> split(const string& line);
+int numArgs(std::stringstream& teste, std::string&temp );
+void verCmd(const string &cmd);
+void verEsp(string &esp);
+void verXY(const int &lin, const int &col);
+void verId(const int &id);
 void checkComandoUser(string &input);
 void criaAnimal(char especie);
 void criaAnimal(char especie, int lin, int col);
