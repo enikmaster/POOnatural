@@ -15,7 +15,7 @@ bool verAli(string &tipo);
 bool verDir(string &dir);
 bool verXY(const int &lin, const int &col);
 bool verId(const int &id);
-void checkComandoUser(string nomeFicheiro);
+void checkComandoUser(const string& nomeFicheiro);
 void criaAnimal(char especie);
 void criaAnimal(char especie, int lin, int col);
 void killAnimal(int lin, int col);

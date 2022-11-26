@@ -94,9 +94,8 @@ bool verId(const int &id) {
     } else return true;
 }
 
-void checkComandoUser(string nomeFicheiro) {
+void checkComandoUser(const string& nomeFicheiro) {
     string line;
-    nomeFicheiro = "\"" + nomeFicheiro + "\"";
     fstream myfile;
     myfile.open(nomeFicheiro, ios::in); // in = read mode, on = write mode
     if (myfile.is_open()) {
