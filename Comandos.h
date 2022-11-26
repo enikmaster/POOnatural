@@ -1,11 +1,10 @@
 #ifndef TRABALHOPRATICO_COMANDOS_H
 #define TRABALHOPRATICO_COMANDOS_H
-#include <string>
-#include <vector>
-#include <iostream>
-#include "Alimento.h"
-#include "Animal.h"
+#include "Includes.h"
 using namespace std;
+void getReservaDims(int& DimX, int& DimY);
+int numArgs(stringstream& teste, string& temp);
+vector<string> split(const string& line);
 void getInput();
 vector<string> split(const string& line);
 int numArgs(std::stringstream& teste, std::string&temp );

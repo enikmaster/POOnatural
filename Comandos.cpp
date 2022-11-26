@@ -1,12 +1,5 @@
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <iostream>
-#include "Alimento.h"
-#include "Comandos.h"
-#include "Animal.h"
+#include "Includes.h"
+
 using namespace std;
 
 const vector<string> listDirections {"up", "down", "left", "right"};
@@ -17,6 +10,12 @@ const vector<string> listComandos {"animal", "kill", "killid", "food", "feed",
                             "info", "n", "anim", "visanim", "store",
                             "restore", "load", "slide", "exit"};
 
+int numArgs(std::stringstream& teste, std::string& temp ) {
+    int cnt{0};
+    while(teste >> temp)
+        ++cnt;
+    return cnt;
+}
 
 vector<string> split(const string& line) {
     vector<string> ret;
@@ -45,11 +44,31 @@ vector<string> split(const string& line) {
     }
     return ret;
 }
-int numArgs(std::stringstream& teste, std::string&temp ) {
-    int cnt{0};
-    while(teste >> temp)
-        ++cnt;
-    return cnt;
+void getReservaDims(int& DimX, int& DimY) {
+    string input;
+    bool flag = false;
+    do {
+        cout << "Insira a dimensao da reserva (altura comprimento) ou 0 0 para um tamanho aleatorio: "<< endl;
+        getline(cin, input);
+        stringstream iss (input);
+        string temp{};
+        int nArgs = numArgs(iss, temp);
+        if(nArgs > 2 || nArgs == 0) {
+            cout << "informacao invalida..." << endl;
+            continue;
+        }
+        vector<string> args = split(input);
+        if((stoi(args.at(0)) == 0) && (stoi(args.at(1)) == 0)) {
+            DimX = 0;
+            DimY = 0;
+            flag = true;
+        }
+        if((stoi(args.at(0)) >= 16 && stoi(args.at(0)) <= 500) && (stoi(args.at(1)) >= 16 && stoi(args.at(1)) <= 500)) {
+            DimX = stoi(args.at(0));
+            DimY = stoi(args.at(1));
+            flag = true;
+        }
+    }while(!flag);
 }
 
 bool verCmd(const string &cmd){

@@ -6,19 +6,10 @@
 //
 // Pode ser aumentada com funcionalidades novas (desde que funcionem)
 
-#include <string>
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <bits/stdc++.h>
-//#include "Animal.h"
-//#include "Alimento.h"
-#include "curses.h"
-#include "Terminal.h"
+#include "Includes.h"
 #include "Comandos.h"
-
-using namespace term;
+#include "Reserva.h"
+//using namespace term;
 
 /*void print_size(Terminal& t) {
     std::ostringstream o;
@@ -29,6 +20,11 @@ using namespace term;
 }*/
 
 int main() {
+    cout << "Bem-vindo" << endl;
+
+    int DimX, DimY;
+    getReservaDims(DimX, DimY);
+    Reserva zoo(DimX, DimY);
     getInput();
 
     return 0;
