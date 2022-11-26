@@ -38,6 +38,23 @@ void restore(string nome);
 void store(string nome);
 void deslocaAreaViz(string dir, int lin, int col);
 
+bool verificaAnimal(int nArgs, vector<string> &args);
+
+
+
+/*
+ // CRIAR ANIMAL
+
+        if ( args.at(0) == "animal") {
+           bool flag = verificaAnimal(nArgs, args);
+           if (!flag) {
+               cout << "O que pretende validar: " << endl;
+               continue;
+           }
+
+        }
+ */
+
 
 
 #endif //TRABALHOPRATICO_COMANDOS_H

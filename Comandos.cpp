@@ -93,6 +93,29 @@ bool verId(const int &id) {
         return false;
     } else return true;
 }
+bool verificaAnimal(int nArgs, vector<string> &args) {
+    if (nArgs == 2) {
+        if (!verEsp(args.at(1))) {
+            return false;
+        }
+        // Adicionar coords random
+        criaAnimal(args.at(1)[0]);
+        cout << "O que pretende validar: " << endl;
+        return true;
+    }
+    if (nArgs == 4) {
+        if ( !verEsp(args.at(1)) ) {
+            return false;
+        }
+        if ( !verXY(stoi(args.at(2)), stoi(args.at(3))) ) {
+            return false;
+        }
+        criaAnimal(char (args.at(1)[0]), int (stoi(args.at(2))), int (stoi(args.at(3))));
+        return true;
+    }
+        cout << "Erro! Numero errado de parametros\n";
+        return false;
+}
 
 void checkComandoUser(const string& nomeFicheiro) {
     string line;
@@ -102,7 +125,8 @@ void checkComandoUser(const string& nomeFicheiro) {
         cout << "Ficheiro aberto com sucesso!\n";
         while (getline(myfile, line)) {
             cout << line << endl;
-            break;
+            //break;
+
         }
         myfile.close();
     }
@@ -164,31 +188,12 @@ void getInput() {
         // CRIAR ANIMAL
 
         if ( args.at(0) == "animal") {
-            if (nArgs == 2) {
-                if ( !verEsp(args.at(1)) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                // Adicionar coords random
-                criaAnimal(args.at(1)[0]);
-                cout << "O que pretende validar: " << endl;
-                continue;
-            }
-            if (nArgs == 4) {
-                if ( !verEsp(args.at(1)) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                if ( !verXY(stoi(args.at(2)), stoi(args.at(3))) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                criaAnimal(char (args.at(1)[0]), int (stoi(args.at(2))), int (stoi(args.at(3))));
-            }
-            else {
-                cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
-                continue;}
+           bool flag;
+           flag = verificaAnimal(nArgs, args);
+           if (!flag) {
+               cout << "O que pretende validar: " << endl;
+               continue;
+           }
         }
 
 
@@ -530,14 +535,12 @@ void getInput() {
         if (args.at(0) == "exit") {
             if (nArgs == 1){
                 return;
-            }
-        }
-        else {
+            } else {
             cout << "Erro! Numero errado de parametros\n";
             cout << "O que pretende validar: " << endl;
             continue;
         }
-
+        }
 
 
 //        escreve os argumentos no terminal
@@ -545,7 +548,7 @@ void getInput() {
 //            std::cout << args.at(i) << std::endl;
 //        }
 
-        cout << "O que pretende validar: " << endl;
+
     }while(getline(cin, input));
 
 }
