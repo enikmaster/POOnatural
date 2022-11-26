@@ -9,11 +9,13 @@ using namespace std;
 void getInput();
 vector<string> split(const string& line);
 int numArgs(std::stringstream& teste, std::string&temp );
-void verCmd(const string &cmd);
-void verEsp(string &esp);
-void verXY(const int &lin, const int &col);
-void verId(const int &id);
-void checkComandoUser(string &input);
+bool verCmd(const string &cmd);
+bool verEsp(string &esp);
+bool verAli(string &tipo);
+bool verDir(string &dir);
+bool verXY(const int &lin, const int &col);
+bool verId(const int &id);
+void checkComandoUser(string nomeFicheiro);
 void criaAnimal(char especie);
 void criaAnimal(char especie, int lin, int col);
 void killAnimal(int lin, int col);
@@ -32,8 +34,9 @@ void tick(int instante);
 void tick(int instante, int pausa);
 void listIdsReserva();
 void listIdsWindow();
-void store(string nome);
 void restore(string nome);
+void store(string nome);
+void deslocaAreaViz(string dir, int lin, int col);
 
 
 
