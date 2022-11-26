@@ -1,10 +1,6 @@
 #ifndef POONATURAL_ANIMAL_H
 #define POONATURAL_ANIMAL_H
-#include <string>
-#include <vector>
-#include <iostream>
-#include "Alimento.h"
-#include "Comandos.h"
+#include "Includes.h"
 using namespace std;
 
 // int s = cin >> getline(contantes.txt);

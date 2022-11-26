@@ -9,10 +9,7 @@ public:
     Macaco();
     ~Macaco();
     // setters
-    unsigned setSaude();
-    unsigned setVida();
-    unsigned setPercecao();
-    string setName();
+
     // actions
 private:
     string name;

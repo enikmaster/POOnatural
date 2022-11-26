@@ -1,10 +1,10 @@
 #ifndef POONATURAL_ALIMENTO_H
 #define POONATURAL_ALIMENTO_H
-#include <string>
-#include <vector>
+//#include <string>
+//#include <vector>
 #include "Animal.h"
-#include "curses.h"
-#include "Terminal.h"
+//#include "curses.h"
+//#include "Terminal.h"
 
 using namespace std;
 /*
