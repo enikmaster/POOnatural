@@ -6,7 +6,15 @@ void getReservaDims(int& DimX, int& DimY);
 int numArgs(stringstream& teste, string& temp);
 vector<string> split(const string& line);
 void getInput();
-void checkComandoUser(string &input);
+vector<string> split(const string& line);
+int numArgs(std::stringstream& teste, std::string&temp );
+bool verCmd(const string &cmd);
+bool verEsp(string &esp);
+bool verAli(string &tipo);
+bool verDir(string &dir);
+bool verXY(const int &lin, const int &col);
+bool verId(const int &id);
+void checkComandoUser(const string& nomeFicheiro);
 void criaAnimal(char especie);
 void criaAnimal(char especie, int lin, int col);
 void killAnimal(int lin, int col);
@@ -25,8 +33,26 @@ void tick(int instante);
 void tick(int instante, int pausa);
 void listIdsReserva();
 void listIdsWindow();
-void store(string nome);
 void restore(string nome);
+void store(string nome);
+void deslocaAreaViz(string dir, int lin, int col);
+
+bool verificaAnimal(int nArgs, vector<string> &args);
+
+
+
+/*
+ // CRIAR ANIMAL
+
+        if ( args.at(0) == "animal") {
+           bool flag = verificaAnimal(nArgs, args);
+           if (!flag) {
+               cout << "O que pretende validar: " << endl;
+               continue;
+           }
+
+        }
+ */
 
 
 
