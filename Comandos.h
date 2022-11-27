@@ -1,19 +1,22 @@
 #ifndef TRABALHOPRATICO_COMANDOS_H
 #define TRABALHOPRATICO_COMANDOS_H
 #include "Includes.h"
+#include "Reserva.h"
+
 using namespace std;
 void getReservaDims(int& DimX, int& DimY);
 int numArgs(stringstream& teste, string& temp);
 vector<string> split(const string& line);
-void getInput();
+void getInput(Reserva& reserva);
 vector<string> split(const string& line);
 int numArgs(std::stringstream& teste, std::string&temp );
-bool verCmd(const string &cmd);
-bool verEsp(string &esp);
-bool verAli(string &tipo);
-bool verDir(string &dir);
-bool verXY(const int &lin, const int &col);
-bool verId(const int &id);
+bool verificaCmd(const string &cmd);
+bool verificaEspecie(string &esp);
+bool verificaSintaxe(int nArgs, int nArgsExp);
+bool verificaAlimento(string &tipo);
+bool verificaDirecao(string &dir);
+bool verificaXY(const int &lin, const int &col, const Reserva& reserva);
+bool verificaId(const int &id, const Reserva& reserva);
 void checkComandoUser(const string& nomeFicheiro);
 void criaAnimal(char especie);
 void criaAnimal(char especie, int lin, int col);
@@ -29,31 +32,14 @@ void deletePos(int lin, int col);
 void checkPos(int lin, int col);
 void checkId(int id);
 void tick();
-void tick(int instante);
-void tick(int instante, int pausa);
+void tick(int pausa);
 void listIdsReserva();
 void listIdsWindow();
 void restore(string nome);
 void store(string nome);
-void deslocaAreaViz(string dir, int lin, int col);
+void deslocaAreaViz(string dir, int tamanho);
+void infoToUser();
 
-bool verificaAnimal(int nArgs, vector<string> &args);
-
-
-
-/*
- // CRIAR ANIMAL
-
-        if ( args.at(0) == "animal") {
-           bool flag = verificaAnimal(nArgs, args);
-           if (!flag) {
-               cout << "O que pretende validar: " << endl;
-               continue;
-           }
-
-        }
- */
-
-
+//bool verificaAnimal(int nArgs, vector<string> &args, Reserva &reserva);
 
 #endif //TRABALHOPRATICO_COMANDOS_H
