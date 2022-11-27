@@ -22,7 +22,7 @@ public:
 //    vector<Alimento> addAlimento(const Alimento newAlimento);
 //    vector<Animal> rmAnimal(const Animal deadAnimal);
 //    vector<Alimento> rmAlimento(const Alimento deadAlimento);
-
+    friend class Comandos;
 private:
     int elementoId;
     int dimX;

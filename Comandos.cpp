@@ -1,4 +1,5 @@
 #include "Includes.h"
+#include "Reserva.h"
 
 using namespace std;
 
@@ -8,15 +9,15 @@ const vector<string> listAlimentos {"r", "t", "b", "a"};
 const vector<string> listComandos {"animal", "kill", "killid", "food", "feed",
                             "feedid", "nofood", "empty", "see",
                             "info", "n", "anim", "visanim", "store",
-                            "restore", "load", "slide", "exit"};
-
-int numArgs(std::stringstream& teste, std::string& temp ) {
+                            "restore", "load", "slide", "exit", "help"};
+// conta o numero de argumentos inseridos no terminal
+int numArgs(stringstream& teste, string& temp ) {
     int cnt{0};
     while(teste >> temp)
         ++cnt;
     return cnt;
 }
-
+// divide a linha inserida em strings e guarda num vetor de strings
 vector<string> split(const string& line) {
     vector<string> ret;
     typedef string::size_type string_size;
@@ -44,6 +45,7 @@ vector<string> split(const string& line) {
     }
     return ret;
 }
+// verifica e devolve as dimensoes da reserva a ser criada
 void getReservaDims(int& DimX, int& DimY) {
     string input;
     bool flag = false;
@@ -70,51 +72,64 @@ void getReservaDims(int& DimX, int& DimY) {
         }
     }while(!flag);
 }
-
-bool verCmd(const string &cmd){
+// verifica se o comando existe na lista de comandos do programa
+bool verificaCmd(const string &cmd){
         bool xpto = find(listComandos.begin(), listComandos.end(), cmd) != listComandos.end();
         if (!xpto)
             cout << "Inseriu mal o primeiro comando!\n";
         return xpto;
 }
-bool verEsp(string &esp) {
-        bool xpto = find(listEspecies.begin(), listEspecies.end(), esp) != listEspecies.end();
-        if (!xpto){
-            cout << "Inseriu mal o segundo comando!\n";
-        }
-        return xpto;
+// verifica se a especie (letra) existe na lista
+bool verificaEspecie(string &esp) {
+    bool xpto = find(listEspecies.begin(), listEspecies.end(), esp) != listEspecies.end();
+    if (!xpto){
+        cout << "Inseriu mal o segundo comando!\n";
+    }
+    return xpto;
 }
-bool verAli(string &tipo) {
+// verifica se o alimento (letra) existe na lista
+bool verificaAlimento(string &tipo) {
     bool xpto = find(listAlimentos.begin(), listAlimentos.end(), tipo) != listAlimentos.end();
     if (!xpto){
         cout << "Inseriu mal o segundo comando!\n";
     }
     return xpto;
 }
-bool verDir(string &dir) {
+// verifica se a direcao existe na lista
+bool verificaDirecao(string &dir) {
     bool xpto = find(listDirections.begin(), listDirections.end(), dir) != listDirections.end();
     if (!xpto){
         cout << "Inseriu mal o segundo comando!\n";
     }
     return xpto;
 }
-
-bool verXY(const int &lin, const int &col) {
-    if ( ( lin < 16 || lin > 500) || (col < 16 || col > 500 ) ) {
+// verifica se a posição está dentro da reserva e posteriormente, se está associado a alguma coisa
+bool verificaXY(const int &posX, const int &posY, const Reserva& reserva) {
+    if (posX < 1 || posY < 1) {
         cout << "Inseriu valores invalidos de linhas e/ou colunas \n";
         return false;
-    } else return true;
-}
-
-bool verId(const int &id) {
-    if (id < 0) {
-        cout << "Inseriu um valor invalido!\n";
+    }
+    if (posY > reserva.getDimY() || posX > reserva.getDimX() ){
+        cout << "Inseriu valores invalidos de linhas e/ou colunas \n";
         return false;
-    } else return true;
+    }
+    return true;
 }
-bool verificaAnimal(int nArgs, vector<string> &args) {
+// verifica se o id está na reserva
+bool verificaId(const int &id, const Reserva &reserva) {
+    return id == reserva.getId();
+}
+// verifica se a sintaxe do comando está correta
+bool verificaSintaxe(const int nArgs, const int nArgsExp) {
+    return nArgs == nArgsExp;
+}
+// envia para o output uma mensagem
+void infoToUser() {
+    cout << "O que pretende validar: " << endl;
+}
+/*bool verificaAnimal(int nArgs, vector<string> &args, Reserva &reserva) {
     if (nArgs == 2) {
-        if (!verEsp(args.at(1))) {
+        if (!verificaEspecie(args.at(1))) {
             return false;
         }
         // Adicionar coords random
@@ -123,19 +138,19 @@ bool verificaAnimal(int nArgs, vector<string> &args) {
         return true;
     }
     if (nArgs == 4) {
-        if ( !verEsp(args.at(1)) ) {
+        if ( !verificaEspecie(args.at(1)) ) {
             return false;
         }
-        if ( !verXY(stoi(args.at(2)), stoi(args.at(3))) ) {
+        if ( !verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva)) {
             return false;
         }
-        criaAnimal(char (args.at(1)[0]), int (stoi(args.at(2))), int (stoi(args.at(3))));
+        criaAnimal(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)));
         return true;
     }
-        cout << "Erro! Numero errado de parametros\n";
-        return false;
-}
-
+    cout << "Erro! Numero errado de parametros\n";
+    return false;
+}*/
+// abre o ficheiro
 void checkComandoUser(const string& nomeFicheiro) {
     string line;
     fstream myfile;
@@ -143,9 +158,8 @@ void checkComandoUser(const string& nomeFicheiro) {
     if (myfile.is_open()) {
         cout << "Ficheiro aberto com sucesso!\n";
         while (getline(myfile, line)) {
+            // não é necessário escrever no terminal
             cout << line << endl;
-            //break;
-
         }
         myfile.close();
     }
@@ -154,7 +168,7 @@ void checkComandoUser(const string& nomeFicheiro) {
         return;
     }
 }
-
+// comandos
 void criaAnimal(char especie, int lin, int col){cout << "A verificar na 2 fase\n";};
 void criaAnimal(char especie) {cout << "A verificar na 2 fase\n";}
 void killAnimal(int lin, int col){cout << "A verificar na 2 fase\n";};
@@ -169,17 +183,16 @@ void deletePos(int lin, int col){cout << "A verificar na 2 fase\n";};
 void checkPos(int lin, int col){cout << "A verificar na 2 fase\n";};
 void checkId(int id){cout << "A verificar na 2 fase\n";};
 void tick(){cout << "A verificar na 2 fase\n";};
-void tick(int instante){cout << "A verificar na 2 fase\n";};
-void tick(int instante, int pausa){cout << "A verificar na 2 fase\n";};
+void tick(int pausa){cout << "A verificar na 2 fase\n";};
 void listIdsReserva(){cout << "A verificar na 2 fase\n";};
 void listIdsWindow(){cout << "A verificar na 2 fase\n";};
 void store(string nome){cout << "A verificar na 2 fase\n";};
 void restore(string nome){cout << "A verificar na 2 fase\n";};
-void deslocaAreaViz(string dir, int lin, int col){cout << "A verificar na 2 fase\n";};
-
-void getInput() {
+void deslocaAreaViz(string dir, int tamanho){cout << "A verificar na 2 fase\n";};
+// recebe os comandos
+void getInput(Reserva& reserva) {
     string input{};
-    cout << "O que pretende validar: " << endl;
+    infoToUser();
     getline(cin, input);
     do {
         stringstream iss (input);
@@ -187,389 +200,358 @@ void getInput() {
         int nArgs = numArgs(iss, temp);
         if(nArgs > 5) {
             cout << "demasiada informacao..." << endl;
-            cout << "O que pretende validar: " << endl;
+            infoToUser();
             continue;
         }
         if(nArgs < 1) {
             cout << "sem instrucoes..." << endl;
-            cout << "O que pretende validar: " << endl;
+            infoToUser();
             continue;
         }
         vector<string> args = split(input);
-
         // ################################  VERIFICAÇÕES  ########################################
-
-        if ( !verCmd(args.at(0)) ) {
-            cout << "O que pretende validar: " << endl;
+        if ( !verificaCmd(args.at(0)) ) {
+            infoToUser();
             continue;
         }
-
         // CRIAR ANIMAL
-
         if ( args.at(0) == "animal") {
-           bool flag;
-           flag = verificaAnimal(nArgs, args);
-           if (!flag) {
-               cout << "O que pretende validar: " << endl;
+           if (!verificaEspecie(args.at(1))) {
+               infoToUser();
+               continue;
+           }
+           if(verificaSintaxe(nArgs, 2)) {
+               // animal <letra>
+               criaAnimal(args.at(1)[0]);
+               infoToUser();
+               continue;
+           }
+           if(verificaSintaxe(nArgs, 4)) {
+               if (!verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva)) {
+                   infoToUser();
+                   continue;
+               }
+               // animal <letra> <posX> <posY>
+               criaAnimal(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)));
+               infoToUser();
+               continue;
+           }
+           if(nArgs != 2 && nArgs != 4){
+               cout << "numero de argumentos invalido" << endl;
+               infoToUser();
                continue;
            }
         }
-
-
-
-        // MATAR ANIMAL
-
+        // MATAR ANIMAL POSIÇÃO
         if ( args.at(0) == "kill") {
-            if (nArgs == 3) {
-                 if ( !verXY(stoi(args.at(1)), stoi(args.at(2))) ) {
-                     cout << "O que pretende validar: " << endl;
-                     continue;
-                 }
+            if (verificaSintaxe(nArgs, 3)) {
+                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva) ) {
+                    infoToUser();
+                    continue;
+                }
+                // kill <posX> <posY>
                 killAnimal(int (stoi(args.at(1))), int (stoi(args.at(2))));
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
-            }
-            else {
-                cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+            } else {
+                cout << "numero de argumentos invalido" << endl;
+                infoToUser();
                 continue;
             }
         }
-
+        // MATAR ANIMAL ID
         if ( args.at(0) == "killid") {
-            if (nArgs == 2) {
-                if ( !verId(stoi(args.at(1))) ) {
-                    cout << "Erro! ID invalido!\n";
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 2)) {
+                if ( !verificaId(stoi(args.at(1)), reserva) ) {
+                    cout << "Erro! ID invalido!" << endl << "O que pretende validar: " << endl;
                     continue;
                 }
+                // killid <id>
                 killAnimal(stoi(args.at(1)));
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
-            }
-            else {
-                cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+            } else {
+                cout << "numero de argumentos invalido"<< endl;
+                infoToUser();
                 continue;
             }
         }
-
-
         // COLOCAR ALIMENTO
-
         if ( args.at(0) == "food") {
-            if (nArgs == 2) {
-                if ( !verAli(args.at(1)) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                // Adicionar coords random
+            if (!verificaAlimento(args.at(1)) ) {
+                infoToUser();
+                continue;
+            }
+            if (verificaSintaxe(nArgs, 2)) {
+                // food <letra>
                 placeAlimento(args.at(1)[0]);
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
-            if (nArgs == 4) {
-                if ( !verAli(args.at(1)) ) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 4)) {
+                if ( !verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva)) {
+                    infoToUser();
                     continue;
                 }
-                if ( !verXY(stoi(args.at(2)), stoi(args.at(3))) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                placeAlimento(char (args.at(1)[0]), int (stoi(args.at(2))), int (stoi(args.at(3))));
-                cout << "O que pretende validar: " << endl;
+                // food <letra> <posX> <posY>
+                placeAlimento(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)));
+                infoToUser();
                 continue;
             }
-            else {
-                cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
-                continue;}
+            if(nArgs != 2 && nArgs != 4) {
+                cout << "numero de argumentos invalido" << endl;
+                infoToUser();
+                continue;
+            }
         }
-
-
         //  ALIMENTAR DIRETAMENTE ANIMAIS
-
         if ( args.at(0) == "feed") {
-            if (nArgs == 5) {
-                if ( !verXY(stoi(args.at(1)), stoi(args.at(2))) ) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 5)) {
+                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva) ) {
+                    infoToUser();
                     continue;
                 }
-                if ( (!verId(stoi(args.at(3)))) && (!verId(stoi(args.at(4)))) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
+                // feed <posX> <posY> <nutri> <toxic>
                 feedDirectly(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)));
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
+                continue;
+            } else {
+                cout << "numero de argumentos invalido" << endl;
+                infoToUser();
                 continue;
             }
-            else {
-                cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
-                continue;}
         }
-
         if ( args.at(0) == "feedid") {
-            if (nArgs == 2) {
-                if (!verId(stoi(args.at(1)))) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 2)) {
+                if (!verificaId(stoi(args.at(1)), reserva)) {
+                    infoToUser();
                     continue;
                 }
+                // feedid <id>
                 feedId(stoi(args.at(1)));
-                cout << "ola";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                cout << "numero de argumentos invalido" << endl;
+                infoToUser();
                 continue;
             }
         }
-
         //  REMOVER ALIMENTO
-
         if ( args.at(0) == "nofood") {
-            if (nArgs == 3) {
-                if ( !verXY(stoi(args.at(1)), stoi(args.at(2))) ) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 3)) {
+                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva) ) {
+                    infoToUser();
                     continue;
                 }
-                removeAlimento(int (stoi(args.at(1))), int (stoi(args.at(2))));
-                cout << "O que pretende validar: " << endl;
+                // nofood <posX> <posY>
+                removeAlimento( stoi(args.at(1)), stoi(args.at(2)));
+                infoToUser();
                 continue;
             }
-            if (nArgs == 2) {
-                if ( !verId(stoi(args.at(1))) ) {
-                    cout << "Erro! ID invalido!\n";
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 2)) {
+                if ( !verificaId(stoi(args.at(1)), reserva)) {
+                    cout << "Erro! ID invalido!" << endl;
+                    infoToUser();
                     continue;
                 }
-                removeAlimento(1);
-                cout << "O que pretende validar: " << endl;
+                // nofood <id>
+                removeAlimento(reserva.getId());
+                infoToUser();
                 continue;
-            }
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
-
         // ELIMINAR O QUE QUER QUE ESTEJA NUMA POSIÇÃO
-
         if ( args.at(0) == "empty") {
-            if (nArgs == 3) {
-                if (!verXY(stoi(args.at(1)), stoi(args.at(2)))) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 3)) {
+                if (!verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva)) {
+                    infoToUser();
                     continue;
                 }
-                deletePos(int(stoi(args.at(1))), int(stoi(args.at(2))));
-                cout << "O que pretende validar: " << endl;
+                // empty <posX> <posY>
+                deletePos(stoi(args.at(1)), stoi(args.at(2)));
+                infoToUser();
                 continue;
             } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
-
         // VER O QUE SE ENCONTRA NUMA POSIÇÃO
-
         if ( args.at(0) == "see") {
-            if (nArgs == 3) {
-                if (!verXY(stoi(args.at(1)), stoi(args.at(2)))) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 3)) {
+                if (!verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva)) {
+                    infoToUser();
                     continue;
                 }
+                // see <posX> <posY>
                 checkPos(int(stoi(args.at(1))), int(stoi(args.at(2))));
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
-
         // VER INFORMAÇÃO ACERCA DE UM ELEMENTO DO SIMULADOR (ANIMAL OU ALIMENTO)
-
         if ( args.at(0) == "info") {
-            if (nArgs == 2) {
-                if (!verId(stoi(args.at(1))) ) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 2)) {
+                if (!verificaId(stoi(args.at(1)), reserva) ) {
+                    infoToUser();
                     continue;
                 }
+                // info <id>
                 checkId(int(stoi(args.at(1))) );
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
-
-        // PASSAR PARA O ISNTANTE SEGUINTE DA SIMULAÇÃO
-
+        // PASSAR PARA O INSTANTE SEGUINTE DA SIMULAÇÃO
         if ( args.at(0) == "n") {
-            if (nArgs == 1) {
-                //int n++;
+            if (verificaSintaxe(nArgs, 1)) {
+                // n
                 tick();
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
-            if (nArgs == 2) {
-                if (!verId(stoi(args.at(1))) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                tick(stoi(args.at(1)) );
-                cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 2)) {
+                // n <N>
+                for(int i = 1; i < stoi(args.at(1)); ++i )
+                    tick();
+                infoToUser();
                 continue;
             }
-            if (nArgs == 3) {
-                if ( (!verId(stoi(args.at(1)))) && (!verId(stoi(args.at(2)))) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                tick(stoi(args.at(1)),stoi(args.at(2)));
-                cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 3)) {
+                // n <N> <P>
+                for(int i = 1; i < stoi(args.at(1)); ++i )
+                    tick(5);
+                infoToUser();
                 continue;
-            }
-
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
-
         // LISTAR ID DOS ANIMAIS NA RESERVA
-
         if (args.at(0) == "anim") {
-            if (nArgs == 1) {
+            if (verificaSintaxe(nArgs, 1)) {
+                // anim
                 listIdsReserva();
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
-            }
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
         // LISTAR O ID DOS ANIMAIS NA AREA VISIVEL DA RESERVA
-
         if (args.at(0) == "visanim") {
-            if (nArgs == 1) {
+            if (verificaSintaxe(nArgs, 1)) {
+                // visanim
                 listIdsWindow();
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
-            }
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
         // ARMAZENAR O ESTADO DA RESERVA EM MEMORIA
-
         if (args.at(0) == "store") {
-            if (nArgs == 2) {
+            if (verificaSintaxe(nArgs, 2)) {
+                // store <file>
                 store(args.at(1));
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
-            }
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
         // REATIVAR UM ESTADO DA RESERVA PREVIAMENTE ARMAZENADO EM MEMORIA
-
         if (args.at(0) == "restore") {
-            if (nArgs == 2) {
+            if (verificaSintaxe(nArgs, 2)) {
+                // restore <file>
                 restore(args.at(1));
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
-            }
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
         // CARREGAR E EXECUTAR COMANDOS A PARTIR DE UM FICHEIRO DE TEXTO
-
         if (args.at(0) == "load") {
-            if (nArgs == 2) {
+            if (verificaSintaxe(nArgs, 2)) {
+                // load <file>
                 checkComandoUser(args.at(1));
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
-            }
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
-
         // DESLOCAR A AREA DE VISUALIZAÇÃO
-
         if (args.at(0) == "slide") {
-            if (nArgs == 4) {
-                if ( !verDir(args.at(1)) ) {
-                    cout << "O que pretende validar: " << endl;
+            if (verificaSintaxe(nArgs, 3)) {
+                if ( !verificaDirecao(args.at(1)) ) {
+                    infoToUser();
                     continue;
                 }
-                if ( (!verId(stoi(args.at(2)))) && (!verId(stoi(args.at(3)))) ) {
-                    cout << "O que pretende validar: " << endl;
-                    continue;
-                }
-                deslocaAreaViz(args.at(1), stoi(args.at(2)), stoi(args.at(3)));
-                cout << "O que pretende validar: " << endl;
+                // slide <direction> <linhas/colunas>
+                deslocaAreaViz(args.at(1), stoi(args.at(2)));
+                infoToUser();
                 continue;
-            }
-            else {
+            } else {
                 cout << "Erro! Numero errado de parametros\n";
-                cout << "O que pretende validar: " << endl;
+                infoToUser();
                 continue;
             }
         }
-
         // ENCERAR O SIMULADOR
-
         if (args.at(0) == "exit") {
-            if (nArgs == 1){
+            if (verificaSintaxe(nArgs, 1)){
+                // exit
                 return;
             } else {
-            cout << "Erro! Numero errado de parametros\n";
-            cout << "O que pretende validar: " << endl;
-            continue;
+                cout << "Erro! Numero errado de parametros"<<endl;
+                infoToUser();
+                continue;
+            }
         }
+        // LISTAR OS COMANDOS POSSIVEIS
+        if(args.at(0) == "help") {
+            if(verificaSintaxe(nArgs, 1)){
+                // help
+                cout << "work in progress!" << endl;
+            } else {
+                cout << "erro! numero de argumentos invalido" << endl;
+                infoToUser();
+                continue;
+            }
         }
-
-
 //        escreve os argumentos no terminal
 //        for (std::vector<std::string>::size_type i = 0; i != args.size(); ++i) {
 //            std::cout << args.at(i) << std::endl;
 //        }
-
-
-    }while(getline(cin, input));
-
+    } while(getline(cin, input));
 }
 
 

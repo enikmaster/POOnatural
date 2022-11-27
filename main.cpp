@@ -124,25 +124,10 @@ int main() {
     //windowChat << no_color() << "Introduza uma string: ";
     //getchar();
     int DimX, DimY;
+
     getReservaDims(DimX, DimY, windowChat);
     Reserva zoo(DimX, DimY, windowReserva);
-    getInput();
-
-    if (str_in == "ola") {
-        windowChat  << move_to(2, 1) << "pixa";
-
-    }
-
-
-/*
-
-        cout << "Bem-vindo" << endl;
-        int DimX, DimY;
-        getReservaDims(DimX, DimY, windowChat);
-        Reserva zoo(DimX, DimY);
-        getInput();
-*/
+    getInput(zoo);
 
     return 0;
-
 }
