@@ -25,7 +25,7 @@ int main() {
     int DimX, DimY;
     getReservaDims(DimX, DimY);
     Reserva zoo(DimX, DimY);
-    getInput();
+    getInput(zoo);
 
     return 0;
 }
