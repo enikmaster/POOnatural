@@ -4,6 +4,7 @@
 
 #ifndef __PDCURSES__
 #define __PDCURSES__ 1
+#include "Terminal.h"
 
 /*man-start**************************************************************
 
