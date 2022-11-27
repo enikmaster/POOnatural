@@ -11,7 +11,8 @@
 #include <iomanip>
 #include <bits/stdc++.h>
 #include <cstdlib>
-//#include "Alimento.h"
-//#include "Animal.h"
+
+#include "Terminal.h"
+#include "curses.h"
 
 #endif

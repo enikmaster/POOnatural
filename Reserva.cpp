@@ -1,7 +1,7 @@
 #include "Reserva.h"
 // construtores e destrutores
 using namespace std;
-Reserva::Reserva(int DimX, int DimY) : dimX(DimX), dimY(DimY) {
+Reserva::Reserva(int DimX, int DimY, term::Window &janela) : dimX(DimX), dimY(DimY)  {
     if (DimX == 0) {
         setDimX();
         setDimY();

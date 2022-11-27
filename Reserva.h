@@ -6,7 +6,7 @@
 class Reserva {
 public:
     // constructor
-    Reserva(int DimX, int DimY);
+    Reserva(int DimX, int DimY, term::Window &janela);
     ~Reserva();
     // getters
     int getId() const;
