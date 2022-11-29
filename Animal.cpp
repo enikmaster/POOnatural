@@ -1,15 +1,10 @@
 #include "Animal.h"
-#include <string>
-#include <vector>
-#include <iostream>
-#include <cmath>
-#include <ctime>
-#include "Animal.h"
 
 
 using namespace std;
 
-Animal::Animal() {
+Animal::Animal()   {
+    //this->animalID = Reserva::getId();
 }
 Animal::~Animal() {
 }

@@ -1,5 +1,7 @@
 #include "Includes.h"
 #include "Reserva.h"
+#include "Terminal.h"
+#include "Comandos.h"
 
 using namespace std;
 
@@ -7,9 +9,9 @@ const vector<string> listDirections {"up", "down", "left", "right"};
 const vector<string> listEspecies {"c", "o", "l", "g", "m"};
 const vector<string> listAlimentos {"r", "t", "b", "a"};
 const vector<string> listComandos {"animal", "kill", "killid", "food", "feed",
-                            "feedid", "nofood", "empty", "see",
-                            "info", "n", "anim", "visanim", "store",
-                            "restore", "load", "slide", "exit", "help"};
+                                   "feedid", "nofood", "empty", "see",
+                                   "info", "n", "anim", "visanim", "store",
+                                   "restore", "load", "slide", "exit", "help"};
 // conta o numero de argumentos inseridos no terminal
 int numArgs(stringstream& teste, string& temp ) {
     int cnt{0};
@@ -17,6 +19,7 @@ int numArgs(stringstream& teste, string& temp ) {
         ++cnt;
     return cnt;
 }
+
 // divide a linha inserida em strings e guarda num vetor de strings
 vector<string> split(const string& line) {
     vector<string> ret;
@@ -46,17 +49,18 @@ vector<string> split(const string& line) {
     return ret;
 }
 // verifica e devolve as dimensoes da reserva a ser criada
-void getReservaDims(int& DimX, int& DimY) {
+void getReservaDims(int& DimX, int& DimY, term::Window &janela) {
     string input;
     bool flag = false;
     do {
-        cout << "Insira a dimensao da reserva (altura comprimento) ou 0 0 para um tamanho aleatorio: "<< endl;
-        getline(cin, input);
+        janela << term::move_to(0, 0) << "Insira a dimensao da reserva (altura comprimento) ou 0 0 para um tamanho aleatorio: ";
+        //getline(cin, input);
+        janela >> input;
         stringstream iss (input);
         string temp{};
         int nArgs = numArgs(iss, temp);
         if(nArgs > 2 || nArgs == 0) {
-            cout << "informacao invalida..." << endl;
+            janela << term::move_to(0, 1) << "informacao invalida...";
             continue;
         }
         vector<string> args = split(input);
@@ -73,14 +77,14 @@ void getReservaDims(int& DimX, int& DimY) {
     }while(!flag);
 }
 // verifica se o comando existe na lista de comandos do programa
-bool verificaCmd(const string &cmd){
-        bool xpto = find(listComandos.begin(), listComandos.end(), cmd) != listComandos.end();
-        if (!xpto)
-            cout << "Inseriu mal o primeiro comando!\n";
-        return xpto;
+bool verificaCmd(const string &cmd, term::Window &janela){
+    bool xpto = find(listComandos.begin(), listComandos.end(), cmd) != listComandos.end();
+    if (!xpto)
+        janela << term::move_to(0, 1) << "Inseriu mal o primeiro comando!\n";
+    return xpto;
 }
 // verifica se a especie (letra) existe na lista
-bool verificaEspecie(string &esp) {
+bool verificaEspecie(string &esp, term::Window &janela) {
     bool xpto = find(listEspecies.begin(), listEspecies.end(), esp) != listEspecies.end();
     if (!xpto){
         cout << "Inseriu mal o segundo comando!\n";
@@ -88,7 +92,7 @@ bool verificaEspecie(string &esp) {
     return xpto;
 }
 // verifica se o alimento (letra) existe na lista
-bool verificaAlimento(string &tipo) {
+bool verificaAlimento(string &tipo, term::Window &janela) {
     bool xpto = find(listAlimentos.begin(), listAlimentos.end(), tipo) != listAlimentos.end();
     if (!xpto){
         cout << "Inseriu mal o segundo comando!\n";
@@ -96,7 +100,7 @@ bool verificaAlimento(string &tipo) {
     return xpto;
 }
 // verifica se a direcao existe na lista
-bool verificaDirecao(string &dir) {
+bool verificaDirecao(string &dir, term::Window &janela) {
     bool xpto = find(listDirections.begin(), listDirections.end(), dir) != listDirections.end();
     if (!xpto){
         cout << "Inseriu mal o segundo comando!\n";
@@ -104,7 +108,7 @@ bool verificaDirecao(string &dir) {
     return xpto;
 }
 // verifica se a posição está dentro da reserva e posteriormente, se está associado a alguma coisa
-bool verificaXY(const int &posX, const int &posY, const Reserva& reserva) {
+bool verificaXY(const int &posX, const int &posY, const Reserva& reserva, term::Window &janela) {
     if (posX < 1 || posY < 1) {
         cout << "Inseriu valores invalidos de linhas e/ou colunas \n";
         return false;
@@ -127,70 +131,54 @@ bool verificaSintaxe(const int nArgs, const int nArgsExp) {
 void infoToUser() {
     cout << "O que pretende validar: " << endl;
 }
-/*bool verificaAnimal(int nArgs, vector<string> &args, Reserva &reserva) {
-    if (nArgs == 2) {
-        if (!verificaEspecie(args.at(1))) {
-            return false;
-        }
-        // Adicionar coords random
-        criaAnimal(args.at(1)[0]);
-        cout << "O que pretende validar: " << endl;
-        return true;
-    }
-    if (nArgs == 4) {
-        if ( !verificaEspecie(args.at(1)) ) {
-            return false;
-        }
-        if ( !verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva)) {
-            return false;
-        }
-        criaAnimal(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)));
-        return true;
-    }
-    cout << "Erro! Numero errado de parametros\n";
-    return false;
-}*/
-// abre o ficheiro
-void checkComandoUser(const string& nomeFicheiro) {
-    string line;
-    fstream myfile;
-    myfile.open(nomeFicheiro, ios::in); // in = read mode, on = write mode
-    if (myfile.is_open()) {
-        cout << "Ficheiro aberto com sucesso!\n";
-        while (getline(myfile, line)) {
-            // não é necessário escrever no terminal
-            cout << line << endl;
-        }
-        myfile.close();
-    }
-    else {
-        cout << "Erro a abrir o ficheiro!\n";
-        return;
-    }
-}
 // comandos
-void criaAnimal(char especie, int lin, int col){cout << "A verificar na 2 fase\n";};
-void criaAnimal(char especie) {cout << "A verificar na 2 fase\n";}
-void killAnimal(int lin, int col){cout << "A verificar na 2 fase\n";};
-void killAnimal(int id){cout << "A verificar na 2 fase\n";};
-void placeAlimento(char tipo, int lin, int col){cout << "A verificar na 2 fase\n";};
-void feedDirectly(int lin, int col, int nut, int tox){cout << "A verificar na 2 fase\n";};
-void feedId(int id){cout << "A verificar na 2 fase\n";};
-void placeAlimento(char tipo) {cout << "A verificar na 2 fase\n";}
-void removeAlimento(int lin, int col){cout << "A verificar na 2 fase\n";};
-void removeAlimento(int id){cout << "A verificar na 2 fase\n";};
-void deletePos(int lin, int col){cout << "A verificar na 2 fase\n";};
-void checkPos(int lin, int col){cout << "A verificar na 2 fase\n";};
-void checkId(int id){cout << "A verificar na 2 fase\n";};
-void tick(){cout << "A verificar na 2 fase\n";};
-void tick(int pausa){cout << "A verificar na 2 fase\n";};
-void listIdsReserva(){cout << "A verificar na 2 fase\n";};
-void listIdsWindow(){cout << "A verificar na 2 fase\n";};
-void store(string nome){cout << "A verificar na 2 fase\n";};
-void restore(string nome){cout << "A verificar na 2 fase\n";};
-void deslocaAreaViz(string dir, int tamanho){cout << "A verificar na 2 fase\n";};
+void criaAnimal(char especie, int lin, int col, term::Window &janela, term::Window& janelaReserva){
+    janela << term::move_to(0, 1) << "A verificar na 2 fase\n";
+    janelaReserva << term::move_to(6, 10) << term::set_color(1) << "A";
+}
+void criaAnimal(char especie, term::Window &janela, term::Window& janelaReserva) {
+    srand((unsigned) time(NULL));
+    int x1 = (rand() % 88) + 2 ;
+    int x2 = (rand() % 22) + 1 ;
+    janela << term::move_to(0, 1) << "A verificar na 2 fase";
+    // adiciona um animal à reserva
+    // vai à lista de animais da reserva buscar a posX e posY do animal criado
+    // imprime esse animal na window reserva
+    janelaReserva << term::move_to(x1, x2)<< term::set_color(1) << "A";
+}
+void killAnimal(int lin, int col, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void killAnimal(int id, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void placeAlimento(char tipo, int lin, int col, term::Window &janela, term::Window &janelaReserva){
+    janelaReserva << term::move_to(10, 6) << term::set_color(2) << "L";
+    janela << term::move_to(0, 1) << "A verificar na 2 fase\n";
+};
+void placeAlimento(char tipo, term::Window &janela, term::Window& janelaReserva) {
+    int x1 = (rand() % 88) + 2 ;
+    int x2 = (rand() % 22) + 1 ;
+    janela << term::move_to(0, 1) << "A verificar na 2 fase\n";
+    janelaReserva << term::move_to(x1, x2) << term::set_color(2)  << "L";
+}
+void feedDirectly(int lin, int col, int nut, int tox, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void feedId(int id, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void removeAlimento(int lin, int col, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void removeAlimento(int id, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void deletePos(int lin, int col, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void checkPos(int lin, int col, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void checkId(int id, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void tick(term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void tick(int pausa, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void listIdsReserva(term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void listIdsWindow(term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void store(string nome, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void restore(string nome, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void deslocaAreaViz(string dir, int tamanho, term::Window &janela){janela << term::move_to(0, 1) << "A verificar na 2 fase\n";};
+void reservaInfo(Reserva& reserva, term::Window& janelaInfo) {
+    janelaInfo << term::move_to(0, 0) << "DimX : " << reserva.getDimX();
+    janelaInfo << term::move_to(0, 1) << "DimY : " << reserva.getDimY();
+}
 // recebe os comandos
-void getInput(Reserva& reserva) {
+void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, term::Window &janela3) {
+    reservaInfo(reserva, janela3);
     string input{};
     infoToUser();
     getline(cin, input);
@@ -199,48 +187,48 @@ void getInput(Reserva& reserva) {
         string temp{};
         int nArgs = numArgs(iss, temp);
         if(nArgs > 5) {
-            cout << "demasiada informacao..." << endl;
-            infoToUser();
+            janela1 << term::move_to(0, 1) << "demasiada informacao...";
+            infoToUser(janela1);
             continue;
         }
         if(nArgs < 1) {
-            cout << "sem instrucoes..." << endl;
-            infoToUser();
+            janela1 << term::move_to(0, 1) << "sem instrucoes...";
+            infoToUser(janela1);
             continue;
         }
         vector<string> args = split(input);
         // ################################  VERIFICAÇÕES  ########################################
-        if ( !verificaCmd(args.at(0)) ) {
-            infoToUser();
+        if ( !verificaCmd(args.at(0), janela1) ) {
+            infoToUser(janela1);
             continue;
         }
         // CRIAR ANIMAL
         if ( args.at(0) == "animal") {
-           if (!verificaEspecie(args.at(1))) {
-               infoToUser();
-               continue;
-           }
-           if(verificaSintaxe(nArgs, 2)) {
-               // animal <letra>
-               criaAnimal(args.at(1)[0]);
-               infoToUser();
-               continue;
-           }
-           if(verificaSintaxe(nArgs, 4)) {
-               if (!verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva)) {
-                   infoToUser();
-                   continue;
-               }
-               // animal <letra> <posX> <posY>
-               criaAnimal(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)));
-               infoToUser();
-               continue;
-           }
-           if(nArgs != 2 && nArgs != 4){
-               cout << "numero de argumentos invalido" << endl;
-               infoToUser();
-               continue;
-           }
+            if (!verificaEspecie(args.at(1), janela1)) {
+                infoToUser(janela1);
+                continue;
+            }
+            if(verificaSintaxe(nArgs, 2)) {
+                // animal <letra>
+                criaAnimal(args.at(1)[0], janela1, janela2);
+                infoToUser(janela1);
+                continue;
+            }
+            if(verificaSintaxe(nArgs, 4)) {
+                if (!verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva,janela1)) {
+                    infoToUser(janela1);
+                    continue;
+                }
+                // animal <letra> <posX> <posY>
+                criaAnimal(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)),janela1, janela2);
+                infoToUser(janela1);
+                continue;
+            }
+            if(nArgs != 2 && nArgs != 4){
+                janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
+                infoToUser(janela1);
+                continue;
+            }
         }
         // MATAR ANIMAL POSIÇÃO
         if ( args.at(0) == "kill") {
@@ -254,8 +242,8 @@ void getInput(Reserva& reserva) {
                 infoToUser();
                 continue;
             } else {
-                cout << "numero de argumentos invalido" << endl;
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -263,7 +251,7 @@ void getInput(Reserva& reserva) {
         if ( args.at(0) == "killid") {
             if (verificaSintaxe(nArgs, 2)) {
                 if ( !verificaId(stoi(args.at(1)), reserva) ) {
-                    cout << "Erro! ID invalido!" << endl << "O que pretende validar: " << endl;
+                    janela1 << term::move_to(0, 1) << "Erro! ID invalido!\n" << "O que pretende validar: ";
                     continue;
                 }
                 // killid <id>
@@ -271,8 +259,8 @@ void getInput(Reserva& reserva) {
                 infoToUser();
                 continue;
             } else {
-                cout << "numero de argumentos invalido"<< endl;
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -299,8 +287,8 @@ void getInput(Reserva& reserva) {
                 continue;
             }
             if(nArgs != 2 && nArgs != 4) {
-                cout << "numero de argumentos invalido" << endl;
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -316,8 +304,8 @@ void getInput(Reserva& reserva) {
                 infoToUser();
                 continue;
             } else {
-                cout << "numero de argumentos invalido" << endl;
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -332,8 +320,8 @@ void getInput(Reserva& reserva) {
                 infoToUser();
                 continue;
             } else {
-                cout << "numero de argumentos invalido" << endl;
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -351,8 +339,8 @@ void getInput(Reserva& reserva) {
             }
             if (verificaSintaxe(nArgs, 2)) {
                 if ( !verificaId(stoi(args.at(1)), reserva)) {
-                    cout << "Erro! ID invalido!" << endl;
-                    infoToUser();
+                    janela1 << term::move_to(0, 1) << "Erro! ID invalido!";
+                    infoToUser(janela1);
                     continue;
                 }
                 // nofood <id>
@@ -360,42 +348,42 @@ void getInput(Reserva& reserva) {
                 infoToUser();
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros";
+                infoToUser(janela1);
                 continue;
             }
         }
         // ELIMINAR O QUE QUER QUE ESTEJA NUMA POSIÇÃO
         if ( args.at(0) == "empty") {
             if (verificaSintaxe(nArgs, 3)) {
-                if (!verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva)) {
-                    infoToUser();
+                if (!verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva,janela1)) {
+                    infoToUser(janela1);
                     continue;
                 }
                 // empty <posX> <posY>
-                deletePos(stoi(args.at(1)), stoi(args.at(2)));
-                infoToUser();
+                deletePos(stoi(args.at(1)), stoi(args.at(2)), janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
         // VER O QUE SE ENCONTRA NUMA POSIÇÃO
         if ( args.at(0) == "see") {
             if (verificaSintaxe(nArgs, 3)) {
-                if (!verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva)) {
-                    infoToUser();
+                if (!verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva, janela1)) {
+                    infoToUser(janela1);
                     continue;
                 }
                 // see <posX> <posY>
-                checkPos(int(stoi(args.at(1))), int(stoi(args.at(2))));
-                infoToUser();
+                checkPos(int(stoi(args.at(1))), int(stoi(args.at(2))), janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -403,16 +391,16 @@ void getInput(Reserva& reserva) {
         if ( args.at(0) == "info") {
             if (verificaSintaxe(nArgs, 2)) {
                 if (!verificaId(stoi(args.at(1)), reserva) ) {
-                    infoToUser();
+                    infoToUser(janela1);
                     continue;
                 }
                 // info <id>
-                checkId(int(stoi(args.at(1))) );
-                infoToUser();
+                checkId(int(stoi(args.at(1))), janela1 );
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -420,26 +408,26 @@ void getInput(Reserva& reserva) {
         if ( args.at(0) == "n") {
             if (verificaSintaxe(nArgs, 1)) {
                 // n
-                tick();
-                infoToUser();
+                tick(janela1);
+                infoToUser(janela1);
                 continue;
             }
             if (verificaSintaxe(nArgs, 2)) {
                 // n <N>
                 for(int i = 1; i < stoi(args.at(1)); ++i )
-                    tick();
-                infoToUser();
+                    tick(janela1);
+                infoToUser(janela1);
                 continue;
             }
             if (verificaSintaxe(nArgs, 3)) {
                 // n <N> <P>
                 for(int i = 1; i < stoi(args.at(1)); ++i )
-                    tick(5);
-                infoToUser();
+                    tick(5,janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -447,12 +435,12 @@ void getInput(Reserva& reserva) {
         if (args.at(0) == "anim") {
             if (verificaSintaxe(nArgs, 1)) {
                 // anim
-                listIdsReserva();
-                infoToUser();
+                listIdsReserva(janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -460,12 +448,12 @@ void getInput(Reserva& reserva) {
         if (args.at(0) == "visanim") {
             if (verificaSintaxe(nArgs, 1)) {
                 // visanim
-                listIdsWindow();
-                infoToUser();
+                listIdsWindow(janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -473,12 +461,12 @@ void getInput(Reserva& reserva) {
         if (args.at(0) == "store") {
             if (verificaSintaxe(nArgs, 2)) {
                 // store <file>
-                store(args.at(1));
-                infoToUser();
+                store(args.at(1),janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -486,12 +474,12 @@ void getInput(Reserva& reserva) {
         if (args.at(0) == "restore") {
             if (verificaSintaxe(nArgs, 2)) {
                 // restore <file>
-                restore(args.at(1));
-                infoToUser();
+                restore(args.at(1),janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -499,29 +487,29 @@ void getInput(Reserva& reserva) {
         if (args.at(0) == "load") {
             if (verificaSintaxe(nArgs, 2)) {
                 // load <file>
-                checkComandoUser(args.at(1));
-                infoToUser();
+                checkComandoUser(args.at(1), janela1, janela2);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
         // DESLOCAR A AREA DE VISUALIZAÇÃO
         if (args.at(0) == "slide") {
             if (verificaSintaxe(nArgs, 3)) {
-                if ( !verificaDirecao(args.at(1)) ) {
-                    infoToUser();
+                if ( !verificaDirecao(args.at(1),janela1) ) {
+                    infoToUser(janela1);
                     continue;
                 }
                 // slide <direction> <linhas/colunas>
-                deslocaAreaViz(args.at(1), stoi(args.at(2)));
-                infoToUser();
+                deslocaAreaViz(args.at(1), stoi(args.at(2)), janela1);
+                infoToUser(janela1);
                 continue;
             } else {
-                cout << "Erro! Numero errado de parametros\n";
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros\n";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -531,8 +519,8 @@ void getInput(Reserva& reserva) {
                 // exit
                 return;
             } else {
-                cout << "Erro! Numero errado de parametros"<<endl;
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros";
+                infoToUser(janela1);
                 continue;
             }
         }
@@ -540,10 +528,10 @@ void getInput(Reserva& reserva) {
         if(args.at(0) == "help") {
             if(verificaSintaxe(nArgs, 1)){
                 // help
-                cout << "work in progress!" << endl;
+                janela1 << term::move_to(0, 1) << "work in progress!" ;
             } else {
-                cout << "erro! numero de argumentos invalido" << endl;
-                infoToUser();
+                janela1 << term::move_to(0, 1) << "erro! numero de argumentos invalido";
+                infoToUser(janela1);
                 continue;
             }
         }

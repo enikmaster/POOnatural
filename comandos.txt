@@ -10,6 +10,9 @@ animal l
 animal g
 animal m
 
+kill 0 0
+killid 1
+
 food r 0 0
 food c 0 0
 food b 0 0
