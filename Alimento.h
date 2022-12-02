@@ -41,7 +41,7 @@ private:
     int foodId;
     int nutri;
     int toxic;
-    int vida; // durancao no tabuleiro
+    int vida; // duracao na reserva
     vector<string> cheiros;
 };
 #endif //POONATURAL_ALIMENTO_H

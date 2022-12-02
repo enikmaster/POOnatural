@@ -43,12 +43,6 @@ anim
 
 visanim
 
-store saveFile
-
-restore saveFile
-
-load comandos.txt
-
 slide up 20 20
 slide down 20 20
 slide left 20 20

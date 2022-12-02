@@ -5,7 +5,7 @@ using namespace std;
 
 // int s = cin >> getline(contantes.txt);
 
-struct registoAlimentar{
+ struct registoAlimentar {
     string nome;
     int toxic;
     int nutri;
@@ -14,11 +14,11 @@ struct registoAlimentar{
 class Animal {
 private:
     int posX, posY;
-    unsigned animalID;
+    int animalID;
     char letra;
     int fome;
     int saude; //SAnimal
-    int vida; //VAnimal (ao fim de x ticks, o animaal vai morrer)
+    int vida; //VAnimal (ao fim de x ticks, o animal vai morrer)
     int peso;
     bool agressividade;
     struct registoAlimentar;
@@ -28,7 +28,6 @@ public:
     Animal();
     ~Animal();
     // getters
-    string getAnimalName();
     void getPosXY();
     void getAnimalID();
     void getLetra();
@@ -40,21 +39,19 @@ public:
     void getRegistoAlimentar();
 
     // setters
-    string setAnimalName();
     void setPosXY();
-    void snimalID();
+    void setAnimalID();
     void setLetra();
     void setFome();
     void setSaude();
     void setVida();
-    void setPeso();
+    int setPeso();
     void setAgressividade();
     void setRegistoAlimentar();
 
     // actions
     void move(int posX, int posY);
     void checkSurroundings(int x, int y, int radius);
-    int escolhePeso();
     void dies();
     void birth();
     void feed();

@@ -10,11 +10,7 @@
 #include "Comandos.h"
 #include "Constantes.h"
 #include "Reserva.h"
-#include <string>
-#include <sstream>
-#include "Reserva.cpp"
 #include "Terminal.h"
-#include <iomanip>
 #include <curses.h>
 
 using namespace term;

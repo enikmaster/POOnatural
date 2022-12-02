@@ -87,7 +87,7 @@ bool verificaCmd(const string &cmd, term::Window &janela){
 bool verificaEspecie(string &esp, term::Window &janela) {
     bool xpto = find(listEspecies.begin(), listEspecies.end(), esp) != listEspecies.end();
     if (!xpto){
-        cout << "Inseriu mal o segundo comando!\n";
+        janela << term::move_to(0, 1) << "Inseriu mal o segundo comando!\n";
     }
     return xpto;
 }
@@ -95,7 +95,7 @@ bool verificaEspecie(string &esp, term::Window &janela) {
 bool verificaAlimento(string &tipo, term::Window &janela) {
     bool xpto = find(listAlimentos.begin(), listAlimentos.end(), tipo) != listAlimentos.end();
     if (!xpto){
-        cout << "Inseriu mal o segundo comando!\n";
+        janela << term::move_to(0, 1) << "Inseriu mal o segundo comando!\n";
     }
     return xpto;
 }
@@ -103,18 +103,18 @@ bool verificaAlimento(string &tipo, term::Window &janela) {
 bool verificaDirecao(string &dir, term::Window &janela) {
     bool xpto = find(listDirections.begin(), listDirections.end(), dir) != listDirections.end();
     if (!xpto){
-        cout << "Inseriu mal o segundo comando!\n";
+        janela << term::move_to(0, 1) << "Inseriu mal o segundo comando!\n";
     }
     return xpto;
 }
 // verifica se a posição está dentro da reserva e posteriormente, se está associado a alguma coisa
 bool verificaXY(const int &posX, const int &posY, const Reserva& reserva, term::Window &janela) {
     if (posX < 1 || posY < 1) {
-        cout << "Inseriu valores invalidos de linhas e/ou colunas \n";
+        janela << term::move_to(0, 1) << "Inseriu valores invalidos de linhas e/ou colunas \n";
         return false;
     }
     if (posY > reserva.getDimY() || posX > reserva.getDimX() ){
-        cout << "Inseriu valores invalidos de linhas e/ou colunas \n";
+        janela << term::move_to(0, 1) << "Inseriu valores invalidos de linhas e/ou colunas \n";
         return false;
     }
     return true;
@@ -128,8 +128,9 @@ bool verificaSintaxe(const int nArgs, const int nArgsExp) {
     return nArgs == nArgsExp;
 }
 // envia para o output uma mensagem
-void infoToUser() {
-    cout << "O que pretende validar: " << endl;
+void infoToUser(term::Window &janela) {
+//    janela << clear();
+    janela << term::move_to(0, 0) << "O que pretende validar: ";
 }
 // comandos
 void criaAnimal(char especie, int lin, int col, term::Window &janela, term::Window& janelaReserva){
@@ -180,9 +181,12 @@ void reservaInfo(Reserva& reserva, term::Window& janelaInfo) {
 void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, term::Window &janela3) {
     reservaInfo(reserva, janela3);
     string input{};
-    infoToUser();
-    getline(cin, input);
+    janela1.clear();
+    infoToUser(janela1);
+    //getline(cin, input);
     do {
+        janela1 >> input;
+        janela1.clear();
         stringstream iss (input);
         string temp{};
         int nArgs = numArgs(iss, temp);
@@ -233,13 +237,13 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
         // MATAR ANIMAL POSIÇÃO
         if ( args.at(0) == "kill") {
             if (verificaSintaxe(nArgs, 3)) {
-                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva) ) {
-                    infoToUser();
+                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva,janela1) ) {
+                    infoToUser(janela1);
                     continue;
                 }
                 // kill <posX> <posY>
-                killAnimal(int (stoi(args.at(1))), int (stoi(args.at(2))));
-                infoToUser();
+                killAnimal(int (stoi(args.at(1))), int (stoi(args.at(2))),janela1);
+                infoToUser(janela1);
                 continue;
             } else {
                 janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
@@ -255,8 +259,8 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
                     continue;
                 }
                 // killid <id>
-                killAnimal(stoi(args.at(1)));
-                infoToUser();
+                killAnimal(stoi(args.at(1)),janela1);
+                infoToUser(janela1);
                 continue;
             } else {
                 janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
@@ -266,24 +270,24 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
         }
         // COLOCAR ALIMENTO
         if ( args.at(0) == "food") {
-            if (!verificaAlimento(args.at(1)) ) {
-                infoToUser();
+            if (!verificaAlimento(args.at(1), janela1)) {
+                infoToUser(janela1);
                 continue;
             }
             if (verificaSintaxe(nArgs, 2)) {
                 // food <letra>
-                placeAlimento(args.at(1)[0]);
-                infoToUser();
+                placeAlimento(args.at(1)[0], janela1, janela2);
+                infoToUser(janela1);
                 continue;
             }
             if (verificaSintaxe(nArgs, 4)) {
-                if ( !verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva)) {
-                    infoToUser();
+                if ( !verificaXY(stoi(args.at(2)), stoi(args.at(3)), reserva, janela1)) {
+                    infoToUser(janela1);
                     continue;
                 }
                 // food <letra> <posX> <posY>
-                placeAlimento(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)));
-                infoToUser();
+                placeAlimento(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)), janela1, janela2);
+                infoToUser(janela1);
                 continue;
             }
             if(nArgs != 2 && nArgs != 4) {
@@ -295,13 +299,13 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
         //  ALIMENTAR DIRETAMENTE ANIMAIS
         if ( args.at(0) == "feed") {
             if (verificaSintaxe(nArgs, 5)) {
-                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva) ) {
-                    infoToUser();
+                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva, janela1) ) {
+                    infoToUser(janela1);
                     continue;
                 }
                 // feed <posX> <posY> <nutri> <toxic>
-                feedDirectly(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)));
-                infoToUser();
+                feedDirectly(stoi(args.at(1)),stoi(args.at(2)), stoi(args.at(3)), stoi(args.at(4)),janela1);
+                infoToUser(janela1);
                 continue;
             } else {
                 janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
@@ -312,12 +316,12 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
         if ( args.at(0) == "feedid") {
             if (verificaSintaxe(nArgs, 2)) {
                 if (!verificaId(stoi(args.at(1)), reserva)) {
-                    infoToUser();
+                    infoToUser(janela1);
                     continue;
                 }
                 // feedid <id>
-                feedId(stoi(args.at(1)));
-                infoToUser();
+                feedId(stoi(args.at(1)),janela1);
+                infoToUser(janela1);
                 continue;
             } else {
                 janela1 << term::move_to(0, 1) << "numero de argumentos invalido";
@@ -328,13 +332,13 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
         //  REMOVER ALIMENTO
         if ( args.at(0) == "nofood") {
             if (verificaSintaxe(nArgs, 3)) {
-                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva) ) {
-                    infoToUser();
+                if ( !verificaXY(stoi(args.at(1)), stoi(args.at(2)), reserva, janela1) ) {
+                    infoToUser(janela1);
                     continue;
                 }
                 // nofood <posX> <posY>
-                removeAlimento( stoi(args.at(1)), stoi(args.at(2)));
-                infoToUser();
+                removeAlimento( stoi(args.at(1)), stoi(args.at(2)),janela1);
+                infoToUser(janela1);
                 continue;
             }
             if (verificaSintaxe(nArgs, 2)) {
@@ -344,8 +348,8 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
                     continue;
                 }
                 // nofood <id>
-                removeAlimento(reserva.getId());
-                infoToUser();
+                removeAlimento(reserva.getId(),janela1);
+                infoToUser(janela1);
                 continue;
             } else {
                 janela1 << term::move_to(0, 1) << "Erro! Numero errado de parametros";
@@ -539,9 +543,54 @@ void getInput(Reserva& reserva, term::Window &janela1, term::Window &janela2, te
 //        for (std::vector<std::string>::size_type i = 0; i != args.size(); ++i) {
 //            std::cout << args.at(i) << std::endl;
 //        }
-    } while(getline(cin, input));
+    } while(true);
 }
-
+// abre o ficheiro comandos
+void checkComandoUser(const string& nomeFicheiro, term::Window &janela1, term::Window &janela2) {
+    string line;
+    fstream myfile;
+    myfile.open(nomeFicheiro, ios::in); // in = read mode, on = write mode
+    if (myfile.is_open()) {
+        janela1 << "Ficheiro aberto com sucesso!\n";
+        while (getline(myfile, line)) {
+            stringstream iss (line);
+            string temp{};
+            int nArgs = numArgs(iss, temp);
+            vector<string> args = split(line);
+            if ( args.at(0) == "animal") {
+                if(verificaSintaxe(nArgs, 2)) {
+                    criaAnimal(args.at(1)[0], janela1, janela2);
+                    continue;
+                }
+                if(verificaSintaxe(nArgs, 4)) {
+                    criaAnimal(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)),janela1, janela2);
+                    continue;
+                }
+            }
+            if ( args.at(0) == "kill") {
+                killAnimal(int (stoi(args.at(1))), int (stoi(args.at(2))),janela1);
+            }
+            if ( args.at(0) == "killid") {
+                killAnimal(stoi(args.at(1)),janela1);
+            }
+            if ( args.at(0) == "food") {
+                if(verificaSintaxe(nArgs, 2)) {
+                    placeAlimento(args.at(1)[0], janela1, janela2);
+                    continue;
+                }
+                if(verificaSintaxe(nArgs, 4)) {
+                    placeAlimento(args.at(1)[0], stoi(args.at(2)), stoi(args.at(3)), janela1, janela2);
+                    continue;
+                }
+            }
+        }
+        myfile.close();
+    }
+    else {
+        janela1 << "Erro a abrir o ficheiro!\n";
+        return;
+    }
+}
 
 
 /*

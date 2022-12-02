@@ -24,10 +24,10 @@ int Reserva::getDimX() const {
 int Reserva::getDimY() const {
     return dimY;
 }
-/*vector<Animal> Reserva::getAnimais() const {
+/*vector<Animal*> Reserva::getAnimais() const {
     // devolve o vetor ou o ponteiro? misterioso...
 }
-vector<Alimento> Reserva::getAlimentos() const {
+vector<Alimento*> Reserva::getAlimentos() const {
     // devolve o vetor ou o ponteiro? misterioso...
 }*/
 // setters

@@ -12,7 +12,4 @@
 #include <bits/stdc++.h>
 #include <cstdlib>
 
-#include "Terminal.h"
-#include "curses.h"
-
 #endif
