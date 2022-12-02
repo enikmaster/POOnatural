@@ -11,7 +11,7 @@
 #include "Constantes.h"
 #include "Reserva.h"
 #include "Terminal.h"
-#include <curses.h>
+#include "curses.h"
 
 using namespace term;
 
