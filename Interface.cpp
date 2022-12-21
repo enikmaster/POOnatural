@@ -184,7 +184,7 @@ void Interface::start() {
                 getHelp(cmd, 3); // executa o comando help pq deu erro num comando
             }
             if(flag == -2)
-                on = false; // exit
+                on = true; // exit
             infoToUser();
         }
     } while(on);
