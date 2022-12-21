@@ -183,7 +183,7 @@ void Interface::start() {
                 infoErroNumArgs(cmd);
                 getHelp(cmd, 3); // executa o comando help pq deu erro num comando
             }
-            if(flag == -2)
+            if(flag == -15)
                 on = false; // exit
             infoToUser();
         }
