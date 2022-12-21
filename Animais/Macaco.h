@@ -1,19 +1,20 @@
-#ifndef POONATURAL_MACACO_H
-#define POONATURAL_MACACO_H
+#ifndef TESTETP_MACACO_H
+#define TESTETP_MACACO_H
+#include "../Inc.h"
 #include "Animal.h"
-using namespace std;
 
-class Macaco: public Animal {
+class Macaco {
+private:
+    int SMacaco;
+    int VMacaco;
+    int contadorXp;
+
 public:
-    // construtores / destrutores
     Macaco();
     ~Macaco();
-    // setters
 
-    // actions
-private:
-    string name;
+    void xpGain();
 };
 
 
-#endif //POONATURAL_MACACO_H
+#endif //TESTETP_MACACO_H
