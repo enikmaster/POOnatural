@@ -1,6 +1,6 @@
 #ifndef TESTETP_ANIMAL_H
 #define TESTETP_ANIMAL_H
-#include "../Inc.h"
+#include "../Includes.h"
 
 
 
@@ -63,6 +63,7 @@ public:
     void move(int min, int max);
     void checkSurroundings(int x, int y, int radius);
     void escolhePeso(int a, int b);
+    int aleatorio(int a, int b);
     void dies();
     void birth();
     void feed();
