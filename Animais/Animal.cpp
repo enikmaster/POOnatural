@@ -35,18 +35,23 @@ void Animal::setFome(int a) { this->fome = a;}
 
 int Animal::getTick() { return this->tick;}
 
+int Animal::aleatorio(int min, int max) {
+    int x = rand() % max + min;
+    return x;
+}
+
 
 void Animal::escolhePeso(int min, int max){
-    int z = aleatorio(min, max);
+    int z = Animal::aleatorio(min, max);
     Animal::setPeso(z);
 }
 
 void Animal::move(int min, int max) {
-    int desl = aleatorio(min, max);
+    int desl = Animal::aleatorio(min, max);
 
     // Se random:
-    int valX = aleatorio(-1,3);
-    int valY = aleatorio(-1,3);
+    int valX = Animal::aleatorio(-1,3);
+    int valY = Animal::aleatorio(-1,3);
     Animal::setPosX((Animal::getPosX() + valX) * desl);
     Animal::setPosY((Animal::getPosY() + valY) * desl);
 }

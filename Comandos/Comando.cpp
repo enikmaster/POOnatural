@@ -36,7 +36,7 @@ int Comando::executa(string& comando, string& arg1) const {
 
         //criaAnimal(arg1) {
         //  if(arg1 == "c")
-                coelho()
+        //      coelho()
         // };
         return 0;
     }
