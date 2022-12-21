@@ -1,7 +1,6 @@
 #ifndef INC_03_LEARN_RESERVA_H
 #define INC_03_LEARN_RESERVA_H
-#include <iostream>
-#include <vector>
+#include "Includes.h"
 //#include "Animal.h"
 #include "Local.h"
 using namespace std;

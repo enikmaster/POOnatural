@@ -28,16 +28,7 @@ int Comando::executa(string& comando) const {
 }
 int Comando::executa(string& comando, string& arg1) const {
     if(comando == "animal"){
-        class CriaAnimal {
-            CriaAnimal(string a){}
-            CriaAnimal(string b, string c, string d) {}
-
-        };
-
         //criaAnimal(arg1) {
-        //  if(arg1 == "c")
-        //      coelho()
-        // };
         return 0;
     }
     if(comando == "killid") {
@@ -119,8 +110,11 @@ int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3) 
     return 1;
 }
 int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4) const {
-    //feed(arg1, arg2, arg3, arg4);
-    return 0;
+    if(comando == "feed") {
+        //feed(arg1, arg2, arg3, arg4);
+        return 0;
+    }
+    return 1;
 }
 void criaAnimal(string& arg1) {}
 void criaAnimal(string& arg1, string& arg2, string& arg3) {}
