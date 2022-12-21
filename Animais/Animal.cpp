@@ -1,34 +1,54 @@
 #include "Animal.h"
-//#include "Terminal.h"
-
-using namespace std;
+#include "../Reserva.h"
 
 Animal::Animal()   {
     //this->animalID = Reserva::getId();
 }
 Animal::~Animal() {
 }
-/*
-Coelho::Coelho() {
-    letra = 'C';
-    SCoelho = 20;
-    escolhePeso();
-    checkSurroundings();
-    move();
+
+void Animal::fomeca() {};
+void Animal::repro() {};
+
+//setters e getters
+int Animal::getPosX() {return this->posX;}
+int Animal::getPosY() {return this->posY;}
+void Animal::setPosX(int valorDeslocamento) { this->posX += valorDeslocamento;}
+void Animal::setPosY(int valorDeslocamento) { this->posY += valorDeslocamento;}
+
+int Animal::getdeslMin() { return this->deslMin;}
+int Animal::getdeslMax() { return this->deslMax;}
+void Animal::setdeslMin(int min) { this->deslMin = min;}
+void Animal::setdeslMax(int max) { this->deslMax = max;}
+
+char Animal::getLetra() { return this->letra;}
+void Animal::setLetra(char a) { this->letra = a;}
+
+int Animal::getPeso() { return this->peso;}
+void Animal::setPeso(int a) { this->peso = a;}
+
+int Animal::getPercepcao() { return this->percepcao;}
+void Animal::setPercepcao(int a) { this->percepcao = a;}
+
+int Animal::getFome() { return this->fome;}
+void Animal::setFome(int a) { this->fome = a;}
+
+int Animal::getTick() { return this->tick;}
+
+
+void Animal::escolhePeso(int min, int max){
+    int z = aleatorio(min, max);
+    Animal::setPeso(z);
 }
 
-int Animal::setPeso() {
-    srand(time(0));
-    int peso = rand() % 4 + 1 ;
-    return peso;
-}*/
+void Animal::move(int min, int max) {
+    int desl = aleatorio(min, max);
 
-void Animal::move(int x, int y) {
-    //srand(time(0));
-    //int desl = rand() % 2 + 1;
-    // falta decidir em que sentiddo o animal se move
-    //this->posX += desl;       // this->x é o x privado de Animal, o x branco é o parametro cujo valor vai alterar o privat
-    //this->posY += y;
+    // Se random:
+    int valX = aleatorio(-1,3);
+    int valY = aleatorio(-1,3);
+    Animal::setPosX((Animal::getPosX() + valX) * desl);
+    Animal::setPosY((Animal::getPosY() + valY) * desl);
 }
 
 void Animal::checkSurroundings(int x, int y, int radius) {
@@ -46,3 +66,5 @@ void Animal::checkSurroundings(int x, int y, int radius) {
         }
     }
 }
+
+
