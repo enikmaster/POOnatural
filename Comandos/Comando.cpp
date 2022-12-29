@@ -73,7 +73,7 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
     if(comando == "info") {
         Comando* pInfo = new Info(comando, stoi(arg1), zoo);
         delete pInfo;
-        return 0;
+        return -3;
     }
     if(comando == "n") {
         Comando* pNext = new Next(comando, stoi(arg1), zoo);

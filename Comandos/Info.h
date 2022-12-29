@@ -1,14 +1,10 @@
-//
-// Created by filip on 29/12/2022.
-//
-
 #ifndef POONATURAL_INFO_H
 #define POONATURAL_INFO_H
+#include "Comando.h"
 
-
-class Info {
-
+class Info : public Comando {
+public:
+    Info(string& cmd, int arg1, Reserva* reserva);
 };
-
 
 #endif //POONATURAL_INFO_H

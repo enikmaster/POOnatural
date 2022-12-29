@@ -1,6 +1,6 @@
 #ifndef TESTETP_BIFE_H
 #define TESTETP_BIFE_H
-#include "../Inc.h"
+#include "../Includes.h"
 #include "Alimento.h"
 
 class Bife : public Alimento {

@@ -90,10 +90,10 @@ int Interface::getHelp(string& cmd, int writePos) {
         refresh();
         wInfo << zoo->getAsString();
     }
-    for(auto& it : comandos) {
-        if(cmd == it.getCmd()){
-            wInfo << move_to(0, writePos) << it.getCmd() << " " << it.getArgs();
-            wInfo << move_to(0, ++writePos) << it.getDescr();
+    for(auto& comando : comandos) {
+        if(cmd == comando.getCmd()){
+            wInfo << move_to(0, writePos) << comando.getCmd() << " " << comando.getArgs();
+            wInfo << move_to(0, ++writePos) << comando.getDescr();
             writePos += 2;
         }
     }
@@ -153,9 +153,9 @@ void Interface::infoShowReserva() {
         }
     }
     if(zoo->locaisOcupados.size() != 0) {
-        for(auto& it : zoo->locaisOcupados) {
-            if(checkVisibilityX(it->getLocalX()) && checkVisibilityY(it->getLocalY()) ) {
-                wReserva << move_to(it->getLocalX() - zoo->getOrigemVisX(), it->getLocalY() - zoo->getOrigemVisY()) << it->getTipoOcupante();
+        for(auto& localOcupado : zoo->locaisOcupados) {
+            if(checkVisibilityX(localOcupado->getLocalX()) && checkVisibilityY(localOcupado->getLocalY()) ) {
+                wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getTipoOcupante();
                 // faz cenas
                 /*if(it->getTipoOcupante() == "alimento") {
                     for(auto& itr : zoo->alimentos) {
@@ -170,17 +170,48 @@ void Interface::infoShowReserva() {
         }
     }
 }
+void Interface::infoAboutId(int eid) {
+    for(auto& alimento : zoo->alimentos) {
+        if(alimento->getFoodId() == eid) {
+            wInfo << move_to(0, 1) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
+            wInfo << move_to(0, 2) << "Id: "<< alimento->getFoodId();
+            wInfo << move_to(0, 3) << "Posicao X: "<< alimento->getPosX() << " Posicao Y: " << alimento->getPosY();
+            wInfo << move_to(0, 4) << "Valor nutritivo: " << alimento->getNutri();
+            wInfo << move_to(0, 5) << "Valor toxicidade: " << alimento->getToxic();
+            wInfo << move_to(0, 6) << "Validade: " << alimento->getDuracao() << " turnos";
+            wInfo << move_to(0, 7) << "Cheiros:";
+            for(int i = 0; i < alimento->getQuantidadeCheiros();++i) {
+                wInfo << move_to(0, 8+i) << "   " << alimento->getCheiro(i);
+            }
+            return;
+        }
+    }
+    for(auto& animal : zoo->animais) {
+        if(animal->getAnimalId() == eid) {
+            wInfo << move_to(0, 1) << "Nome: "<< animal->getLetra() << animal->getAnimalId();
+            wInfo << move_to(0, 2) << "Id: "<< animal->getAnimalId();
+            wInfo << move_to(0, 3) << "Posicao X: "<< animal->getPosX() << " Posicao Y: " << animal->getPosY();
+            wInfo << move_to(0, 4) << "Fome: " << animal->getFome();
+            wInfo << move_to(0, 5) << "Saude: " << animal->getSaude();
+            wInfo << move_to(0, 6) << "Vida: " << animal->getVida() << " turnos";
+            wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
+            wInfo << move_to(0, 8) << "Movimento maximo: " << animal->getdeslMax();
+            // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
+            return;
+        }
+    }
+}
 // actions
 bool Interface::checkArgAnimais(string& arg) const {
-    for(auto& it : letraEspecies){
-        if(it == arg)
+    for(auto& letra : letraEspecies){
+        if(letra == arg)
             return true;
     }
     return false;
 }
 bool Interface::checkArgAlimentos(string& arg) const {
-    for(auto& it : letraAlimentos){
-        if(it == arg)
+    for(auto& letra : letraAlimentos){
+        if(letra == arg)
             return true;
     }
     return false;
@@ -190,8 +221,8 @@ bool Interface::checkArgSaves(string& arg) const {
     return false;
 }
 bool Interface::checkArgDirection(string& arg) const{
-    for(auto& it : directions){
-        if(it == arg)
+    for(auto& direction : directions){
+        if(direction == arg)
             return true;
     }
     return false;
@@ -220,9 +251,9 @@ bool Interface::checkVisibilityY(int pos) const {
 // procura o comando pedido numa listagem de comandos e devolve a posição ou 0 se não encontrar
 int Interface::findComando(string& arg) {
     int pos = 0;
-    for(auto& it : comandos) {
+    for(auto& comando : comandos) {
         ++pos;
-        if(it.getCmd() == arg)
+        if(comando.getCmd() == arg)
             return pos;
     }
     return 0;
@@ -327,15 +358,20 @@ void Interface::start() {
                 }
                 flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), args.at(4), getReserva());
             }
-            if(flag == -1)
-                flag = getHelp(args.at(1), 1); // executa o comando help
             if(flag) {
                 string cmd{comandos.at(pos-1).getCmd()};
                 infoErroNumArgs(cmd);
                 getHelp(cmd, 3); // executa o comando help pq deu erro num comando
             }
+            if(flag == -1) {
+                flag = getHelp(args.at(1), 1);
+            } // executa o comando help
             if(flag == -2)
                 on = false; // exit
+            if(flag == -3) {
+                infoAboutId(stoi(args.at(1)));
+            }
+
             infoToUser();
             infoShowReserva();
         }

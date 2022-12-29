@@ -40,13 +40,14 @@ public:
     bool checkPosXOcupado(int posX) const;
     bool checkPosYOcupado(int posY) const;
     void addFood(Alimento* alimento);
-    void removeFood(int id);
+    void removeFood(int fid);
+    void removeFood(int posX, int posY);
     void updateFood();
     void addAnimal(Animal* animal);
-    void removeAnimal(int id);
+    void removeAnimal(int aid);
     void updateAnimal();
     void addLocal(Local* local);
-    bool removeLocal(int id);
+    bool removeLocal(int lid);
     void updateLocal();
     void deleteAll();
 

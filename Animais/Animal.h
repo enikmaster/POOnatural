@@ -1,16 +1,17 @@
 #ifndef TESTETP_ANIMAL_H
 #define TESTETP_ANIMAL_H
 #include "../Includes.h"
-//#include "../Reserva/Reserva.h"
+
 // int s = cin >> getline(contantes.txt);
 
 class Reserva;
 class Animal {
 private:
-    int posX, posY;
+    int animalId;
+    int posX;
+    std::string letra;
+    int posY;
     int tick = 0;
-    int animalID;
-    char letra;
     int percepcao;
     int fome;
     int deslMin;
@@ -20,7 +21,7 @@ private:
     int peso;
     bool agressividade;
     //Registo* registoAlimentar;
-    Reserva* reserva;
+    Reserva* reservaAnimal;
 public:
 
     // constructores:
@@ -32,13 +33,13 @@ public:
     int getPosY();
     int getdeslMin();
     int getdeslMax();
-    char getLetra();
+    std::string getLetra();
     int getTick();
-    int getAnimalID() const {return this->animalID; };
+    int getAnimalId() const {return this->animalId; };
     int getPercepcao();
     int getFome();
-    void getSaude();
-    void getVida();
+    int getSaude();
+    int getVida();
     int getPeso();
     void getAgressividade();
     void getRegistoAlimentar();
@@ -48,15 +49,15 @@ public:
     void setPosY(int valorDeslocamento);
     void setdeslMin(int min);
     void setdeslMax(int max);
-    void setLetra(char a);
+    void setLetra(char l);
     void setAnimalID();
-    void setPercepcao(int a);
-    void setFome(int a);
+    void setPercepcao(int perc);
+    void setFome(int f);
     void setSaude();
     void setVida();
-    void setPeso(int a);
+    void setPeso(int pa);
     void setAgressividade();
-    void setReserva(Reserva* reserva) {this->reserva = reserva;};
+    void setReserva(Reserva* reserva) {this->reservaAnimal = reserva;};
     //void setRegistoAlimentar();
 
     // actions

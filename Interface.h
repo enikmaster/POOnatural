@@ -57,13 +57,14 @@ public:
     // setters
     void setOriginX(int newOriginX) {this->originX = newOriginX;}
     void setOriginY(int newOriginY) {this->originY = newOriginY;}
-    // information to user
+    // informations
     void infoToUser();
     void infoErroArgs(int num);
     void infoErroCmdDesc();
     void infoErroNumArgs(string& cmd);
     void infoErroParam();
     void infoShowReserva();
+    void infoAboutId(int eid);
     // actions
     bool checkArgAnimais(string& arg) const;
     bool checkArgAlimentos(string& arg) const;

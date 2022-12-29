@@ -8,5 +8,4 @@ public:
     Exit(string& cmd, Reserva* reserva);
 };
 
-
 #endif //POONATURAL_EXIT_H

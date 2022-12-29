@@ -14,7 +14,7 @@ class Alimento {
     int toxic = 0;
     int duracao; // duracao na reserva
     vector<string> cheiros;
-    Reserva* reserva;
+    Reserva* reservaAlimento;
 public:
     Alimento(string l, const int x, const int y, Reserva* newReserva);
     Alimento(const string& l, Reserva* newReserva) : Alimento(l, -1, -1, newReserva) {};
@@ -29,12 +29,12 @@ public:
     int getNutri() const { return this->nutri;};
     int getToxic() const { return this->toxic;};
     int getDuracao() const { return this->duracao;};
-    void getCheiros() const;
-
+    string getCheiro(int pos) const {return this->cheiros.at(pos);};
+    int getQuantidadeCheiros() const {return this->cheiros.size();};
     // setters
     void setPosX(const int x){ this->posX = x;};
     void setPosY(const int y){ this->posY = y;};
-    void setReserva(Reserva* newReserva) { this->reserva = newReserva; };
+    void setReserva(Reserva* newReserva) { this->reservaAlimento = newReserva; };
     void setFoodId(const int fi) { this->foodId = fi;};
     void setLetra(string& l){ this->letra = l;};
     void setNutri(const int n){ this->nutri = n;};
@@ -47,10 +47,8 @@ public:
     //virtual Animal* clonar() const {};
     //void dies() {};
     //virtual void podridao() {};
-    // get outputs
-    //friend term::Window Interface::getWInfo();
 
-    friend class Reserva;
+    //friend class Reserva;
 };
 
 #endif //TESTETP_ALIMENTO_H

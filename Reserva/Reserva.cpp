@@ -67,6 +67,24 @@ void Reserva::addFood(Alimento* alimento) {
     alimento->setReserva(this);
     alimentos.push_back(alimento);
 }
+void Reserva::removeFood(int fid) {
+    for(auto& itr: alimentos){
+        if(itr->getFoodId() == fid) {
+            removeLocal(fid);
+            delete itr;
+            return;
+        }
+    }
+}
+void Reserva::removeFood(int posX, int posY) {
+    for(auto& itr: alimentos){
+        if(itr->getPosX() == posX && itr->getPosY() == posY) {
+            removeLocal(itr->getFoodId());
+            delete itr;
+            return;
+        }
+    }
+}
 void Reserva::addAnimal(Animal* animal) {
     animal->setReserva(this);
     animais.push_back(animal);
@@ -75,9 +93,9 @@ void Reserva::addLocal(Local* local) {
     local->setReserva(this);
     locaisOcupados.push_back(local);
 }
-bool Reserva::removeLocal(int id) {
+bool Reserva::removeLocal(int lid) {
     for(auto& itr : locaisOcupados) {
-        if(itr->getOcupaId() == id) {
+        if(itr->getOcupaId() == lid) {
             delete itr;
             return true;
         }

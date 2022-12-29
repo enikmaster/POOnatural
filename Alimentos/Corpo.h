@@ -1,6 +1,6 @@
 #ifndef TESTETP_CORPO_H
 #define TESTETP_CORPO_H
-#include "../Inc.h"
+#include "../Includes.h"
 #include "Alimento.h"
 #include "../Animais/Animal.h"
 
