@@ -1,5 +1,5 @@
 #include "Ovelha.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 Ovelha::Ovelha() : SOvelha(30), VOvelha(35) {
     cout << "######## OVELHA ##########\n";

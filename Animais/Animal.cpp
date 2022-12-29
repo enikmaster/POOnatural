@@ -1,5 +1,5 @@
 #include "Animal.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 Animal::Animal()   {
     //this->animalID = Reserva::getId();

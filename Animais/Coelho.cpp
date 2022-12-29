@@ -1,5 +1,5 @@
 #include "Coelho.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 
 Coelho::Coelho() : SCoelho(20), VCoelho(30) {

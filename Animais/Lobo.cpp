@@ -1,5 +1,5 @@
 #include "Lobo.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 Lobo::Lobo() : SLobo(25), VLobo(40){
     cout << "######## LOBO ##########\n";

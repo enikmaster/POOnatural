@@ -1,4 +1,4 @@
-#include "Reserva.h"
+#include "Reserva/Reserva.h"
 #include "Interface.h"
 #include "Terminal.h"
 
@@ -21,8 +21,8 @@ int main() {
     refresh();
     t << no_color();
     Reserva zoo(DimX, DimY);
-    Interface hub(zoo);
-
+    Interface hub(&zoo);
+    vRelva = 20;
     // inicia o simulador
     hub.start();
     return 0;

@@ -1,12 +1,10 @@
 #ifndef TESTETP_ANIMAL_H
 #define TESTETP_ANIMAL_H
 #include "../Includes.h"
-
-
-
+//#include "../Reserva/Reserva.h"
 // int s = cin >> getline(contantes.txt);
 
-
+class Reserva;
 class Animal {
 private:
     int posX, posY;
@@ -21,7 +19,8 @@ private:
     int vida; //VAnimal (ao fim de x ticks, o animal vai morrer)
     int peso;
     bool agressividade;
-    struct registoAlimentar;
+    //Registo* registoAlimentar;
+    Reserva* reserva;
 public:
 
     // constructores:
@@ -35,7 +34,7 @@ public:
     int getdeslMax();
     char getLetra();
     int getTick();
-    void getAnimalID();
+    int getAnimalID() const {return this->animalID; };
     int getPercepcao();
     int getFome();
     void getSaude();
@@ -57,7 +56,8 @@ public:
     void setVida();
     void setPeso(int a);
     void setAgressividade();
-    void setRegistoAlimentar();
+    void setReserva(Reserva* reserva) {this->reserva = reserva;};
+    //void setRegistoAlimentar();
 
     // actions
     void move(int min, int max);

@@ -1,21 +1,18 @@
 #ifndef TESTETP_RELVA_H
 #define TESTETP_RELVA_H
-#include "../Inc.h"
+#include "../Includes.h"
 #include "Alimento.h"
 
 class Relva : public Alimento{
-private:
-    int VRelva;
-
 public:
-    Relva();
+    Relva(string l, int x, int y, Reserva* zoo);
+    Relva(string& l, Reserva* zoo);
     ~Relva();
 
-    int getVRelva();
-    void setVRelva(int a);
+    //int get() const {return this->getDuracao();};
 
     // methods
-    void spawn();
+    //Alimento* clonar();
 };
 
 
