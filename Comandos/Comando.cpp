@@ -71,8 +71,8 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
         return 0;
     }
     if(comando == "info") {
-        Comando* pInfo = new Info(comando, stoi(arg1), zoo);
-        delete pInfo;
+        //Comando* pInfo = new Info(comando, stoi(arg1), zoo);
+        //delete pInfo;
         return -3;
     }
     if(comando == "n") {
@@ -81,18 +81,19 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
         return 0;
     }
     if(comando == "store") {
-        Comando* pStore = new Store(comando, arg1, zoo);
-        delete pStore;
-        return 0;
+//        Comando* pStore = new Store(comando, arg1, zoo);
+//        delete pStore;
+        return -4;
     }
     if(comando == "restore") {
-        Comando* pRestore = new Restore(comando, arg1, zoo);
-        delete pRestore;
-        return 0;
+//        Comando* pRestore = new Restore(comando, arg1, zoo);
+//        delete pRestore;
+        return -5;
     }
     if(comando == "load") {
-        Comando* pLoad = new Load(comando, arg1, zoo);
-        delete pLoad;
+        // Pensar muito bem neste comando
+//        Comando* pLoad = new Load(comando, arg1, zoo);
+//        delete pLoad;
         return 0;
     }
     if(comando == "help")

@@ -3,6 +3,16 @@
 #include "../Alimentos/Alimento.h"
 #include "Local.h"
 using namespace std;
+template<class T> class DeleteVector {
+public:
+    // Overloaded () operator.
+    // This will be called by for_each() function.
+    bool operator()(T x) const {
+        // Delete pointer.
+        delete x;
+        return true;
+    }
+};
 int Reserva::contadorIds = 0;
 Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura), origemVisX(0), origemVisY(0) {
 
@@ -68,19 +78,19 @@ void Reserva::addFood(Alimento* alimento) {
     alimentos.push_back(alimento);
 }
 void Reserva::removeFood(int fid) {
-    for(auto& itr: alimentos){
-        if(itr->getFoodId() == fid) {
+    for(auto& alimento: alimentos){
+        if(alimento->getFoodId() == fid) {
             removeLocal(fid);
-            delete itr;
+            delete alimento;
             return;
         }
     }
 }
 void Reserva::removeFood(int posX, int posY) {
-    for(auto& itr: alimentos){
-        if(itr->getPosX() == posX && itr->getPosY() == posY) {
-            removeLocal(itr->getFoodId());
-            delete itr;
+    for(auto& alimento: alimentos){
+        if(alimento->getPosX() == posX && alimento->getPosY() == posY) {
+            removeLocal(alimento->getFoodId());
+            delete alimento;
             return;
         }
     }
@@ -88,6 +98,36 @@ void Reserva::removeFood(int posX, int posY) {
 void Reserva::addAnimal(Animal* animal) {
     animal->setReserva(this);
     animais.push_back(animal);
+}
+void Reserva::removeAnimal(int aid) {
+    for(auto& animal : animais) {
+        if(animal->getAnimalId() == aid) {
+            removeLocal(aid);
+            delete animal;
+            return;
+        }
+    }
+}
+bool Reserva::removeAnimal(int posX, int posY) {
+    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end();) {
+        if((*animal)->getPosY() == posX && (*animal)->getPosY() == posY) {
+            removeLocal((*animal)->getAnimalId());
+            delete (*animal);
+            animais.erase(animal);
+            return true;
+        }
+    }
+    // dúvida aqui
+    // depois de decobrir, repetir para os outros REMOVES
+    for(auto& animal : animais) {
+        if(animal->getPosX() == posX && animal->getPosY() == posY) {
+            removeLocal(animal->getAnimalId());
+            delete animal;
+            // adicionar um alimento neste local?
+            return true;
+        }
+    }
+    return false;
 }
 void Reserva::addLocal(Local* local) {
     local->setReserva(this);
@@ -103,12 +143,18 @@ bool Reserva::removeLocal(int lid) {
     return false;
 }
 void Reserva::deleteAll() {
-    for(vector<Animal*>::iterator itr = animais.begin(); itr != animais.end();)
-        animais.erase(itr);
-    for(vector<Alimento*>::iterator itr = alimentos.begin(); itr != alimentos.end();)
-        alimentos.erase(itr);
-    for(vector<Local*>::iterator itr = locaisOcupados.begin(); itr != locaisOcupados.end();)
-        locaisOcupados.erase(itr);
-//    for(auto itr = saves.begin(); itr != saves.end();)
-//        saves.erase(itr);
+    for_each(animais.begin(), animais.end(), DeleteVector<Animal*>());
+    for_each(alimentos.begin(), alimentos.end(), DeleteVector<Alimento*>());
+    for_each(locaisOcupados.begin(), locaisOcupados.end(), DeleteVector<Local*>());
+/*  com erase(), o destutor não é chamado.
+    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end();)
+        animais.erase(animal);
+    for(vector<Alimento*>::iterator alimento = alimentos.begin(); alimento != alimentos.end();)
+        alimentos.erase(alimento);
+    for(vector<Local*>::iterator local = locaisOcupados.begin(); local != locaisOcupados.end();)
+        locaisOcupados.erase(local);
+        */
+    animais.clear();
+    alimentos.clear();
+    locaisOcupados.clear();
 }

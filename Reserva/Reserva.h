@@ -45,11 +45,19 @@ public:
     void updateFood();
     void addAnimal(Animal* animal);
     void removeAnimal(int aid);
+    bool removeAnimal(int posX, int posY);
     void updateAnimal();
     void addLocal(Local* local);
     bool removeLocal(int lid);
     void updateLocal();
     void deleteAll();
+
+    // TO DO IMPORTANTES
+    // quando EXIT tem de ir aos save games e limpar a memória
+    // e dentro de cada save ir à reserva e limpar os vetores que estão na memoria
+    // as funções já existem, é usar nos sítios certos
+    //
+    // Rever os ficheiros Constantes.*
 
     friend class Interface;
 };
