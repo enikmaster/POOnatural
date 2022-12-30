@@ -10,7 +10,6 @@
 //mt19937 gen;
 
 Interface::Interface(Reserva* reserva)
-        //: originX(0), originY(0), zoo(reserva), wReserva(term::Window(0, 0, 32, 16)), wInfo(term::Window(33, 0, 85, 16)), wInputs(term::Window(0, 16, 118, 5)) {
         : originX(0), originY(0), zoo(reserva), wReserva(term::Window(0, 0, 18, 18)), wInfo(term::Window(19, 0, 99, 18)), wInputs(term::Window(0, 18, 118, 5)) {
     this->zoo->incContadorIds();
     wReserva << set_color(0) << move_to(0, 0);
