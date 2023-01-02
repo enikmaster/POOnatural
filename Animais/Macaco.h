@@ -1,6 +1,6 @@
 #ifndef TESTETP_MACACO_H
 #define TESTETP_MACACO_H
-#include "../Includes.h"
+#include "../Inc.h"
 #include "Animal.h"
 
 class Macaco {
@@ -14,6 +14,7 @@ public:
     ~Macaco();
 
     void xpGain();
+    Animal* fazOutro();
 };
 
 

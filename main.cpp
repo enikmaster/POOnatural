@@ -1,5 +1,5 @@
 #include "Reserva/Reserva.h"
-#include "Interface/Interface.h"
+#include "Interfaces/Interface.h"
 #include "Terminal.h"
 
 using namespace term;
@@ -21,8 +21,7 @@ int main() {
     refresh();
     t << no_color();
     Reserva zoo(DimX, DimY);
-    Interface hub(zoo);
-
+    Interface hub(&zoo);
     // inicia o simulador
     hub.start();
     return 0;

@@ -1,6 +1,6 @@
 #ifndef TESTETP_CENOURA_H
 #define TESTETP_CENOURA_H
-#include "../Inc.h"
+#include "../Includes.h"
 #include "Alimento.h"
 
 class Cenoura : public Alimento{

@@ -1,22 +1,30 @@
 #ifndef TESTETP_OVELHA_H
 #define TESTETP_OVELHA_H
-#include "../Inc.h"
+#include "../Includes.h"
 #include "Animal.h"
+#include "../Reserva/Reserva.h"
 
 class Ovelha : public Animal {
-private:
-    int SOvelha;
-    int VOvelha;
-    int percepcao;
-
 public:
-    Ovelha();
-    ~Ovelha();
-
-    void fomeca();
-    void repro();
-
+    Ovelha(std::string l, int x, int y, Reserva* zoo);
+    Ovelha(std::string& l, Reserva* zoo);
+    ~Ovelha() {};
+    // getters
+    string getAlimentacao() {return this->alimentacao;};
+    int getVelocidade();
+    // setters
+    void setAlimentacao(std::string novaAlimentacao) {this->alimentacao = std::move(novaAlimentacao);};
+    // actions
+    bool isAlive() const;
+    void come(int nutri, int toxic);
+    void populateWithinRange();
+    void checkSurrounding();
+    void move(int xTarget, int yTarget);
+    //void dies(Reserva *r, int id);
+    //Animal* fazOutro(Reserva *r);
+    void cicloTurno();
+private:
+    std::string alimentacao;
 };
-
 
 #endif //TESTETP_OVELHA_H

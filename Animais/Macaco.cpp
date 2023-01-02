@@ -12,6 +12,10 @@ void Macaco::xpGain() {
     }
 }
 
+Animal* Macaco::fazOutro() {
+    return nullptr;
+}
+
 Macaco::~Macaco(){
     if (VMacaco == 0) {
         //delete
