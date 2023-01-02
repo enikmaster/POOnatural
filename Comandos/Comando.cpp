@@ -1,5 +1,22 @@
 #include "Comando.h"
-#include "../Interface.h"
+#include "Anim.h"
+#include "Visanim.h"
+#include "Exit.h"
+#include "CriaAnimal.h"
+#include "Killid.h"
+#include "Food.h"
+#include "Nofood.h"
+#include "Info.h"
+#include "Next.h"
+#include "Store.h"
+#include "Restore.h"
+#include "Load.h"
+#include "Kill.h"
+#include "Empty.h"
+#include "See.h"
+#include "Slide.h"
+#include "Feedid.h"
+#include "Feed.h"
 
 using namespace std;
 string Comando::getAsString() const {
@@ -9,115 +26,139 @@ string Comando::getAsString() const {
     return os.str();
 }
 
-int Comando::executa(string& comando) const {
+int Comando::executa(string& comando, Reserva* zoo)const {
     if(comando == "n"){
-        //avancaTurno();
+        Comando* pNext = new Next(comando, zoo);
+        delete pNext;
         return 0;
     }
     if(comando == "anim") {
-        //anim();
+        Comando* pAnim = new Anim(comando, zoo);
+        delete pAnim;
         return 0;
     }
     if(comando == "visanim") {
-        //visanim();
+        Comando* pVisanim = new Visanim(comando, zoo);
+        delete pVisanim;
         return 0;
     }
-    if(comando == "exit")
+    if(comando == "exit"){
+        Comando* pExit = new Exit(comando, zoo);
+        delete pExit;
         return -2;
+    }
     return 1;
 }
-int Comando::executa(string& comando, string& arg1) const {
+int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
     if(comando == "animal"){
-        //criaAnimal(arg1) {
+        Comando* pCriaAnimal = new CriaAnimal(comando, arg1, zoo);
+        delete pCriaAnimal;
         return 0;
     }
     if(comando == "killid") {
-        //killid(arg1);
+        Comando* pKillid = new Killid(comando, stoi(arg1), zoo);
+        delete pKillid;
         return 0;
     }
     if(comando == "food") {
-        //criaFood(arg1);
+        Comando* pFood = new Food(comando, arg1, zoo);
+        delete pFood;
         return 0;
     }
     if(comando == "nofood") {
-        //noFood(arg1);
+        Comando* pNofood = new Nofood(comando, stoi(arg1), zoo);
+        delete pNofood;
         return 0;
     }
     if(comando == "info") {
-        //myInfo(arg1);
-        return 0;
+        //Comando* pInfo = new Info(comando, stoi(arg1), zoo);
+        //delete pInfo;
+        return -3;
     }
     if(comando == "n") {
-        //avancaTurno(arg1);
+        Comando* pNext = new Next(comando, stoi(arg1), zoo);
+        delete pNext;
         return 0;
     }
     if(comando == "store") {
-        //myStore(arg1);
-        return 0;
+//        Comando* pStore = new Store(comando, arg1, zoo);
+//        delete pStore;
+        return -4;
     }
     if(comando == "restore") {
-        //myRestore(arg1);
-        return 0;
+//        Comando* pRestore = new Restore(comando, arg1, zoo);
+//        delete pRestore;
+        return -5;
     }
     if(comando == "load") {
-        //myLoad(arg1);
+        // Pensar muito bem neste comando
+//        Comando* pLoad = new Load(comando, arg1, zoo);
+//        delete pLoad;
         return 0;
     }
     if(comando == "help")
         return -1;
     return 1;
 }
-int Comando::executa(string& comando, string& arg1, string& arg2) const {
+int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) const {
     if(comando == "kill"){
-        //kill(arg1, arg2);
+        Comando* pKill = new Kill(comando, stoi(arg1), stoi(arg2), zoo);
+        delete pKill;
         return 0;
     }
     if(comando == "nofood") {
-        //noFood(arg1, arg2);
+        Comando* pNofood = new Nofood(comando, stoi(arg1), stoi(arg2), zoo);
+        delete pNofood;
         return 0;
     }
     if(comando == "empty") {
-        //myEmpty(arg1, arg2);
+        Comando* pEmpty = new Empty(comando, stoi(arg1), stoi(arg2), zoo);
+        delete pEmpty;
         return 0;
     }
     if(comando == "see") {
-        //see(arg1, arg2);
+//        Comando* pSee = new See(comando, stoi(arg1), stoi(arg2), zoo);
+//        delete pSee;
         return 0;
     }
     if(comando == "n") {
-        //avancaTurno(arg1, arg2);
+        Comando* pNext = new Next(comando, stoi(arg1), stoi(arg2), zoo);
+        delete pNext;
         return 0;
     }
     if(comando == "slide") {
-        //slide(arg1, arg2);
+        Comando* pSlide = new Slide(comando, arg1, stoi(arg2), zoo);
+        delete pSlide;
         return 0;
     }
     return 1;
 }
-int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3) const {
+int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo) const {
     if(comando == "animal"){
-        //criaAnimal(arg1, arg2, arg3);
+        Comando* pCriaAnimal = new CriaAnimal(comando, arg1, stoi(arg2), stoi(arg3), zoo);
+        delete pCriaAnimal;
         return 0;
     }
     if(comando == "food") {
-        //food(arg1, arg2, arg3);
+        Comando* pFood = new Food(comando, arg1, stoi(arg2), stoi(arg3), zoo);
+        delete pFood;
         return 0;
     }
     if(comando == "feedid") {
-        //feedid(arg1, arg2, arg3);
+        Comando* pFeedid = new Feedid(comando, stoi(arg1), stoi(arg2), stoi(arg3), zoo);
+        delete pFeedid;
         return 0;
     }
     return 1;
 }
-int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4) const {
+int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4, Reserva* zoo) const {
     if(comando == "feed") {
-        //feed(arg1, arg2, arg3, arg4);
+//        Comando* pFeed = new Feed(comando, stoi(arg1), stoi(arg2), stoi(arg3), stoi(arg4), zoo);
+//        delete pFeed;
         return 0;
     }
     return 1;
 }
-void criaAnimal(string& arg1) {}
-void criaAnimal(string& arg1, string& arg2, string& arg3) {}
 
 ostream& operator<<(ostream& out, const Comando& a) {
     out << a.getAsString();
