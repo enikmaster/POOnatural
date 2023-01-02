@@ -117,8 +117,8 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
         return 0;
     }
     if(comando == "see") {
-        Comando* pSee = new See(comando, stoi(arg1), stoi(arg2), zoo);
-        delete pSee;
+//        Comando* pSee = new See(comando, stoi(arg1), stoi(arg2), zoo);
+//        delete pSee;
         return 0;
     }
     if(comando == "n") {
@@ -153,8 +153,8 @@ int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, 
 }
 int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4, Reserva* zoo) const {
     if(comando == "feed") {
-        Comando* pFeed = new Feed(comando, stoi(arg1), stoi(arg2), stoi(arg3), stoi(arg4), zoo);
-        delete pFeed;
+//        Comando* pFeed = new Feed(comando, stoi(arg1), stoi(arg2), stoi(arg3), stoi(arg4), zoo);
+//        delete pFeed;
         return 0;
     }
     return 1;

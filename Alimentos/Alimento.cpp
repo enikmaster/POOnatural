@@ -10,9 +10,6 @@ Alimento::Alimento(string l, const int x, const int y, Reserva* newReserva) : le
             temp = rand() % reservaAlimento->getDimX();
         } while(reservaAlimento->checkPosXOcupado(temp));
         setPosX(temp);
-    }
-    if(y == -1) {
-        int temp = 0;
         do {
             temp = rand() % reservaAlimento->getDimY();
         } while(reservaAlimento->checkPosYOcupado(temp));

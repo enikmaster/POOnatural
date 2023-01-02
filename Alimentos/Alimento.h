@@ -6,12 +6,11 @@ class Reserva;
 using namespace std;
 class Alimento {
     int foodId;
-    int tick = 0;
     string letra;
     int posX;
     int posY;
     int nutri;
-    int toxic = 0;
+    int toxic;
     int duracao; // duracao na reserva
     vector<string> cheiros;
     Reserva* reservaAlimento;
@@ -23,7 +22,6 @@ public:
     // getters
     int getPosX() const { return this->posX;}
     int getPosY() const { return this->posY;}
-    int getTick() const { return this->tick;};
     int getFoodId() const { return this->foodId;};
     string getLetra() const { return this->letra;};
     int getNutri() const { return this->nutri;};
@@ -41,7 +39,6 @@ public:
     void setToxic(const int t){ this->toxic = t;};
     void setDuracao(const int d){ this->duracao = d;};
     void setCheiros(const string& c);
-    void incTick() {++tick;};
 
     // actions
     //virtual Animal* clonar() const {};

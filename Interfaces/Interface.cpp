@@ -1,6 +1,5 @@
 #include "Interface.h"
 
-#include <utility>
 #include "Save.h"
 #include "../Reserva/Local.h"
 #include "../Alimentos/Alimento.h"
@@ -77,7 +76,6 @@ void getReservaDims(int& DimX, int& DimY, term::Terminal& janela) {
 }
 
 // getters
-
 // recebe o input do utilizador
 string Interface::getInput() {
     string input{};
@@ -162,7 +160,7 @@ void Interface::infoShowReserva() {
     if(!zoo->locaisOcupados.empty()) {
         for(auto& localOcupado : zoo->locaisOcupados) {
             if(checkVisibilityX(localOcupado->getLocalX()) && checkVisibilityY(localOcupado->getLocalY()) ) {
-                wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getTipoOcupante();
+                wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getLetraOcupante();
                 // faz cenas
                 /*if(it->getTipoOcupante() == "alimento") {
                     for(auto& itr : zoo->alimentos) {
@@ -178,6 +176,9 @@ void Interface::infoShowReserva() {
     }
 }
 int Interface::infoAboutId(int eid) {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
     for(auto& alimento : zoo->alimentos) {
         if(alimento->getFoodId() == eid) {
             wInfo << move_to(0, 1) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
@@ -200,7 +201,7 @@ int Interface::infoAboutId(int eid) {
             wInfo << move_to(0, 3) << "Posicao X: "<< animal->getPosX() << " Posicao Y: " << animal->getPosY();
             wInfo << move_to(0, 4) << "Fome: " << animal->getFome();
             wInfo << move_to(0, 5) << "Saude: " << animal->getSaude();
-            wInfo << move_to(0, 6) << "Vida: " << animal->getVida() << " turnos";
+            wInfo << move_to(0, 6) << "Idade: " << animal->getIdade() << " turnos";
             wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
             wInfo << move_to(0, 8) << "Movimento maximo: " << animal->getdeslMax();
             // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
@@ -277,10 +278,12 @@ int Interface::restoreSave(const string& nome) {
         if(save->getNome() == nome)
             setSavedZoo(save->getReservaSave());
     }
+    return 0;
 }
 void Interface::clearSaves() {
     for(vector<Save*>::iterator save = saves.begin(); save != saves.end();) {
         (*save)->clearReserva();
+        delete *save;
         saves.erase(save);
     }
 }

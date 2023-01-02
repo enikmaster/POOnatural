@@ -1,75 +1,81 @@
 #ifndef TESTETP_ANIMAL_H
 #define TESTETP_ANIMAL_H
 #include "../Includes.h"
-
-// int s = cin >> getline(contantes.txt);
-
+class Alimento;
 class Reserva;
 class Animal {
 private:
     int animalId;
     int posX;
-    std::string letra;
     int posY;
-    int tick = 0;
+    std::string letra;
     int percepcao;
-    int fome;
     int deslMin;
     int deslMax;
     int saude; //SAnimal
-    int vida; //VAnimal (ao fim de x ticks, o animal vai morrer)
+    int idade; //VAnimal (ao fim de x ticks, o animal vai morrer)
     int peso;
-    bool agressividade;
+    int paiId;
+    int fome;
     //Registo* registoAlimentar;
+
+protected:
+    std::vector<Animal*> animaisPerto;
+    std::vector<Alimento*> alimentosPerto;
     Reserva* reservaAnimal;
 public:
-
     // constructores:
-    Animal();
-    ~Animal();
-
+    Animal(std::string l, int x, int y, Reserva* novaReserva);
+    Animal(std::string& l, Reserva* novaReserva) : Animal(l, -1, -1, novaReserva) {};
+    Animal(const Animal& outro) {};
+    virtual ~Animal();
     // getters
-    int getPosX();
-    int getPosY();
-    int getdeslMin();
-    int getdeslMax();
-    std::string getLetra();
-    int getTick();
-    int getAnimalId() const {return this->animalId; };
-    int getPercepcao();
-    int getFome();
-    int getSaude();
-    int getVida();
-    int getPeso();
-    void getAgressividade();
-    void getRegistoAlimentar();
-
+    int getPosX() const {return this->posX;};
+    int getPosY() const {return this->posY;};
+    int getdeslMin() const {return this->deslMin;};
+    int getdeslMax() const {return this->deslMax;};
+    std::string getLetra() const {return this->letra;};
+    int getAnimalId() const {return this->animalId;};
+    int getPercepcao() const {return this->percepcao;};
+    int getFome() const {return this->fome;};
+    int getSaude() const {return this->saude;};
+    int getIdade() const {return this->idade;};
+    int getPeso() const {return this->peso;};
+    int getPaiId() const {return this->paiId;};
+    //void getRegistoAlimentar() {};
     // setters
-    void setPosX(int valorDeslocamento);
-    void setPosY(int valorDeslocamento);
-    void setdeslMin(int min);
-    void setdeslMax(int max);
-    void setLetra(char l);
-    void setAnimalID();
-    void setPercepcao(int perc);
-    void setFome(int f);
-    void setSaude();
-    void setVida();
-    void setPeso(int pa);
-    void setAgressividade();
+    void setPosX(int offsetX) {this->posX = offsetX;};
+    void setPosY(int offsetY) {this->posY = offsetY;};
+    void setdeslMin(int min) { this->deslMin = min;};
+    void setdeslMax(int max) { this->deslMax = max;};
+    void setLetra(std::string& la) {this->letra = la;};
+    void setAnimalID(int ai) {this->animalId = ai;};
+    void setPercepcao(int perc) {this->percepcao = perc;};
+    void setFome(int fa) {this->fome = fa;};
+    void setSaude(int sa) {this->saude = sa;};
+    void setIdade(int ia) {this->idade = ia;};
+    virtual void setPeso(int pa) {this->peso = pa;};
+    void setPaiId(int pai) {this->paiId = pai;};
     void setReserva(Reserva* reserva) {this->reservaAnimal = reserva;};
+    void addAnimalPerto(Animal* novoAnimal);
+    void removeAnimalPerto(Animal* velhoAnimal);
+    void addAlimentoPerto(Alimento* novoAlimento);
+    void removeAlimentoPerot(Alimento* velhoAlimento);
     //void setRegistoAlimentar();
 
     // actions
-    void move(int min, int max);
-    void checkSurroundings(int x, int y, int radius);
+    void moveRand(int min, int max);
+    virtual void move(int xTarget, int yTarget, int min, int max) {};
+    virtual void checkWithinRange() {};
+    virtual void checkSurroundings(int x, int y, int radius) {};
     void escolhePeso(int a, int b);
     int aleatorio(int a, int b);
-    void dies();
-    void birth();
-    void feed();
-    virtual void repro();
-    virtual void fomeca();
+    //virtual Animal* fazOutro() {};
+    void birth() {};
+    virtual void come() {};
+    virtual void dies() {};
+    virtual void repro() {};
+    virtual void incFome() {};
 
 };
 

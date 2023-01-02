@@ -22,7 +22,6 @@ int main() {
     t << no_color();
     Reserva zoo(DimX, DimY);
     Interface hub(&zoo);
-    vRelva = 20;
     // inicia o simulador
     hub.start();
     return 0;

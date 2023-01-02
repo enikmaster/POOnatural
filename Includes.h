@@ -13,7 +13,7 @@
 #include <cstdlib>
 #include <utility>
 #include <random>
-static int vRelva = 0;
+// valores iniciais dos animais
 static int sOvelha = 0;
 static int vOvelha = 0;
 static int sLobo = 0;

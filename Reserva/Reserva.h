@@ -27,7 +27,9 @@ public:
     int getOrigemVisX() const { return origemVisX;}
     int getOrigemVisY() const { return origemVisY;}
     string getAsString() const;
-    static int getContadorIds() { return contadorIds; }
+    static int getContadorIds() { return contadorIds; };
+    Animal* getAnimal(int id);
+    Alimento* getAlimento(int id);
     // setters
     void setOrigemVisX(int newX);
     void setOrigemVisY(int newY);
@@ -39,6 +41,7 @@ public:
     bool checkIdAnimais(int arg) const;
     bool checkPosXOcupado(int posX) const;
     bool checkPosYOcupado(int posY) const;
+    void checkWithinRange(int elX, int elY, int percepcao, vector<int>& idAnimais, vector<int>& idAlimentos) const;
     void addFood(Alimento* alimento);
     void removeFood(int fid);
     void removeFood(int posX, int posY);
@@ -51,6 +54,8 @@ public:
     bool removeLocal(int lid);
     void updateLocal();
     void deleteAll();
+    void alimentar(int aid, int nutri, int tox);
+
 
     // TO DO IMPORTANTES
     // quando EXIT tem de ir aos save games e limpar a memória

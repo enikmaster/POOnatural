@@ -2,7 +2,7 @@
 
 Relva::Relva(string l, const int x, const int y, Reserva* zoo) : Alimento(std::move(l), x, y, zoo) {
     setNutri(3);
-    setDuracao(vRelva);
+    setDuracao(20);
     setToxic(0);
     setCheiros("erva");
     setCheiros("verdura");

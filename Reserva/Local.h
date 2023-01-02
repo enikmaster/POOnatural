@@ -12,7 +12,8 @@ public:
     int getOcupaId() const {return ocupaId;}
     int getLocalX() const {return localX;}
     int getLocalY() const {return localY;}
-    string getTipoOcupante() const {return tipoOcupante;}
+    string getLetraOcupante() const {return this->tipoOcupante;};
+    int getTipoOcupante() const {return (int)tipoOcupante[0];}
     Reserva* getReserva() const {return reserva;}
     // setters
     void setOcupaId(int newId) {this->ocupaId = newId;}

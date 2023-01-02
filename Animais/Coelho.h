@@ -3,6 +3,7 @@
 
 #include "../Inc.h"
 #include "Animal.h"
+#include "../Reserva.h"
 
 
 class Coelho : public Animal {
@@ -11,11 +12,14 @@ private:
     int VCoelho;
 
 public:
-    Coelho();
+    Coelho(Reserva *reserva);
     ~Coelho();
 
     void fomeca();
-    void repro();
+    void dies(Reserva *r, int id);
+    Animal* fazOutro(Reserva *r);
+    void checkSurroundings(Reserva *r, Local *l, int x, int y, int radius, int id);
+    void move(int xTarget, int yTarget, int flag);
 
 };
 
