@@ -1,4 +1,4 @@
-#include "Reserva.h"
+#include "Reserva/Reserva.h"
 #include "Interface/Interface.h"
 #include "Terminal.h"
 

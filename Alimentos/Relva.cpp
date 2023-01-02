@@ -1,5 +1,5 @@
 #include "Relva.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 Relva::Relva() {
     Alimento::setLetra('r');

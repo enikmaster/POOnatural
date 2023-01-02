@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "../Terminal.h"
 #include "../Comandos/Comando.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 
 using namespace term;

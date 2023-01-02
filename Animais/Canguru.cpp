@@ -1,5 +1,5 @@
 #include "Canguru.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 Canguru::Canguru() : SCanguru(20), VCanguru(70) {
     cout << "######## CANGURU ##########\n";
