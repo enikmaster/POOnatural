@@ -3,6 +3,7 @@
 #include "../Local.h"
 #include "../Alimentos/Corpo.h"
 
+
 Canguru::Canguru(Reserva *reserva) : SCanguru(20), VCanguru(70), tickMarsupial(0){
     cout << "######## CANGURU ##########\n";
     setdeslMin(1);

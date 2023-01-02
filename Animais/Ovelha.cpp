@@ -1,6 +1,5 @@
 #include "Ovelha.h"
 #include "../Alimentos/Corpo.h"
-#include "../Reserva/Reserva.h"
 
 Ovelha::Ovelha(std::string l, const int x, const int y, Reserva* zoo) : Animal(std::move(l), x, y, zoo) {
     setPercepcao(3);

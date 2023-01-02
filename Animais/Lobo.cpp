@@ -5,6 +5,7 @@
 #include "../Local.h"
 
 
+
 Lobo::Lobo(Reserva *reserva) : SLobo(25), VLobo(40), velo(1){
     cout << "######## LOBO ##########\n";
     Animal::setdeslMin(1);

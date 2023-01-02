@@ -1,5 +1,5 @@
 #include "Macaco.h"
-#include "../Reserva.h"
+#include "../Reserva/Reserva.h"
 
 
 Macaco::Macaco() : SMacaco(50), VMacaco(40){
