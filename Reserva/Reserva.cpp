@@ -21,6 +21,9 @@ Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura), origemV
 string Reserva::getAsString() const {
     ostringstream os;
     os << getDimX() << "x" << getDimY() << endl;
+    //os << constantes::sOvelha << endl;
+//    os << constantes::vOvelha << endl;
+//    os << constantes::pOvelha << endl;
     return os.str();
 }
 Animal* Reserva::getAnimal(int id) {
@@ -176,6 +179,25 @@ bool Reserva::removeLocal(int lid) {
         }
     }
     return false;
+}
+void Reserva::updateLocal() {
+    for(auto* local : locaisOcupados) {
+        if(std::isupper(local->getTipoOcupante())) {
+            for(auto* animal : animais) {
+                if(animal->getAnimalId() == local->getOcupaId()) {
+                    local->setLocalX(animal->getPosX());
+                    local->setLocalY(animal->getPosY());
+                }
+            }
+        } else {
+            for(auto* animal : animais) {
+                if(animal->getAnimalId() == local->getOcupaId()) {
+                    local->setLocalX(animal->getPosX());
+                    local->setLocalY(animal->getPosY());
+                }
+            }
+        }
+    }
 }
 void Reserva::deleteAll() {
     for_each(animais.begin(), animais.end(), DeleteVector<Animal*>() );

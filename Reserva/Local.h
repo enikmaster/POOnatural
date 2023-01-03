@@ -6,7 +6,7 @@
 using namespace std;
 class Local {
 public:
-    Local(int o, int lx, int ly, string to , Reserva* r) : ocupaId(o), localX(lx), localY(ly), tipoOcupante(std::move(to)), reserva(r) {};
+    Local(int o, int lx, int ly, string to , Reserva* r);
     //~Local() {}
     // getters
     int getOcupaId() const {return ocupaId;}
@@ -21,6 +21,8 @@ public:
     void setLocalY(int newLocalY) {this->localX = newLocalY;}
     void setTipoOcupante(string& newTipoOcupante) {this->tipoOcupante = newTipoOcupante;}
     void setReserva(Reserva* newReserva) {this->reserva = newReserva;}
+    // actions
+    void tipoOcupanteToUpper();
 private:
     int ocupaId;
     int localX;

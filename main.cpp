@@ -1,14 +1,20 @@
 #include "Reserva/Reserva.h"
 #include "Interfaces/Interface.h"
 #include "Terminal.h"
+#include "Constantes.h"
 
 using namespace term;
+
 int main() {
+    Constantes* pConstantes = new Constantes();
+    pConstantes->getFromFile();
+    delete pConstantes;
     srand((unsigned) time(nullptr));
     fflush(stdin);
-    Terminal &t = Terminal::instance();
-    for(int i=1; i<20; i++)
+    Terminal& t = Terminal::instance();
+    for(int i=1; i<20; i++) {
         t.init_color(i, i, 0);
+    }
 
     t << move_to(50, 7) << "Bem-Vindo!";
     t << move_to(47, 10) << set_color(2) << "Reserva Natural";

@@ -64,7 +64,7 @@ public:
     // as funções já existem, é usar nos sítios certos
     //
     // Rever os ficheiros Constantes.*
-
+    friend class Next;
     friend class Interface;
 };
 

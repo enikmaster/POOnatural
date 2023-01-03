@@ -13,13 +13,6 @@
 #include <cstdlib>
 #include <utility>
 #include <random>
-// valores iniciais dos animais
-static int sOvelha = 0;
-static int vOvelha = 0;
-static int sLobo = 0;
-static int vLobo = 0;
-static int sCanguru = 0;
-static int vCanguru = 0;
-static int sCoelho = 0;
-static int vCoelho = 0;
+#include <unistd.h>
+
 #endif

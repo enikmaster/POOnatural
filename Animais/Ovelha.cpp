@@ -1,11 +1,13 @@
 #include "Ovelha.h"
 #include "../Alimentos/Corpo.h"
+#include "../Reserva/Local.h"
+#include "../Constantes.h"
 
 Ovelha::Ovelha(std::string l, const int x, const int y, Reserva* zoo) : Animal(std::move(l), x, y, zoo) {
-    setPercepcao(3);
+    setPercepcao(constantes::pOvelha);
     setdeslMin(1);
     setdeslMax(1);
-    setSaude(sOvelha);
+    setSaude(constantes::sOvelha);
     setIdade(0);
     escolhePeso(4, 8);
     setFome(0);
@@ -21,6 +23,8 @@ Ovelha::~Ovelha() {
     // criar um novo alimento corpo junto a esta posição
     Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), this->getPeso(), reservaAnimal);
     reservaAnimal->addFood(pCorpo);
+    Local* pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), reservaAnimal);
+    reservaAnimal->addLocal(pLocal);
 }
 // getters
 int Ovelha::getVelocidade() {
@@ -30,7 +34,7 @@ int Ovelha::getVelocidade() {
 
 // actions
 bool Ovelha::isAlive() const {
-    return (this->getSaude() > 0 && this->getIdade() < vOvelha);
+    return (this->getSaude() > 0 && this->getIdade() < 30); //alterar aqui isto
 }
 void Ovelha::come(int nutri, int toxic) {
     this->setSaude(this->getSaude() + nutri - toxic);
@@ -111,12 +115,6 @@ void Ovelha::move(int xTarget, int yTarget) {
     setPosY(yTarget);
 }
 void Ovelha::dies() {
-    // remove todas as listas de percepção - no Destruturo?
-//    animaisPerto.clear();
-//    alimentosPerto.clear();
-    // criar um novo alimento corpo junto a esta posição - no Destrutor?
-    //Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), this->getPeso(), reservaAnimal);
-    //reservaAnimal->addFood(pCorpo);
     // remover o animal da lista de animais da reserva e do local
     reservaAnimal->removeAnimal(this->getAnimalId());
 }

@@ -4,6 +4,7 @@
 Bife::Bife(string l, int posX, int posY, Reserva* reservaFood) : Alimento(std::move(l), posX, posY, reservaFood) {
     setNutri(10);
     setToxic(2);
+    setDuracao(30);
     setCheiros("carne");
     setCheiros("ketchup");
 };

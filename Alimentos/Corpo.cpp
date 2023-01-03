@@ -8,16 +8,16 @@ Corpo::Corpo(int posX, int posY, int nutri, Reserva* reservaFood) : Alimento("p"
 };
 
 void Corpo::incToxic() {
-    // para de aumentar chegando a um nivel
-    if (this->getToxic() < getDuracao())
-        setToxic(getToxic() + 1);
+    this->setToxic(this->getToxic() + 1);
 }
 void Corpo::dimNutri() {
-    setNutri(this->getNutri() - 1);
+    this->setNutri(this->getNutri() - 1);
 }
 void Corpo::cicloTurno() {
     // diminui valor nutritivo
-    dimNutri();
+    if(this->getNutri() > 0)
+        dimNutri();
     // aumenta toxicidade
-    incToxic();
+    if(this->getToxic() < getDuracao())
+        incToxic();
 }

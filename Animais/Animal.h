@@ -1,6 +1,7 @@
 #ifndef TESTETP_ANIMAL_H
 #define TESTETP_ANIMAL_H
 #include "../Includes.h"
+#include "../Constantes.h"
 class Alimento;
 class Reserva;
 class Animal {

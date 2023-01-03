@@ -5,7 +5,7 @@ SOvelha 30
 VOvelha 35
 POvelha 3
 SLobo 25
-VLobo -1
+VLobo 60
 PLobo 5
 SCanguru 20
 VCanguru 70
