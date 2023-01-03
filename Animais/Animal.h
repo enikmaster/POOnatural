@@ -27,8 +27,8 @@ public:
     // constructores:
     Animal(std::string l, int x, int y, Reserva* novaReserva);
     Animal(std::string& l, Reserva* novaReserva) : Animal(l, -1, -1, novaReserva) {};
-    Animal(const Animal& outro) {};
-    virtual ~Animal();
+//    Animal(const Animal& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {};
+    virtual ~Animal() {};
     // getters
     int getPosX() const {return this->posX;};
     int getPosY() const {return this->posY;};
@@ -42,13 +42,13 @@ public:
     int getIdade() const {return this->idade;};
     int getPeso() const {return this->peso;};
     int getPaiId() const {return this->paiId;};
+    Reserva* getReserva();
     //void getRegistoAlimentar() {};
     // setters
     void setPosX(int offsetX) {this->posX = offsetX;};
     void setPosY(int offsetY) {this->posY = offsetY;};
     void setdeslMin(int min) { this->deslMin = min;};
     void setdeslMax(int max) { this->deslMax = max;};
-    void setLetra(std::string& la) {this->letra = la;};
     void setAnimalID(int ai) {this->animalId = ai;};
     void setPercepcao(int perc) {this->percepcao = perc;};
     void setFome(int fa) {this->fome = fa;};
@@ -58,25 +58,21 @@ public:
     void setPaiId(int pai) {this->paiId = pai;};
     void setReserva(Reserva* reserva) {this->reservaAnimal = reserva;};
     void addAnimalPerto(Animal* novoAnimal);
-    void removeAnimalPerto(Animal* velhoAnimal);
     void addAlimentoPerto(Alimento* novoAlimento);
-    void removeAlimentoPerot(Alimento* velhoAlimento);
     //void setRegistoAlimentar();
 
     // actions
-    void moveRand(int min, int max);
     virtual void move(int xTarget, int yTarget, int min, int max) {};
     virtual void checkWithinRange() {};
     virtual void checkSurroundings(int x, int y, int radius) {};
     void escolhePeso(int a, int b);
     int aleatorio(int a, int b);
     //virtual Animal* fazOutro() {};
-    void birth() {};
     virtual void come() {};
     virtual void dies() {};
     virtual void repro() {};
     virtual void incFome() {};
-
+    virtual void cicloTurno() {};
 };
 
 

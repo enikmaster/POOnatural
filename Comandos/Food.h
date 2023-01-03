@@ -2,6 +2,9 @@
 #define POONATURAL_FOOD_H
 #include "Comando.h"
 #include "../Alimentos/Relva.h"
+#include "../Alimentos/Cenoura.h"
+#include "../Alimentos/Bife.h"
+#include "../Alimentos/Banana.h"
 #include "../Reserva/Local.h"
 class Local;
 class Food : public Comando {

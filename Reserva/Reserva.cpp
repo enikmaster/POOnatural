@@ -113,7 +113,7 @@ void Reserva::checkWithinRange(int elX, int elY, int percepcao, vector<int>& idA
     }
 }
 void Reserva::addFood(Alimento* alimento) {
-    //alimento->setReserva(this);
+    alimento->setReserva(this);
     alimentos.push_back(alimento);
 }
 void Reserva::removeFood(int fid) {
@@ -137,7 +137,7 @@ void Reserva::removeFood(int posX, int posY) {
     }
 }
 void Reserva::addAnimal(Animal* animal) {
-    animal->setReserva(this);
+    animal->setReserva(this); // dúvida!!!!
     animais.push_back(animal);
 }
 void Reserva::removeAnimal(int aid) {

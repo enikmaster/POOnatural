@@ -2,24 +2,24 @@
 
 Food::Food(string& cmd, string& arg1, int arg2, int arg3, Reserva* zoo) : Comando(cmd) {
     // verificar os argumentos 2 e 3 aleatorios;
-
+    Alimento* pNovoAlimento;
     if(arg1 == "r") {
-        Alimento* pRelva = new Relva(arg1, arg2, arg3, zoo);
-        zoo->addFood(pRelva);
-        Local* pLocal = new Local(pRelva->getFoodId(), pRelva->getPosX(), pRelva->getPosY(), pRelva->getLetra(), zoo);
-        zoo->addLocal(pLocal);
+        pNovoAlimento = new Relva(arg1, arg2, arg3, zoo);
+        zoo->addFood(pNovoAlimento);
     }
     if(arg1 == "t") {
-        // repetir o de cima
+        pNovoAlimento = new Cenoura(arg1, arg2, arg3, zoo);
+        zoo->addFood(pNovoAlimento);
     }
     if(arg1 == "b") {
-
+        pNovoAlimento = new Bife(arg1, arg2, arg3, zoo);
+        zoo->addFood(pNovoAlimento);
     }
     if(arg1 == "a") {
-
+        pNovoAlimento = new Banana(arg1, arg2, arg3, zoo);
+        zoo->addFood(pNovoAlimento);
     }
-    if(arg1 == "z") {
-
-    }
-};
-Food::Food(string& cmd, string& arg1, Reserva* zoo) : Food(cmd, arg1, -1, -1, zoo) {};
+    Local* pLocal = new Local(pNovoAlimento->getFoodId(), pNovoAlimento->getPosX(), pNovoAlimento->getPosY(), pNovoAlimento->getLetra(), zoo);
+    zoo->addLocal(pLocal);
+}
+Food::Food(string& cmd, string& arg1, Reserva* zoo) : Food(cmd, arg1, -1, -1, zoo) {}

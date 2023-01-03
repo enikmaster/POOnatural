@@ -1,12 +1,12 @@
-#ifndef TESTETP_BIFE_H
-#define TESTETP_BIFE_H
+#ifndef POONATURAL_BANANA_H
+#define POONATURAL_BANANA_H
 #include "../Includes.h"
 #include "Alimento.h"
 
-class Bife : public Alimento {
+class Banana : public Alimento {
 public:
-    Bife(string l, int posX, int posY, Reserva* reservaFood);
-    ~Bife() override = default;
+    Banana(string l, int posX, int posY, Reserva* reservaFood);
+    ~Banana() override = default;
     // actions
     void dimNutri();
     void dimDuracao() {this->setDuracao(this->getDuracao() - 1);};
@@ -15,4 +15,4 @@ public:
 };
 
 
-#endif //TESTETP_BIFE_H
+#endif //POONATURAL_BANANA_H

@@ -8,7 +8,7 @@ class Ovelha : public Animal {
 public:
     Ovelha(std::string l, int x, int y, Reserva* zoo);
     Ovelha(std::string& l, Reserva* zoo);
-    ~Ovelha() {};
+    ~Ovelha();
     // getters
     string getAlimentacao() {return this->alimentacao;};
     int getVelocidade();
@@ -20,7 +20,7 @@ public:
     void populateWithinRange();
     void checkSurrounding();
     void move(int xTarget, int yTarget);
-    //void dies(Reserva *r, int id);
+    void dies();
     //Animal* fazOutro(Reserva *r);
     void cicloTurno();
 private:

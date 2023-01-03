@@ -4,16 +4,13 @@
 #include "Alimento.h"
 
 class Cenoura : public Alimento{
-private:
-
-
 public:
-    Cenoura();
-    ~Cenoura();
-
-    // methods
-    void podridao();
+    Cenoura(string l, int posX, int posY, Reserva* reservaFood);
+    ~Cenoura() override = default;
+    // actions
+    void incToxic();
+    void incDuracao() {this->setDuracao(this->getDuracao() + 1);};
+    void cicloTurno() override;
 };
-
 
 #endif //TESTETP_CENOURA_H

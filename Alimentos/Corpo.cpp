@@ -1,18 +1,23 @@
 #include "Corpo.h"
 
-Corpo::Corpo(int x, int y, int nutri) {
-    Alimento::setLetra('p');
-    Alimento::setPosX(x);
-    Alimento::setPosY(y);
-    Alimento::setNutri(nutri);
-    Alimento::setCheiro1("carne");
+Corpo::Corpo(int posX, int posY, int nutri, Reserva* reservaFood) : Alimento("p", posX, posY, reservaFood) {
+    setNutri(nutri);
+    setToxic(0);
+    setDuracao(nutri * 2);
+    setCheiros("carne");
 };
 
-void Corpo::podridao(int nutri) {
-    // corre sempre uma vez por cada tick global
-    if (getTick() < 2 * nutri)
+void Corpo::incToxic() {
+    // para de aumentar chegando a um nivel
+    if (this->getToxic() < getDuracao())
         setToxic(getToxic() + 1);
-    setNutri(getNutri() - 1);
 }
-
-Corpo::~Corpo() {};
+void Corpo::dimNutri() {
+    setNutri(this->getNutri() - 1);
+}
+void Corpo::cicloTurno() {
+    // diminui valor nutritivo
+    dimNutri();
+    // aumenta toxicidade
+    incToxic();
+}

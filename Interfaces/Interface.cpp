@@ -161,17 +161,7 @@ void Interface::infoShowReserva() {
         for(auto& localOcupado : zoo->locaisOcupados) {
             if(checkVisibilityX(localOcupado->getLocalX()) && checkVisibilityY(localOcupado->getLocalY()) ) {
                 wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getLetraOcupante();
-                // faz cenas
-                /*if(it->getTipoOcupante() == "alimento") {
-                    for(auto& itr : zoo->alimentos) {
-                        if(itr->getFoodId() == it->getOcupaId()) {
-                            wReserva << move_to(it->getLocalX() - zoo->getOrigemVisX(), it->getLocalY() - zoo->getOrigemVisY()) << itr->getLetra();
-                        }
-                    }
-                }*/
-                // fazer o ciclo para os animais
             }
-
         }
     }
 }
@@ -289,10 +279,11 @@ void Interface::clearSaves() {
 }
 // start simulation
 void Interface::start() {
-    infoToUser();
     wInfo << zoo->getAsString();
     bool on = true;
+    infoShowReserva();
     do {
+        infoToUser();
         string userInput{getInput()};
         wInputs.clear();
         refresh();

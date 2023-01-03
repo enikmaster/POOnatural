@@ -1,22 +1,18 @@
 #include "Cenoura.h"
-#include "../Reserva/Reserva.h"
 
-
-Cenoura::Cenoura() {
-    Cenoura::podridao();
-    Alimento::setLetra('t');
-    Alimento::setNutri(4);
-    Alimento::setToxic(0);
-    Alimento::setCheiro1("verdura");
-
+Cenoura::Cenoura(string l, int posX, int posY, Reserva* reservaFood) : Alimento(std::move(l), posX, posY, reservaFood) {
+    setNutri(4);
+    setToxic(0);
+    setDuracao(1);
+    setCheiros("verdura");
 }
-
-void Cenoura::podridao() {
-    if (Alimento::getTick() == 10) Alimento::setToxic(1);
-    if (Alimento::getTick() == 20) Alimento::setToxic(2);
-    if (Alimento::getTick() == 30) Alimento::setToxic(3);
+void Cenoura::incToxic() {
+    if(this->getToxic() < 3) {
+        if(this->getDuracao() % 10 == 0)
+            this->setToxic(this->getToxic() + 1);
+    }
 }
-
-Cenoura::~Cenoura() {
-    cout << "Cenoura consumida!\n";
+void Cenoura::cicloTurno() {
+    this->incDuracao();
+    this->incToxic();
 }

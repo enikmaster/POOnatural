@@ -14,7 +14,14 @@ Ovelha::Ovelha(std::string l, const int x, const int y, Reserva* zoo) : Animal(s
 }
 
 Ovelha::Ovelha(std::string& l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {};
-
+Ovelha::~Ovelha() {
+    // remove todas as listas de percepção
+    animaisPerto.clear();
+    alimentosPerto.clear();
+    // criar um novo alimento corpo junto a esta posição
+    Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), this->getPeso(), reservaAnimal);
+    reservaAnimal->addFood(pCorpo);
+}
 // getters
 int Ovelha::getVelocidade() {
     return (this->getdeslMax() == this->getdeslMin()) ? this->getdeslMax() : this->aleatorio(this->getdeslMin(), this->getdeslMax());
@@ -103,15 +110,17 @@ void Ovelha::move(int xTarget, int yTarget) {
     setPosX(xTarget);
     setPosY(yTarget);
 }
-/*void Ovelha::dies(Reserva *r, int id) {
-    if (getVida() <= 0 || getTick() >= 35 ) {
-        Alimento *p = new Corpo(r, getPosX()+1, getPosY(), getPeso(), 0);
-        r->pushBackVectorAlimentos(p);
-        r->removeAnimalFromVector(id);
-        delete r->getAnimalById(r,id);
-    }
+void Ovelha::dies() {
+    // remove todas as listas de percepção - no Destruturo?
+//    animaisPerto.clear();
+//    alimentosPerto.clear();
+    // criar um novo alimento corpo junto a esta posição - no Destrutor?
+    //Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), this->getPeso(), reservaAnimal);
+    //reservaAnimal->addFood(pCorpo);
+    // remover o animal da lista de animais da reserva e do local
+    reservaAnimal->removeAnimal(this->getAnimalId());
 }
-
+/*
 Animal* Ovelha::fazOutro(Reserva *r) {
     if ((Animal::getTick() % 15) == 0) {
         Animal* p = new Ovelha(r);
@@ -170,7 +179,7 @@ void Ovelha::cicloTurno() {
         populateWithinRange();
     }
     if(!isAlive()) {
-        //dies
+        dies();
     }
 }
 

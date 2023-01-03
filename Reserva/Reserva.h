@@ -22,6 +22,7 @@ public:
     ~Reserva() {}
     // getters
     int getGlobalTicks() const {return globalTick;}
+    Reserva* getReserva() const;
     int getDimX() const { return dimX;}
     int getDimY() const { return dimY;}
     int getOrigemVisX() const { return origemVisX;}

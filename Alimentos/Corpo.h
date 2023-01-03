@@ -6,12 +6,12 @@
 
 class Corpo : public Alimento{
 public:
-    Corpo(int x, int y, int nutri);
-    ~Corpo();
-
-    // methods
-    void podridao(int nutri);
-
+    Corpo(int x, int y, int nutri, Reserva* reservaFood);
+    ~Corpo() {};
+    // actions
+    void incToxic();
+    void dimNutri();
+    void cicloTurno();
 };
 
 
