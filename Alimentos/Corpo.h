@@ -11,7 +11,7 @@ public:
     // actions
     void incToxic();
     void dimNutri();
-    void cicloTurno();
+    void cicloTurno() override;
 };
 
 

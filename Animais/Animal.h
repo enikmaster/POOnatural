@@ -9,7 +9,7 @@ private:
     int animalId;
     int posX;
     int posY;
-    std::string letra;
+    char letra;
     int percepcao;
     int deslMin;
     int deslMax;
@@ -18,6 +18,7 @@ private:
     int peso;
     int paiId;
     int fome;
+    bool isAlive;
     //Registo* registoAlimentar;
 
 protected:
@@ -26,16 +27,16 @@ protected:
     Reserva* reservaAnimal;
 public:
     // constructores:
-    Animal(std::string l, int x, int y, Reserva* novaReserva);
-    Animal(std::string& l, Reserva* novaReserva) : Animal(l, -1, -1, novaReserva) {};
-//    Animal(const Animal& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {};
+    Animal(char l, int x, int y, Reserva* novaReserva);
+    Animal(char l, Reserva* novaReserva) : Animal(l, -1, -1, novaReserva) {};
+    Animal(const Animal& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {};
     virtual ~Animal() {};
     // getters
     int getPosX() const {return this->posX;};
     int getPosY() const {return this->posY;};
     int getdeslMin() const {return this->deslMin;};
     int getdeslMax() const {return this->deslMax;};
-    std::string getLetra() const {return this->letra;};
+    char getLetra() const {return this->letra;};
     int getAnimalId() const {return this->animalId;};
     int getPercepcao() const {return this->percepcao;};
     int getFome() const {return this->fome;};
@@ -43,7 +44,8 @@ public:
     int getIdade() const {return this->idade;};
     int getPeso() const {return this->peso;};
     int getPaiId() const {return this->paiId;};
-    Reserva* getReserva();
+    bool getIsAlive() const {return this->isAlive;};
+    Reserva* getReserva() const;
     //void getRegistoAlimentar() {};
     // setters
     void setPosX(int offsetX) {this->posX = offsetX;};
@@ -57,6 +59,7 @@ public:
     void setIdade(int ia) {this->idade = ia;};
     virtual void setPeso(int pa) {this->peso = pa;};
     void setPaiId(int pai) {this->paiId = pai;};
+    void setIsAlive(bool value) {this->isAlive = value;};
     void setReserva(Reserva* reserva) {this->reservaAnimal = reserva;};
     void addAnimalPerto(Animal* novoAnimal);
     void addAlimentoPerto(Alimento* novoAlimento);
@@ -68,7 +71,7 @@ public:
     virtual void checkSurroundings(int x, int y, int radius) {};
     void escolhePeso(int a, int b);
     int aleatorio(int a, int b);
-    //virtual Animal* fazOutro() {};
+    virtual Animal* fazOutro() {return nullptr;};
     virtual void come() {};
     virtual void dies() {};
     virtual void repro() {};

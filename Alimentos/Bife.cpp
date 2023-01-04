@@ -1,7 +1,7 @@
 #include "Bife.h"
 #include "../Reserva/Reserva.h"
 
-Bife::Bife(string l, int posX, int posY, Reserva* reservaFood) : Alimento(std::move(l), posX, posY, reservaFood) {
+Bife::Bife(char l, int posX, int posY, Reserva* reservaFood) : Alimento(l, posX, posY, reservaFood) {
     setNutri(10);
     setToxic(2);
     setDuracao(30);

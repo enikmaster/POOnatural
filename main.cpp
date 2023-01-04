@@ -7,7 +7,6 @@ using namespace term;
 
 int main() {
     Constantes* pConstantes = new Constantes();
-    pConstantes->getFromFile();
     delete pConstantes;
     srand((unsigned) time(nullptr));
     fflush(stdin);

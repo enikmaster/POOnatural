@@ -1,6 +1,6 @@
 #include "Cenoura.h"
 
-Cenoura::Cenoura(string l, int posX, int posY, Reserva* reservaFood) : Alimento(std::move(l), posX, posY, reservaFood) {
+Cenoura::Cenoura(char l, int posX, int posY, Reserva* reservaFood) : Alimento(l, posX, posY, reservaFood) {
     setNutri(4);
     setToxic(0);
     setDuracao(1);

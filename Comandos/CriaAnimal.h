@@ -6,8 +6,8 @@
 class Local;
 class CriaAnimal : public Comando {
 public:
-    CriaAnimal(string& cmd, string& arg1, int arg2, int arg3, Reserva* reserva);
-    CriaAnimal(string& cmd, string& arg1, Reserva* reserva) : CriaAnimal(cmd, arg1, -1, -1, reserva) {};
+    CriaAnimal(string& cmd, char arg1, int arg2, int arg3, Reserva* reserva);
+    CriaAnimal(string& cmd, char arg1, Reserva* reserva) : CriaAnimal(cmd, arg1, -1, -1, reserva) {};
 };
 
 

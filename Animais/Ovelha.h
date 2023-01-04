@@ -6,23 +6,25 @@
 
 class Ovelha : public Animal {
 public:
-    Ovelha(std::string l, int x, int y, Reserva* zoo);
-    Ovelha(std::string& l, Reserva* zoo);
-    ~Ovelha();
+    Ovelha(char l, int x, int y, Reserva* zoo);
+    Ovelha(char l, Reserva* zoo);
+    Ovelha(const Ovelha& outro);
+    ~Ovelha() override;
     // getters
     string getAlimentacao() {return this->alimentacao;};
     int getVelocidade();
     // setters
     void setAlimentacao(std::string novaAlimentacao) {this->alimentacao = std::move(novaAlimentacao);};
     // actions
-    bool isAlive() const;
+    void checkVitality();
     void come(int nutri, int toxic);
     void populateWithinRange();
     void checkSurrounding();
     void move(int xTarget, int yTarget);
-    void dies();
-    //Animal* fazOutro(Reserva *r);
-    void cicloTurno();
+    void dies() override;
+    Animal* fazOutro() override;
+    void nasce();
+    void cicloTurno() override;
 private:
     std::string alimentacao;
 };

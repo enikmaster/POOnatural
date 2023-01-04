@@ -5,7 +5,7 @@
 
 class Cenoura : public Alimento{
 public:
-    Cenoura(string l, int posX, int posY, Reserva* reservaFood);
+    Cenoura(char l, int posX, int posY, Reserva* reservaFood);
     ~Cenoura() override = default;
     // actions
     void incToxic();

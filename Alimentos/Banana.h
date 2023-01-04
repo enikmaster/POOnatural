@@ -5,7 +5,7 @@
 
 class Banana : public Alimento {
 public:
-    Banana(string l, int posX, int posY, Reserva* reservaFood);
+    Banana(char l, int posX, int posY, Reserva* reservaFood);
     ~Banana() override = default;
     // actions
     void dimNutri();
