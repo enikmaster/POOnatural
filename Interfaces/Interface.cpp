@@ -159,7 +159,7 @@ void Interface::infoShowReserva() {
     if(!zoo->locaisOcupados.empty()) {
         for(auto& localOcupado : zoo->locaisOcupados) {
             if(checkVisibilityX(localOcupado->getLocalX()) && checkVisibilityY(localOcupado->getLocalY()) ) {
-                wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getLetraOcupante();
+                wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getTipoOcupante();
             }
         }
     }

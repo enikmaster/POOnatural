@@ -5,7 +5,7 @@
 
 class Bife : public Alimento {
 public:
-    Bife(string l, int posX, int posY, Reserva* reservaFood);
+    Bife(char l, int posX, int posY, Reserva* reservaFood);
     ~Bife() override = default;
     // actions
     void dimNutri();

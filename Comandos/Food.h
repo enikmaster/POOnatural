@@ -9,8 +9,8 @@
 class Local;
 class Food : public Comando {
 public:
-    Food(string& cmd, string& arg1, int arg2, int arg3, Reserva* zoo);
-    Food(string& cmd, string& arg1, Reserva* zoo);
+    Food(string& cmd, char arg1, int arg2, int arg3, Reserva* zoo);
+    Food(string& cmd, char arg1, Reserva* zoo);
 };
 
 

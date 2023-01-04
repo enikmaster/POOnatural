@@ -23,6 +23,7 @@ namespace constantes {
 }
 class Constantes {
 public:
+    Constantes() {getFromFile();};
     //setters
     void setSCoelho(int valor) {constantes::sCoelho = valor;}
     void setVCoelho(int valor) {constantes::vCoelho = valor;}

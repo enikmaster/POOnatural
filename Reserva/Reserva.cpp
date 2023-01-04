@@ -17,13 +17,11 @@ int Reserva::contadorIds = 0;
 Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura), origemVisX(0), origemVisY(0) {
 
 }
+Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY()) {};
 // getters
 string Reserva::getAsString() const {
     ostringstream os;
     os << getDimX() << "x" << getDimY() << endl;
-    //os << constantes::sOvelha << endl;
-//    os << constantes::vOvelha << endl;
-//    os << constantes::pOvelha << endl;
     return os.str();
 }
 Animal* Reserva::getAnimal(int id) {
@@ -88,21 +86,12 @@ bool Reserva::checkIdAnimais(int arg) const {
     }
     return false;
 }
-bool Reserva::checkPosXOcupado(int posX) const {
+bool Reserva::checkPosOcupado(int posX, int posY) const {
     if(!locaisOcupados.empty()) {
         for (auto& local: locaisOcupados) {
-            if (local->getLocalX() == posX)
+            if (local->getLocalX() == posX && local->getLocalY() == posY)
                 return true;
         }
-    }
-    return false;
-}
-bool Reserva::checkPosYOcupado(int posY) const {
-    if(locaisOcupados.empty())
-        return false;
-    for(auto& local : locaisOcupados) {
-        if(local->getLocalY() == posY)
-            return true;
     }
     return false;
 }
@@ -144,23 +133,21 @@ void Reserva::addAnimal(Animal* animal) {
     animais.push_back(animal);
 }
 void Reserva::removeAnimal(int aid) {
-    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end();++animal) {
+    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end(); ++animal) {
         if((*animal)->getAnimalId() == aid) {
             removeLocal(aid);
             delete *animal;
             animais.erase(animal);
-            // adicionar um alimento neste local?
             return;
         }
     }
 }
 bool Reserva::removeAnimal(int posX, int posY) {
-    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end();++animal) {
+    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end(); ++animal) {
         if((*animal)->getPosY() == posX && (*animal)->getPosY() == posY) {
             removeLocal((*animal)->getAnimalId());
             delete *animal;
             animais.erase(animal);
-            // adicionar um alimento neste local?
             return true;
         }
     }
@@ -199,18 +186,20 @@ void Reserva::updateLocal() {
         }
     }
 }
+void Reserva::limpaMortos() {
+    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end(); ++animal) {
+        if(!(*animal)->getIsAlive()) {
+            removeLocal((*animal)->getAnimalId());
+            delete *animal;
+            animais.erase(animal);
+        }
+    }
+   // for(vector<Alimento*>::iterator alimento = alimentos.begin(); alimento != alimentos.end(); ++animal)
+}
 void Reserva::deleteAll() {
     for_each(animais.begin(), animais.end(), DeleteVector<Animal*>() );
     for_each(alimentos.begin(), alimentos.end(), DeleteVector<Alimento*>());
     for_each(locaisOcupados.begin(), locaisOcupados.end(), DeleteVector<Local*>());
-/*  com erase(), o destutor não é chamado.
-    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end();)
-        delete *animal;
-    for(vector<Alimento*>::iterator alimento = alimentos.begin(); alimento != alimentos.end();)
-        alimentos.erase(alimento);
-    for(vector<Local*>::iterator local = locaisOcupados.begin(); local != locaisOcupados.end();)
-        locaisOcupados.erase(local);
-        */
     animais.clear();
     alimentos.clear();
     locaisOcupados.clear();

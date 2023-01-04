@@ -1,29 +1,27 @@
 #include "Ovelha.h"
 #include "../Alimentos/Corpo.h"
 #include "../Reserva/Local.h"
-#include "../Constantes.h"
 
-Ovelha::Ovelha(std::string l, const int x, const int y, Reserva* zoo) : Animal(std::move(l), x, y, zoo) {
-    setPercepcao(constantes::pOvelha);
-    setdeslMin(1);
-    setdeslMax(1);
-    setSaude(constantes::sOvelha);
-    setIdade(0);
-    escolhePeso(4, 8);
-    setFome(0);
-    setAlimentacao("erva");
-    populateWithinRange();
+Ovelha::Ovelha(char l, const int x, const int y, Reserva* zoo) : Animal(l, x, y, zoo) {
+    this->nasce();
+    this->populateWithinRange();
 }
-
-Ovelha::Ovelha(std::string& l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {};
+Ovelha::Ovelha(char l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {};
+Ovelha::Ovelha(const Ovelha& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
+    this->nasce();
+    this->setSaude(outro.getSaude());
+    this->setPosX(aleatorio((this->getPosX() - 12 < 0) ? 0 : this->getPosX() - 12, (this->getPosX() - 12 > outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() : this->getPosX() + 12));
+    this->setPosY(aleatorio((this->getPosY() - 12 < 0) ? 0 : this->getPosY() - 12, (this->getPosY() - 12 > outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() : this->getPosY() + 12));
+    this->populateWithinRange();
+};
 Ovelha::~Ovelha() {
     // remove todas as listas de percepção
     animaisPerto.clear();
     alimentosPerto.clear();
     // criar um novo alimento corpo junto a esta posição
-    Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), this->getPeso(), reservaAnimal);
+    Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), this->getPeso(), this->getReserva());
     reservaAnimal->addFood(pCorpo);
-    Local* pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), reservaAnimal);
+    Local* pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), this->getReserva());
     reservaAnimal->addLocal(pLocal);
 }
 // getters
@@ -33,8 +31,9 @@ int Ovelha::getVelocidade() {
 // setters
 
 // actions
-bool Ovelha::isAlive() const {
-    return (this->getSaude() > 0 && this->getIdade() < 30); //alterar aqui isto
+void Ovelha::checkVitality() {
+    if(this->getSaude() <= 0 && this->getIdade() >= constantes::vOvelha)
+        this->dies();
 }
 void Ovelha::come(int nutri, int toxic) {
     this->setSaude(this->getSaude() + nutri - toxic);
@@ -116,11 +115,26 @@ void Ovelha::move(int xTarget, int yTarget) {
 }
 void Ovelha::dies() {
     // remover o animal da lista de animais da reserva e do local
-    reservaAnimal->removeAnimal(this->getAnimalId());
+    //reservaAnimal->removeAnimal(this->getAnimalId());
+    this->setIsAlive(false);
 }
-/*
-Animal* Ovelha::fazOutro(Reserva *r) {
-    if ((Animal::getTick() % 15) == 0) {
+void Ovelha::nasce() {
+    this->setIsAlive(true);
+    this->setPercepcao(constantes::pOvelha);
+    this->setdeslMin(1);
+    this->setdeslMax(1);
+    this->setSaude(constantes::sOvelha);
+    this->setIdade(0);
+    this->escolhePeso(4, 8);
+    this->setFome(0);
+    this->setAlimentacao("erva");
+}
+Animal* Ovelha::fazOutro() {
+    Animal* pA = new Ovelha(*this);
+    Local* pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
+    reservaAnimal->addLocal(pL);
+    return pA;
+    /*if ((Animal::getTick() % 15) == 0) {
         Animal* p = new Ovelha(r);
         r->pushBackVectorAnimais(p);
         Reserva::contAnimais++;
@@ -134,8 +148,8 @@ Animal* Ovelha::fazOutro(Reserva *r) {
         Reserva::contPosOcupadas++;
         return p;
     }
-    return nullptr;
-}*/
+    return nullptr;*/
+}
 void Ovelha::cicloTurno() {
     // atualiza vida
     setIdade(this->getIdade() + 1);
@@ -150,9 +164,10 @@ void Ovelha::cicloTurno() {
     }
     if(this->getFome() <= 15)
         setdeslMax(1);
-    if(isAlive()) {
+    checkVitality();
+    if(getIsAlive()) {
         // primeiro come se houver alimento na posição
-        for (vector<Alimento *>::iterator alimento = alimentosPerto.begin(); alimento != alimentosPerto.end(); ++alimento) {
+        for (vector<Alimento* >::iterator alimento = alimentosPerto.begin(); alimento != alimentosPerto.end(); ++alimento) {
             if ((*alimento)->getPosX() == this->getPosX() && (*alimento)->getPosY() == this->getPosY()) {
                 for (int i = 0; i != (*alimento)->getQuantidadeCheiros(); ++i) {
                     if ((*alimento)->getCheiro(i) == getAlimentacao()) {
@@ -165,18 +180,19 @@ void Ovelha::cicloTurno() {
         }
     }
     // verifica se depois de comer ainda está vivo
+    checkVitality();
     // pode ter morrido devido a toxicidade elevada
-    if(isAlive()) {
+    if(getIsAlive()) {
         // verifica tudo o que o rodeia
         // e move-se de acordo
         checkSurrounding();
         if(this->getIdade() % 15 == 0 ) {
-            //fazOutro();
+            reservaAnimal->addAnimal(fazOutro());
         }
         // atualiza a população Within Range de acordo com a nova posição
         populateWithinRange();
     }
-    if(!isAlive()) {
+    if(!getIsAlive()) {
         dies();
     }
 }

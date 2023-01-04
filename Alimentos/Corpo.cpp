@@ -1,6 +1,6 @@
 #include "Corpo.h"
 
-Corpo::Corpo(int posX, int posY, int nutri, Reserva* reservaFood) : Alimento("p", posX, posY, reservaFood) {
+Corpo::Corpo(int posX, int posY, int nutri, Reserva* reservaFood) : Alimento('p', posX, posY, reservaFood) {
     setNutri(nutri);
     setToxic(0);
     setDuracao(nutri * 2);

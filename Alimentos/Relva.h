@@ -5,14 +5,22 @@
 
 class Relva : public Alimento{
 public:
-    Relva(string l, int x, int y, Reserva* zoo);
-    Relva(string& l, Reserva* zoo);
-    ~Relva();
-
-    //int get() const {return this->getDuracao();};
-
-    // methods
-    //Alimento* clonar();
+    Relva(char l, int x, int y, Reserva* zoo);
+    Relva(char l, Reserva* zoo);
+    Relva(const Relva& outro);
+    ~Relva() override;
+    // getters
+    int getSpawnTime() const {return this->spawnTime;};
+    // setters
+    void setSpawnTime(int st) {this->spawnTime = st;};
+    // actions
+    void nasce();
+    void dimDuracao();
+    Alimento* fazOutro() override;
+    void checkVitality();
+    void cicloTurno() override;
+private:
+    int spawnTime;
 };
 
 

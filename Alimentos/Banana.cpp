@@ -1,7 +1,7 @@
 #include "Banana.h"
 #include "../Reserva/Reserva.h"
 
-Banana::Banana(std::string l, int posX, int posY, Reserva *reservaFood) : Alimento(std::move(l), posX, posY, reservaFood) {
+Banana::Banana(char l, int posX, int posY, Reserva *reservaFood) : Alimento(l, posX, posY, reservaFood) {
     this->setNutri(15);
     this->setToxic(1);
     this->setDuracao(60);
