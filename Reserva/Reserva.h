@@ -47,7 +47,7 @@ public:
     bool removeAnimal(int posX, int posY);
     void addLocal(Local* local);
     bool removeLocal(int lid);
-    void updateLocal();
+    void updateLocal(int id, int posX, int posY);
     void limpaMortos();
     void deleteAll();
     void alimentar(int aid, int nutri, int tox);

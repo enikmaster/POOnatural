@@ -6,7 +6,6 @@ Corpo::Corpo(int posX, int posY, int nutri, Reserva* reservaFood) : Alimento('p'
     setDuracao(nutri * 2);
     setCheiros("carne");
 };
-
 void Corpo::incToxic() {
     this->setToxic(this->getToxic() + 1);
 }

@@ -18,8 +18,8 @@ class Interface {
     Reserva* zoo;
     vector<Save*> saves;
     const vector<string> directions {"up", "down", "left", "right"};
-    const vector<string> letraEspecies {"C", "O", "L", "G", "M", "H"};
-    const vector<string> letraAlimentos {"r", "t", "p", "b", "a"};
+    const vector<char> letraEspecies {'C','O', 'L', 'G', 'M', 'H'};
+    const vector<char> letraAlimentos {'r', 't', 'p', 'b', 'a'};
     const vector<Comando> comandos {{"animal","Cria um novo animal na reserva. O utilizador indica a especie e a posicao X e Y dentro da reserva.","<especie> <posicao_X> <posicao_Y>"},
                                {"animal","Cria um novo animal na reserva. O utilizador indica a especie. A posicao dentro da reserva e' atribuida aleatoraiamente.","<especie>"},
                                {"kill","Mata um animal da reserva. O utilizador indica a posicao X e Y dentro da reserva.","<posicao_X> <posicao_Y>"},
@@ -52,8 +52,7 @@ public:
     int getOriginY() const {return originY;}
     string getInput();
     int getHelp(string& cmd, int writePos);
-    int getCntIds() {return this->zoo->getContadorIds();}
-    Reserva* getReserva() const {return zoo;}
+    Reserva* getReserva() const;
     // setters
     void setOriginX(int newOriginX) {this->originX = newOriginX;}
     void setOriginY(int newOriginY) {this->originY = newOriginY;}
@@ -74,8 +73,7 @@ public:
     bool checkArgIds(int arg) const;
     bool checkArgPosX(int arg) const {return(arg <= zoo->getDimY());};
     bool checkArgPosY(int arg) const {return (arg <= zoo->getDimY());};
-    bool checkVisibilityX(int pos) const;
-    bool checkVisibilityY(int pos) const;
+    bool checkVisibility(int posX, int posY) const;
     int findComando(string& arg);
     int addSave(string nome);
     int restoreSave(const string& nome);

@@ -29,15 +29,17 @@ int Ovelha::getVelocidade() {
     return (this->getdeslMax() == this->getdeslMin()) ? this->getdeslMax() : this->aleatorio(this->getdeslMin(), this->getdeslMax());
 }
 // setters
-
 // actions
+// verifica se está na hora de morrer
 void Ovelha::checkVitality() {
     if(this->getSaude() <= 0 && this->getIdade() >= constantes::vOvelha)
         this->dies();
 }
+// alimenta-se
 void Ovelha::come(int nutri, int toxic) {
     this->setSaude(this->getSaude() + nutri - toxic);
 }
+// preenche uma lista de elementos perto
 void Ovelha::populateWithinRange() {
     alimentosPerto.clear();
     animaisPerto.clear();
@@ -53,7 +55,7 @@ void Ovelha::populateWithinRange() {
             addAnimalPerto(reservaAnimal->getAnimal(it));
     }
 }
-
+// verifica as imediações e move-se
 void Ovelha::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
     // e manda movimentar de acordo
@@ -72,7 +74,7 @@ void Ovelha::checkSurrounding() {
                     (animal->getPosX() > this->getPosX()) ? movingDirectionX = this->getPosX() - this->getVelocidade() : this->getPosX() + this->getVelocidade();
                 }
                 if(abs(animal->getPosY() - this->getPosY()) <= distPredY) {
-                    distPredX = abs(animal->getPosY() - this->getPosY());
+                    distPredY = abs(animal->getPosY() - this->getPosY());
                     (animal->getPosY() > this->getPosY()) ? movingDirectionY = this->getPosY() - this->getVelocidade() : this->getPosY() + this->getVelocidade();
                 }
                 // foge sempre do predador mais perto, mesmo que isso o empurre para outro mais longe
@@ -108,16 +110,18 @@ void Ovelha::checkSurrounding() {
             aleatorio( this->getPosY() - this->getVelocidade(), this->getPosY() + this->getVelocidade() ));
 
 }
+// move o animal para a nova posição
 void Ovelha::move(int xTarget, int yTarget) {
 //    apenas move para a posição fornecida
     setPosX(xTarget);
     setPosY(yTarget);
+
 }
+// morre
 void Ovelha::dies() {
-    // remover o animal da lista de animais da reserva e do local
-    //reservaAnimal->removeAnimal(this->getAnimalId());
     this->setIsAlive(false);
 }
+// set dos valores iniciais
 void Ovelha::nasce() {
     this->setIsAlive(true);
     this->setPercepcao(constantes::pOvelha);
@@ -129,6 +133,7 @@ void Ovelha::nasce() {
     this->setFome(0);
     this->setAlimentacao("erva");
 }
+// faz uma cópia de si mesmo
 Animal* Ovelha::fazOutro() {
     Animal* pA = new Ovelha(*this);
     Local* pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
@@ -195,6 +200,7 @@ void Ovelha::cicloTurno() {
     if(!getIsAlive()) {
         dies();
     }
+    reservaAnimal->updateLocal(getAnimalId(), getPosX(), getPosY());
 }
 
 

@@ -20,7 +20,7 @@ Next::Next(string cmd, int arg1, int arg2, Reserva* reserva) : Comando(std::move
         for(auto* animal : reserva->animais) {
             (*animal).cicloTurno();
         }
-        reserva->updateLocal();
+        //reserva->updateLocal();
         sleep(arg2);
     }
     // atualiza locais ocupados e outras coisas

@@ -22,6 +22,7 @@ int constantes::vHumano;
 int constantes::pHumano;
 
 void Constantes::getFromFile() {
+    // corre o ficheiro das constantes e passa os valores para variáveis globais
     std::string line;
     std::fstream myfile;
     myfile.open("../constantes.txt", std::ios::in); // read mode

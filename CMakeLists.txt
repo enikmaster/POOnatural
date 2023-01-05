@@ -37,5 +37,6 @@ add_executable(${PROJECT_NAME}
         Interfaces/Interface.cpp
         Interfaces/Save.cpp
         Terminal.cpp
-        Alimentos/Banana.cpp Alimentos/Banana.h)
+        Alimentos/Banana.cpp
+        )
 target_link_libraries(${PROJECT_NAME} C:/pdcurses/pdcurses.a)

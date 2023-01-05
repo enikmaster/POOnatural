@@ -15,10 +15,8 @@ public:
     int getLocalY() const {return localY;}
     char getTipoOcupante() const {return this->tipoOcupante;}
     // setters
-    void setOcupaId(int newId) {this->ocupaId = newId;}
     void setLocalX(int newLocalX) {this->localX = newLocalX;}
-    void setLocalY(int newLocalY) {this->localX = newLocalY;}
-    void setTipoOcupante(char newTipoOcupante) {this->tipoOcupante = newTipoOcupante;}
+    void setLocalY(int newLocalY) {this->localY = newLocalY;}
     void setReserva(Reserva* newReserva) {this->reserva = newReserva;}
 private:
     int ocupaId;

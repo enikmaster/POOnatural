@@ -20,7 +20,7 @@ public:
     void checkVitality();
     void cicloTurno() override;
 private:
-    int spawnTime;
+    int spawnTime; // altura em que deve duplicar-se
 };
 
 

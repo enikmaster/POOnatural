@@ -74,8 +74,6 @@ public:
     virtual Animal* fazOutro() {return nullptr;};
     virtual void come() {};
     virtual void dies() {};
-    virtual void repro() {};
-    virtual void incFome() {};
     virtual void cicloTurno() {};
 };
 
