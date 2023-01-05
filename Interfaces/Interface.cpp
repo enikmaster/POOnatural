@@ -204,6 +204,7 @@ int Interface::infoAboutId(int eid) {
             wInfo << move_to(0, 6) << "Idade: " << animal->getIdade() << " turnos";
             wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
             wInfo << move_to(0, 8) << "Movimento maximo: " << animal->getdeslMax();
+            wInfo << move_to(0, 9) << "Vivo: " << ((animal->getIsAlive()) ? "true" : "false" );
             // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
             break;
         }
@@ -376,7 +377,15 @@ void Interface::start() {
                     infoErroParam();
                     continue;
                 }
-                flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), getReserva());
+                if(args.at(0) == "n") {
+                    for(int rep = 1; rep <= stoi(args.at(1)); ++rep) {
+                        flag = comandos.at(pos-1).executa(args.at(0), getReserva());
+                        infoShowReserva();
+                        sleep(stoi(args.at(2)));
+                    }
+                } else {
+                    flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), getReserva());
+                }
             }
             if(nArgs == 4) {
                 // executa os comandos com 3 argumentos

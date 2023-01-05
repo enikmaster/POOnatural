@@ -65,6 +65,7 @@ public:
     void infoErroParam();
     void infoShowReserva();
     int infoAboutId(int eid);
+    void infoShowBetweenTurns() {infoShowReserva();};
     // actions
     bool checkArgAnimais(string& arg) const;
     bool checkArgAlimentos(string& arg) const;

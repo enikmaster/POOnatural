@@ -125,7 +125,7 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
         return 0;
     }
     if(comando == "n") {
-        Comando* pNext = new Next(comando, stoi(arg1), stoi(arg2), pR);
+        Comando* pNext = new Next(comando, pR);
         delete pNext;
         return 0;
     }

@@ -32,7 +32,7 @@ int Ovelha::getVelocidade() {
 // actions
 // verifica se está na hora de morrer
 void Ovelha::checkVitality() {
-    if(this->getSaude() <= 0 && this->getIdade() >= constantes::vOvelha)
+    if(this->getSaude() <= 0 || this->getIdade() >= constantes::vOvelha)
         this->dies();
 }
 // alimenta-se
@@ -58,8 +58,8 @@ void Ovelha::populateWithinRange() {
 // verifica as imediações e move-se
 void Ovelha::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
-    // e manda movimentar de acordo
-    int flag = 0;
+    // e movimenta de acordo
+    int direction = 0;
     int distAliX, distAliY, distPredX, distPredY = getPercepcao();
     int movingDirectionX = this->getPosX();
     int movingDirectionY = this->getPosY();
@@ -71,53 +71,66 @@ void Ovelha::checkSurrounding() {
             if(animal->getPeso() > 15) { // apercebe-se de um predador
                 if(abs(animal->getPosX() - this->getPosX()) <= distPredX) {
                     distPredX = abs(animal->getPosX() - this->getPosX());
-                    (animal->getPosX() > this->getPosX()) ? movingDirectionX = this->getPosX() - this->getVelocidade() : this->getPosX() + this->getVelocidade();
+                    (animal->getPosX() > this->getPosX()) ?
+                        movingDirectionX = this->getPosX() - this->getVelocidade() :
+                        movingDirectionX = this->getPosX() + this->getVelocidade();
                 }
                 if(abs(animal->getPosY() - this->getPosY()) <= distPredY) {
                     distPredY = abs(animal->getPosY() - this->getPosY());
-                    (animal->getPosY() > this->getPosY()) ? movingDirectionY = this->getPosY() - this->getVelocidade() : this->getPosY() + this->getVelocidade();
+                    (animal->getPosY() > this->getPosY()) ?
+                        movingDirectionY = this->getPosY() - this->getVelocidade() :
+                        movingDirectionY = this->getPosY() + this->getVelocidade();
                 }
                 // foge sempre do predador mais perto, mesmo que isso o empurre para outro mais longe
                 // enfim, são ovelhas
-                flag = 1; // assinala que está a ir numa direção não aleatória
+                direction = 1; // assinala que está a ir numa direção não aleatória
             }
         }
     }
     // verifica se há alimentos perto caso não esteja a fugir
-    if(!alimentosPerto.empty() && !flag) {
+    if(!alimentosPerto.empty() && !direction) {
         for(auto& alimento : alimentosPerto) {
             for(int i = 0; i != alimento->getQuantidadeCheiros();++i){
                 if(alimento->getCheiro(i) == getAlimentacao()) {
                     // distancia mais curta ao alimento que cheira a relva
                     if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
                         distAliX = abs(alimento->getPosX() - this->getPosX());
-                        (alimento->getPosX() < this->getPosX()) ? movingDirectionX = this->getPosX() - this->getVelocidade() : movingDirectionX = this->getPosX() + this->getVelocidade() ;
+                        (alimento->getPosX() < this->getPosX()) ?
+                            movingDirectionX = this->getPosX() - this->getVelocidade() :
+                            movingDirectionX = this->getPosX() + this->getVelocidade() ;
                     }
                     if(abs(alimento->getPosY() - this->getPosY()) <= distAliY) {
                         distAliY = abs(alimento->getPosY() - this->getPosY());
-                        (alimento->getPosY() < this->getPosY()) ? movingDirectionY = this->getPosY() - this->getVelocidade() : movingDirectionY = this->getPosY() + this->getVelocidade() ;
+                        (alimento->getPosY() < this->getPosY()) ?
+                            movingDirectionY = this->getPosY() - this->getVelocidade() :
+                            movingDirectionY = this->getPosY() + this->getVelocidade() ;
                     }
-                    flag = 1; // assinala que está a ir numa direção não aleatória
+                    direction = 1; // assinala que está a ir numa direção não aleatória
                 }
             }
         }
     }
     // se estiver a ir fugir de um predador ou em direção a um alimento
-    (flag) ? move(movingDirectionX, movingDirectionY) :
+    (direction) ? move(movingDirectionX, movingDirectionY) :
     // se não estiver, aleatório
-    move(
-            aleatorio( this->getPosX() - this->getVelocidade(), this->getPosX() + this->getVelocidade() ),
-            aleatorio( this->getPosY() - this->getVelocidade(), this->getPosY() + this->getVelocidade() ));
-
+    move(aleatorio(getPosX() - getdeslMax(), getPosX() + getdeslMax()), aleatorio(getPosY() - getdeslMax(), getPosY() + getdeslMax()));
 }
 // move o animal para a nova posição
 void Ovelha::move(int xTarget, int yTarget) {
-//    apenas move para a posição fornecida
-    setPosX(xTarget);
-    setPosY(yTarget);
-
+    if(xTarget >= reservaAnimal->getDimX())
+        setPosX(xTarget - reservaAnimal->getDimX());
+    if(xTarget < 0)
+        setPosX(xTarget + reservaAnimal->getDimX());
+    if(xTarget >= 0 && xTarget < reservaAnimal->getDimX())
+        setPosX(xTarget);
+    if(yTarget >= reservaAnimal->getDimY())
+        setPosX(yTarget - reservaAnimal->getDimY());
+    if(yTarget < 0)
+        setPosX(yTarget + reservaAnimal->getDimY());
+    if(yTarget >= 0 && yTarget < reservaAnimal->getDimY())
+        setPosY(yTarget);
 }
-// morre
+// indica ao animal que está morto para a reserva saber que tem de o retirar
 void Ovelha::dies() {
     this->setIsAlive(false);
 }
@@ -158,18 +171,21 @@ Animal* Ovelha::fazOutro() {
 void Ovelha::cicloTurno() {
     // atualiza vida
     setIdade(this->getIdade() + 1);
-    // atualiza a fome
-    setFome(this->getFome() + 1);
-    // atualiza a saúde e a velocidade de acordo com a fome
-    if(this->getFome() > 20)
-        setSaude(this->getSaude() - 2);
-    if(this->getFome() <= 20 && this->getFome() > 15) {
-        setSaude(this->getSaude() - 1);
-        setdeslMax(2);
-    }
-    if(this->getFome() <= 15)
-        setdeslMax(1);
     checkVitality();
+    if(getIsAlive()) {
+        // atualiza a fome
+        setFome(this->getFome() + 1);
+        // atualiza a saúde e a velocidade de acordo com a fome
+        if(this->getFome() > 20)
+            setSaude(this->getSaude() - 2);
+        if(this->getFome() <= 20 && this->getFome() > 15) {
+            setSaude(this->getSaude() - 1);
+            setdeslMax(2);
+        }
+        if(this->getFome() <= 15)
+            setdeslMax(1);
+        checkVitality();
+    }
     if(getIsAlive()) {
         // primeiro come se houver alimento na posição
         for (vector<Alimento* >::iterator alimento = alimentosPerto.begin(); alimento != alimentosPerto.end(); ++alimento) {
@@ -183,10 +199,10 @@ void Ovelha::cicloTurno() {
                 }
             }
         }
+        // verifica se depois de comer ainda está vivo
+        checkVitality();
+        // pode ter morrido devido a toxicidade elevada
     }
-    // verifica se depois de comer ainda está vivo
-    checkVitality();
-    // pode ter morrido devido a toxicidade elevada
     if(getIsAlive()) {
         // verifica tudo o que o rodeia
         // e move-se de acordo
