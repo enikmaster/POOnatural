@@ -6,10 +6,12 @@
 class Cenoura : public Alimento{
 public:
     Cenoura(char l, int posX, int posY, Reserva* reservaFood);
+    Cenoura(char l, Reserva* reservaFood);
     ~Cenoura() override = default;
     // actions
-    void incToxic();
-    void incDuracao() {this->setDuracao(this->getDuracao() + 1);};
+    void nasce();
+    void incToxic(){ setToxic(getToxic() + 1); };
+    void incDuracao() { setDuracao(getDuracao() + 1); };
     void cicloTurno() override;
 };
 

@@ -9,8 +9,8 @@ public:
     ~Banana() override = default;
     // actions
     void dimNutri();
-    void dimDuracao() {this->setDuracao(this->getDuracao() - 1);};
-    void desaparece();
+    void dimDuracao() { setDuracao(getDuracao() - 1);};
+    void checkVitality();
     void cicloTurno() override;
 };
 

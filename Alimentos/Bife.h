@@ -6,11 +6,12 @@
 class Bife : public Alimento {
 public:
     Bife(char l, int posX, int posY, Reserva* reservaFood);
+    Bife(char l, Reserva* reservaFood);
     ~Bife() override = default;
     // actions
-    void dimNutri();
-    void dimDuracao() {this->setDuracao(this->getDuracao() - 1);};
-    void desaparece();
+    void dimNutri() { setNutri(getNutri() - 1); };
+    void dimDuracao() { setDuracao(getDuracao() - 1); };
+    void checkVitality();
     void cicloTurno() override;
 };
 

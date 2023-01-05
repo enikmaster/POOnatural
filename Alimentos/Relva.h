@@ -8,7 +8,7 @@ public:
     Relva(char l, int x, int y, Reserva* zoo);
     Relva(char l, Reserva* zoo);
     Relva(const Relva& outro);
-    ~Relva() override;
+    ~Relva() override = default;
     // getters
     int getSpawnTime() const {return this->spawnTime;};
     // setters

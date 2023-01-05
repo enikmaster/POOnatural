@@ -5,18 +5,13 @@ Corpo::Corpo(int posX, int posY, int nutri, Reserva* reservaFood) : Alimento('p'
     setToxic(0);
     setDuracao(nutri * 2);
     setCheiros("carne");
+    setIsAlive(true);
 };
-void Corpo::incToxic() {
-    this->setToxic(this->getToxic() + 1);
-}
-void Corpo::dimNutri() {
-    this->setNutri(this->getNutri() - 1);
-}
 void Corpo::cicloTurno() {
     // diminui valor nutritivo
-    if(this->getNutri() > 0)
+    if(getNutri() > 0)
         dimNutri();
     // aumenta toxicidade
-    if(this->getToxic() < getDuracao())
+    if(getToxic() < getDuracao())
         incToxic();
 }

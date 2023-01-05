@@ -8,7 +8,6 @@ Relva::Relva(char l, Reserva* zoo) : Relva(l, -1, -1, zoo) {}
 Relva::Relva(const Relva& outro) : Alimento(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
     this->nasce();
 }
-Relva::~Relva() = default;
 void Relva::nasce() {
     this->setNutri(3);
     this->setDuracao(20);
@@ -37,6 +36,7 @@ Alimento* Relva::fazOutro() {
     }
     return nullptr;
 }
+// verifica se está a hora de "falecer"
 void Relva::checkVitality() {
     if(this->getDuracao() <= 0)
         this->setIsAlive(false);
@@ -49,5 +49,4 @@ void Relva::cicloTurno() {
         if(getDuracao() <= getSpawnTime())
             this->fazOutro();
     }
-
 }

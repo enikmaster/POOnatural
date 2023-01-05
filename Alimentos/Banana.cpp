@@ -6,17 +6,20 @@ Banana::Banana(char l, int posX, int posY, Reserva *reservaFood) : Alimento(l, p
     this->setToxic(1);
     this->setDuracao(60);
     this->setCheiros("fruta");
+    setIsAlive(true);
 }
 // actions
 void Banana::dimNutri() {
-    (this->getDuracao() > 50) ? this->setNutri(this->getNutri() + 1) : this->setNutri(this->getNutri() - 1);
+    (getDuracao() > 50) ? setNutri(getNutri() + 1) : setNutri(getNutri() - 1);
 }
-void Banana::desaparece() {
-    this->reservaAlimento->removeFood(this->getFoodId());
+void Banana::checkVitality() {
+    if(getDuracao() <= 0)
+        setIsAlive(false);
 }
 void Banana::cicloTurno() {
-    if(this->getDuracao() <= 0)
-        this->desaparece();
-    if(this->getNutri() > 0)
-        this->dimNutri();
+    if(getDuracao() > 0)
+        dimDuracao();
+    if(getNutri() > 0)
+        dimNutri();
+    checkVitality();
 }
