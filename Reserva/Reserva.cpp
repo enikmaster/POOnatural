@@ -190,7 +190,7 @@ void Reserva::limpaMortos() {
     }
     for(vector<Alimento*>::iterator alimento = alimentos.begin(); alimento != alimentos.end(); ++alimento) {
         if(!(*alimento)->getIsAlive()) {
-            removeFood((*alimento)->getFoodId());
+            removeLocal((*alimento)->getFoodId());
             delete *alimento;
             alimentos.erase(alimento);
             --alimento;

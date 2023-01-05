@@ -205,6 +205,7 @@ int Interface::infoAboutId(int eid) {
             wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
             wInfo << move_to(0, 8) << "Movimento maximo: " << animal->getdeslMax();
             wInfo << move_to(0, 9) << "Vivo: " << ((animal->getIsAlive()) ? "true" : "false" );
+            wInfo << move_to(0, 10) << "alimentos perto: " << animal->getQuantidadeAlimentosPerto();
             // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
             break;
         }

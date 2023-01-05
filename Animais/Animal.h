@@ -45,6 +45,7 @@ public:
     int getPeso() const {return this->peso;};
     int getPaiId() const {return this->paiId;};
     bool getIsAlive() const {return this->isAlive;};
+    int getQuantidadeAlimentosPerto() {return (int)alimentosPerto.size();}
     Reserva* getReserva() const;
     //void getRegistoAlimentar() {};
     // setters

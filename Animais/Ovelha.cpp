@@ -95,15 +95,23 @@ void Ovelha::checkSurrounding() {
                     // distancia mais curta ao alimento que cheira a relva
                     if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
                         distAliX = abs(alimento->getPosX() - this->getPosX());
-                        (alimento->getPosX() < this->getPosX()) ?
-                            movingDirectionX = this->getPosX() - this->getVelocidade() :
-                            movingDirectionX = this->getPosX() + this->getVelocidade() ;
+                        if(distAliX <= 1) {
+                            movingDirectionX = alimento->getPosX();
+                        } else {
+                            (alimento->getPosX() < this->getPosX()) ?
+                                    movingDirectionX = this->getPosX() - this->getVelocidade() :
+                                    movingDirectionX = this->getPosX() + this->getVelocidade() ;
+                        }
                     }
                     if(abs(alimento->getPosY() - this->getPosY()) <= distAliY) {
                         distAliY = abs(alimento->getPosY() - this->getPosY());
-                        (alimento->getPosY() < this->getPosY()) ?
-                            movingDirectionY = this->getPosY() - this->getVelocidade() :
-                            movingDirectionY = this->getPosY() + this->getVelocidade() ;
+                        if(distAliY <= 1 and distAliX <= 1) {
+                            movingDirectionY = alimento->getPosY();
+                        } else {
+                            (alimento->getPosY() < this->getPosY()) ?
+                                    movingDirectionY = this->getPosY() - this->getVelocidade() :
+                                    movingDirectionY = this->getPosY() + this->getVelocidade() ;
+                        }
                     }
                     direction = 1; // assinala que está a ir numa direção não aleatória
                 }
@@ -188,13 +196,12 @@ void Ovelha::cicloTurno() {
     }
     if(getIsAlive()) {
         // primeiro come se houver alimento na posição
-        for (vector<Alimento* >::iterator alimento = alimentosPerto.begin(); alimento != alimentosPerto.end(); ++alimento) {
-            if ((*alimento)->getPosX() == this->getPosX() && (*alimento)->getPosY() == this->getPosY()) {
-                for (int i = 0; i != (*alimento)->getQuantidadeCheiros(); ++i) {
-                    if ((*alimento)->getCheiro(i) == getAlimentacao()) {
-                        come((*alimento)->getNutri(), (*alimento)->getToxic());
-                        reservaAnimal->removeFood((*alimento)->getFoodId());
-                        alimentosPerto.erase(alimento);
+        for (auto& alimento : alimentosPerto) {
+            if (alimento->getPosX() == getPosX() && alimento->getPosY() == getPosY()) {
+                for (int i = 0; i != alimento->getQuantidadeCheiros(); ++i) {
+                    if (alimento->getCheiro(i) == getAlimentacao()) {
+                        come(alimento->getNutri(), alimento->getToxic());
+                        alimento->setIsAlive(false);
                     }
                 }
             }

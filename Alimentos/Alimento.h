@@ -32,7 +32,7 @@ public:
     int getDuracao() const { return this->duracao;};
     string getCheiro(int pos) const {return this->cheiros.at(pos);};
     int getQuantidadeCheiros() const {return this->cheiros.size();};
-    int getIsAlive() const { return this->isAlive;};
+    bool getIsAlive() const { return this->isAlive;};
     // setters
     void setReserva(Reserva* reserva) {this->reservaAlimento = reserva;};
     void setPosX(const int x){ this->posX = x;};
