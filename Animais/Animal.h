@@ -73,7 +73,7 @@ public:
     void escolhePeso(int a, int b);
     int aleatorio(int a, int b);
     virtual Animal* fazOutro() {return nullptr;};
-    virtual void come() {};
+    void come(int nutri, int toxic);
     virtual void dies() {};
     virtual void cicloTurno() {};
 };

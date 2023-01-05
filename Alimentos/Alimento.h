@@ -31,7 +31,7 @@ public:
     int getToxic() const { return this->toxic;};
     int getDuracao() const { return this->duracao;};
     string getCheiro(int pos) const {return this->cheiros.at(pos);};
-    int getQuantidadeCheiros() const {return this->cheiros.size();};
+    int getQuantidadeCheiros() const {return (int)this->cheiros.size();};
     bool getIsAlive() const { return this->isAlive;};
     // setters
     void setReserva(Reserva* reserva) {this->reservaAlimento = reserva;};

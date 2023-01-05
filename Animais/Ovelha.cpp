@@ -13,7 +13,7 @@ Ovelha::Ovelha(const Ovelha& outro) : Animal(outro.getLetra(), outro.getPosX(), 
     this->setPosX(aleatorio((this->getPosX() - 12 < 0) ? 0 : this->getPosX() - 12, (this->getPosX() - 12 > outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() : this->getPosX() + 12));
     this->setPosY(aleatorio((this->getPosY() - 12 < 0) ? 0 : this->getPosY() - 12, (this->getPosY() - 12 > outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() : this->getPosY() + 12));
     this->populateWithinRange();
-};
+}
 Ovelha::~Ovelha() {
     // remove todas as listas de percepção
     animaisPerto.clear();
@@ -32,12 +32,8 @@ int Ovelha::getVelocidade() {
 // actions
 // verifica se está na hora de morrer
 void Ovelha::checkVitality() {
-    if(this->getSaude() <= 0 || this->getIdade() >= constantes::vOvelha)
-        this->dies();
-}
-// alimenta-se
-void Ovelha::come(int nutri, int toxic) {
-    this->setSaude(this->getSaude() + nutri - toxic);
+    if(getSaude() <= 0 || getIdade() >= constantes::vOvelha)
+        dies();
 }
 // preenche uma lista de elementos perto
 void Ovelha::populateWithinRange() {
@@ -45,7 +41,7 @@ void Ovelha::populateWithinRange() {
     animaisPerto.clear();
     vector<int> idAnimaisPerto;
     vector<int> idAlimentosPerto;
-    reservaAnimal->checkWithinRange(this->getPosX(), this->getPosY(), this->getPercepcao(), idAnimaisPerto, idAlimentosPerto);
+    reservaAnimal->checkWithinRange(getPosX(), getPosY(), getPercepcao(), idAnimaisPerto, idAlimentosPerto);
     if(!idAlimentosPerto.empty()){
         for(int& it : idAlimentosPerto)
             addAlimentoPerto(reservaAnimal->getAlimento(it));
@@ -95,7 +91,7 @@ void Ovelha::checkSurrounding() {
                     // distancia mais curta ao alimento que cheira a relva
                     if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
                         distAliX = abs(alimento->getPosX() - this->getPosX());
-                        if(distAliX <= 1) {
+                        if(distAliX <= getdeslMax()) {
                             movingDirectionX = alimento->getPosX();
                         } else {
                             (alimento->getPosX() < this->getPosX()) ?
@@ -105,7 +101,7 @@ void Ovelha::checkSurrounding() {
                     }
                     if(abs(alimento->getPosY() - this->getPosY()) <= distAliY) {
                         distAliY = abs(alimento->getPosY() - this->getPosY());
-                        if(distAliY <= 1 and distAliX <= 1) {
+                        if(distAliY <= getdeslMax() and distAliX <= getdeslMax()) {
                             movingDirectionY = alimento->getPosY();
                         } else {
                             (alimento->getPosY() < this->getPosY()) ?
