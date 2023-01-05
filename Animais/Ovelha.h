@@ -17,7 +17,6 @@ public:
     void setAlimentacao(std::string novaAlimentacao) {this->alimentacao = std::move(novaAlimentacao);};
     // actions
     void checkVitality();
-    void come(int nutri, int toxic);
     void populateWithinRange();
     void checkSurrounding();
     void move(int xTarget, int yTarget);

@@ -11,17 +11,14 @@ public:
         return true;
     }
 };*/
-Next::Next(string cmd, int arg1, int arg2, Reserva* reserva) : Comando(std::move(cmd)) {
+// avança para o turno seguinte
+Next::Next(string cmd, int arg1, Reserva* reserva) : Comando(std::move(cmd)) {
     //for_each(reserva->animais.begin(), reserva->animais.end(), Ciclo<Animal*>() );
     for(int rep = 1; rep <= arg1; ++rep) {
-        for(auto* alimento : reserva->alimentos) {
+        for (auto *alimento: reserva->alimentos)
             (*alimento).cicloTurno();
-        }
-        for(auto* animal : reserva->animais) {
+        for (auto *animal: reserva->animais)
             (*animal).cicloTurno();
-        }
-        reserva->updateLocal();
-        sleep(arg2);
+        reserva->limpaMortos();
     }
-    // atualiza locais ocupados e outras coisas
 };

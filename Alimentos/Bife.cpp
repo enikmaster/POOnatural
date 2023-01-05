@@ -7,18 +7,18 @@ Bife::Bife(char l, int posX, int posY, Reserva* reservaFood) : Alimento(l, posX,
     setDuracao(30);
     setCheiros("carne");
     setCheiros("ketchup");
+    setIsAlive(true);
 };
-void Bife::dimNutri() {
-    if(this->getNutri() > 0)
-        this->setNutri(this->getNutri() - 1);
-}
-void Bife::desaparece() {
-    reservaAlimento->removeFood(this->getFoodId());
+Bife::Bife(char l, Reserva* reservaFood) : Bife(l, -1, -1, reservaFood) {};
+void Bife::checkVitality() {
+    if(getDuracao() <= 0)
+        setIsAlive(false);
 }
 void Bife::cicloTurno() {
     // isto vai ser chamado a cada turno
-    this->dimNutri();
-    this->dimDuracao();
-    if(this->getDuracao() <= 0)
-        this->desaparece();
+    if(getNutri() > 0) {
+        dimNutri();
+    }
+    dimDuracao();
+    checkVitality();
 }

@@ -34,3 +34,7 @@ void Animal::escolhePeso(int min, int max){
 int Animal::aleatorio(int min, int max) {
     return min + rand() % (max + 1 - min);
 }
+void Animal::come(int nutri, int toxic) {
+    this->setSaude(this->getSaude() + nutri - toxic);
+    this->setFome(0);
+}

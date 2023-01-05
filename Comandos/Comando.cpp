@@ -25,7 +25,7 @@ string Comando::getAsString() const {
     os << "Descricao: " << getDescr() << endl;
     return os.str();
 }
-
+// executa os comandos
 int Comando::executa(string& comando, Reserva* zoo)const {
     Reserva* pR = zoo;
     if(comando == "n"){
@@ -53,7 +53,7 @@ int Comando::executa(string& comando, Reserva* zoo)const {
 int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
     Reserva* pR = zoo;
     if(comando == "animal"){
-        Comando* pCriaAnimal = new CriaAnimal(comando, arg1.at(0), pR);
+        Comando* pCriaAnimal = new CriaAnimal(comando, (char)toupper(arg1.at(0)), pR);
         delete pCriaAnimal;
         return 0;
     }
@@ -63,7 +63,7 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
         return 0;
     }
     if(comando == "food") {
-        Comando* pFood = new Food(comando, arg1.at(0), pR);
+        Comando* pFood = new Food(comando, (char)tolower(arg1.at(0)), pR);
         delete pFood;
         return 0;
     }
@@ -125,7 +125,7 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
         return 0;
     }
     if(comando == "n") {
-        Comando* pNext = new Next(comando, stoi(arg1), stoi(arg2), pR);
+        Comando* pNext = new Next(comando, pR);
         delete pNext;
         return 0;
     }
@@ -139,12 +139,12 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
 int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo) const {
     Reserva* pR = zoo;
     if(comando == "animal"){
-        Comando* pCriaAnimal = new CriaAnimal(comando, arg1.at(0), stoi(arg2), stoi(arg3), pR);
+        Comando* pCriaAnimal = new CriaAnimal(comando, (char)toupper(arg1.at(0)), stoi(arg2), stoi(arg3), pR);
         delete pCriaAnimal;
         return 0;
     }
     if(comando == "food") {
-        Comando* pFood = new Food(comando, arg1.at(0), stoi(arg2), stoi(arg3), pR);
+        Comando* pFood = new Food(comando, (char)tolower(arg1.at(0)), stoi(arg2), stoi(arg3), pR);
         delete pFood;
         return 0;
     }

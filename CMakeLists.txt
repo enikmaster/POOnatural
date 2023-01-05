@@ -26,16 +26,18 @@ add_executable(${PROJECT_NAME}
         Comandos/Feedid.cpp
         Comandos/Feed.cpp
         Alimentos/Alimento.cpp
+        Alimentos/Banana.cpp
         Alimentos/Bife.cpp
         Alimentos/Corpo.cpp
         Alimentos/Cenoura.cpp
         Alimentos/Relva.cpp
         Animais/Animal.cpp
+        animais/Coelho.cpp
         Animais/Ovelha.cpp
         Reserva/Reserva.cpp
         Reserva/Local.cpp
         Interfaces/Interface.cpp
         Interfaces/Save.cpp
         Terminal.cpp
-        Alimentos/Banana.cpp Alimentos/Banana.h)
+        )
 target_link_libraries(${PROJECT_NAME} C:/pdcurses/pdcurses.a)

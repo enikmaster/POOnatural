@@ -98,7 +98,13 @@ int Interface::getHelp(string& cmd, int writePos) {
     }
     return 0;
 }
+// devolve uma cópia do ponteiro da reserva atual
+Reserva* Interface::getReserva() const {
+    Reserva* pCopiaReserva = zoo;
+    return pCopiaReserva;
+}
 // setters
+// substitui a reserva atual por uma reserva guardada anteriormente
 void Interface::setSavedZoo(Reserva *reservaSaved) {
     zoo->deleteAll();
     delete zoo;
@@ -112,7 +118,7 @@ void Interface::infoToUser() {
     wInputs << term::move_to(0, 0) << "Insira um comando: ";
     wInputs << move_to(0, 1);
 }
-// envia um erro para o user
+// envia um erro de número de argumentos fora dos limites para o user
 void Interface::infoErroArgs(int num) {
     if(num > 5) {
         wInfo.clear();
@@ -129,6 +135,7 @@ void Interface::infoErroArgs(int num) {
         infoToUser();
     }
 }
+// envia para o user um erro de comando desconhecido
 void Interface::infoErroCmdDesc() {
     wInfo.clear();
     refresh();
@@ -136,18 +143,21 @@ void Interface::infoErroCmdDesc() {
     wInfo << move_to(0, 1) << "Comando desconhecido...";
     infoToUser();
 }
+// envia para o user um erro de comando com número de argumentos errado
 void Interface::infoErroNumArgs(string& cmd) {
     wInfo.clear();
     refresh();
     wInfo << zoo->getAsString();
     wInfo << move_to(0, 1) << "Comando "<< cmd <<" com numero de argumentos invalido...";
 }
+// envia para o user um erro parametros inválidos
 void Interface::infoErroParam() {
     wInfo.clear();
     refresh();
     wInfo << zoo->getAsString();
     wInfo << move_to(0, 1) << "Um dos parametros nao e' valido.";
 }
+// mostra a reserva na janela certa
 void Interface::infoShowReserva() {
     wReserva.clear();
     refresh();
@@ -158,12 +168,13 @@ void Interface::infoShowReserva() {
     }
     if(!zoo->locaisOcupados.empty()) {
         for(auto& localOcupado : zoo->locaisOcupados) {
-            if(checkVisibilityX(localOcupado->getLocalX()) && checkVisibilityY(localOcupado->getLocalY()) ) {
+            if(checkVisibility(localOcupado->getLocalX(), localOcupado->getLocalY()) ) {
                 wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getTipoOcupante();
             }
         }
     }
 }
+// Comando info <id>
 int Interface::infoAboutId(int eid) {
     wInfo.clear();
     refresh();
@@ -193,6 +204,8 @@ int Interface::infoAboutId(int eid) {
             wInfo << move_to(0, 6) << "Idade: " << animal->getIdade() << " turnos";
             wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
             wInfo << move_to(0, 8) << "Movimento maximo: " << animal->getdeslMax();
+            wInfo << move_to(0, 9) << "Vivo: " << ((animal->getIsAlive()) ? "true" : "false" );
+            wInfo << move_to(0, 10) << "alimentos perto: " << animal->getQuantidadeAlimentosPerto();
             // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
             break;
         }
@@ -200,20 +213,25 @@ int Interface::infoAboutId(int eid) {
     return 0;
 }
 // actions
+// verifica se a especie animal é válida
 bool Interface::checkArgAnimais(string& arg) const {
+    char temp = (char)toupper(arg.at(0));
     for(auto& letra : letraEspecies){
-        if(letra == arg)
+        if(letra == temp)
             return true;
     }
     return false;
 }
+// verifica se o tipo de alimento é válido
 bool Interface::checkArgAlimentos(string& arg) const {
+    char temp = (char)tolower(arg.at(0));
     for(auto& letra : letraAlimentos){
-        if(letra == arg)
+        if(letra == temp)
             return true;
     }
     return false;
 }
+// verifica se o ficheiro Save existe
 bool Interface::checkArgSaves(string& arg) const {
     for(auto& save : saves) {
         if(save->getNome() == arg)
@@ -221,6 +239,7 @@ bool Interface::checkArgSaves(string& arg) const {
     }
     return false;
 }
+// verifica se a direção é válida
 bool Interface::checkArgDirection(string& arg) const{
     for(auto& direction : directions){
         if(direction == arg)
@@ -228,6 +247,7 @@ bool Interface::checkArgDirection(string& arg) const{
     }
     return false;
 }
+// verifica se o Id existe na reserva
 bool Interface::checkArgIds(int arg) const{
     for(auto& local : zoo->locaisOcupados) {
         if(local->getOcupaId() == arg)
@@ -235,15 +255,9 @@ bool Interface::checkArgIds(int arg) const{
     }
     return false;
 }
-bool Interface::checkVisibilityX(int pos) const {
-    if(pos >= zoo->getOrigemVisX() && pos <= zoo->getOrigemVisX() + 16)
-        return true;
-    return false;
-}
-bool Interface::checkVisibilityY(int pos) const {
-    if(pos >= zoo->getOrigemVisY() && pos <= zoo->getOrigemVisY() + 16)
-        return true;
-    return false;
+// verifica se o elemento está visível
+bool Interface::checkVisibility(int posX, int posY) const {
+    return (posX >= zoo->getOrigemVisX() && posX <= zoo->getOrigemVisX() + 16 && posY >= zoo->getOrigemVisY() && posY <= zoo->getOrigemVisY() + 16);
 }
 // procura o comando pedido numa listagem de comandos e devolve a posição ou 0 se não encontrar
 int Interface::findComando(string& arg) {
@@ -255,13 +269,16 @@ int Interface::findComando(string& arg) {
     }
     return 0;
 }
+// adiciona um novo save game
 int Interface::addSave(string nome) {
     // duplica a reserva
+    Reserva* pReserva = new Reserva(*zoo);
     // passa a reserva nova para o Save
-    Save* pSave = new Save(std::move(nome), getReserva());
+    Save* pSave = new Save(std::move(nome), pReserva);
     saves.push_back(pSave);
     return 0;
 }
+// reinicia uma reserva guardada
 int Interface::restoreSave(const string& nome) {
     for(auto& save : saves) {
         if(save->getNome() == nome)
@@ -269,8 +286,9 @@ int Interface::restoreSave(const string& nome) {
     }
     return 0;
 }
+// elimina todos os save games
 void Interface::clearSaves() {
-    for(vector<Save*>::iterator save = saves.begin(); save != saves.end();) {
+    for(vector<Save*>::iterator save = saves.begin(); save != saves.end(); ) {
         (*save)->clearReserva();
         delete *save;
         saves.erase(save);
@@ -282,6 +300,7 @@ void Interface::start() {
     bool on = true;
     infoShowReserva();
     do {
+        // pede informação ao user
         infoToUser();
         string userInput{getInput()};
         wInputs.clear();
@@ -289,11 +308,14 @@ void Interface::start() {
         stringstream iss (userInput);
         string temp{};
         int nArgs = countArgs(iss, temp);
+        // verifica se os argumentos introduzidos estão dentro dos limites válidos
         if(nArgs < 1 || nArgs > 5) {
             infoErroArgs(nArgs);
             continue;
         }
+        // divide a string em palavras
         vector<string> args = split(userInput);
+        // verifica se o comando existe
         int pos = findComando(args.at(0));
         if(!pos) {
             infoErroCmdDesc();
@@ -304,8 +326,10 @@ void Interface::start() {
             wInfo << zoo->getAsString();
             int flag = 0;
             if(nArgs == 1)
+                // executa os comandos sem argumentos
                 flag = comandos.at(pos-1).executa( args.at(0), getReserva() );
             if(nArgs == 2) {
+                // executa os comandos com 1 argumento
                 if(args.at(0) == "animal" && !checkArgAnimais(args.at(1))) {
                     infoErroParam();
                     continue;
@@ -333,6 +357,7 @@ void Interface::start() {
                 flag = comandos.at(pos-1).executa(args.at(0), args.at(1), getReserva());
             }
             if(nArgs == 3) {
+                // executa os comandos com 2 argumentos
                 if(args.at(0) == "kill" && !checkArgPosX(stoi(args.at(1))) && !checkArgPosY(stoi(args.at(2)))){
                     infoErroParam();
                     continue;
@@ -353,9 +378,18 @@ void Interface::start() {
                     infoErroParam();
                     continue;
                 }
-                flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), getReserva());
+                if(args.at(0) == "n") {
+                    for(int rep = 1; rep <= stoi(args.at(1)); ++rep) {
+                        flag = comandos.at(pos-1).executa(args.at(0), getReserva());
+                        infoShowReserva();
+                        sleep(stoi(args.at(2)));
+                    }
+                } else {
+                    flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), getReserva());
+                }
             }
             if(nArgs == 4) {
+                // executa os comandos com 3 argumentos
                 if(args.at(0) == "animal" && !checkArgAnimais(args.at(1)) && !checkArgPosX(stoi(args.at(2))) && !checkArgPosY(stoi(args.at(3)))) {
                     infoErroParam();
                     continue;
@@ -371,6 +405,7 @@ void Interface::start() {
                 flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), getReserva());
             }
             if(nArgs == 5) {
+                // executa os comandos com 4 argumentos
                 if(args.at(0) == "feed" && !checkArgPosX(stoi(args.at(1))) && !checkArgPosY(stoi(args.at(2)))) {
                     infoErroParam();
                     continue;
@@ -383,17 +418,22 @@ void Interface::start() {
                 getHelp(cmd, 3); // executa o comando help pq deu erro num comando
             }
             if(flag == -1) {
+                // executa o comando help
                 flag = getHelp(args.at(1), 1);
-            } // executa o comando help
+            }
             if(flag == -2) {
+                // executa o comando exit
                 clearSaves();
                 on = false;
-            } // exit
+            }
             if(flag == -3)
+                // executa o comando info <id>
                 flag = infoAboutId(stoi(args.at(1)));
             if(flag == -4)
+                // executa o comando save <nome-do-ficheiro>
                 flag = addSave(args.at(1));
             if(flag == -5)
+                // executa o comando restore <nome-do-ficheiro>
                 flag = restoreSave(args.at(1));
 
             infoToUser();

@@ -45,6 +45,7 @@ public:
     int getPeso() const {return this->peso;};
     int getPaiId() const {return this->paiId;};
     bool getIsAlive() const {return this->isAlive;};
+    int getQuantidadeAlimentosPerto() {return (int)alimentosPerto.size();}
     Reserva* getReserva() const;
     //void getRegistoAlimentar() {};
     // setters
@@ -72,10 +73,8 @@ public:
     void escolhePeso(int a, int b);
     int aleatorio(int a, int b);
     virtual Animal* fazOutro() {return nullptr;};
-    virtual void come() {};
+    void come(int nutri, int toxic);
     virtual void dies() {};
-    virtual void repro() {};
-    virtual void incFome() {};
     virtual void cicloTurno() {};
 };
 

@@ -6,7 +6,9 @@
 using namespace term;
 
 int main() {
+    // cria um novo objeto Constantes em memória
     Constantes* pConstantes = new Constantes();
+    // liberta a memória do objeto Constantes
     delete pConstantes;
     srand((unsigned) time(nullptr));
     fflush(stdin);
@@ -25,7 +27,9 @@ int main() {
     t.clear();
     refresh();
     t << no_color();
+    // cria uma Reserva
     Reserva zoo(DimX, DimY);
+    // cria um Interface passando um Reserva por referência
     Interface hub(&zoo);
     // inicia o simulador
     hub.start();
