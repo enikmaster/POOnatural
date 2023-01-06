@@ -10,7 +10,7 @@ class Local;
 class Save;
 using namespace term;
 class Interface {
-    int originX; // retirar isto
+    int originX;
     int originY;
     Window wReserva;
     Window wInfo;
@@ -47,6 +47,7 @@ class Interface {
 
 public:
     Interface(Reserva* reserva);
+
     // getters
     int getOriginX() const {return originX;}
     int getOriginY() const {return originY;}
@@ -65,6 +66,8 @@ public:
     void infoErroParam();
     void infoShowReserva();
     int infoAboutId(int eid);
+    int infoAnim();
+    int infoVisanim();
     // actions
     bool checkArgAnimais(string& arg) const;
     bool checkArgAlimentos(string& arg) const;

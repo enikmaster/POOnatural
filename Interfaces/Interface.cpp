@@ -174,6 +174,64 @@ void Interface::infoShowReserva() {
         }
     }
 }
+
+
+int Interface::infoAnim() {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
+    string especie;
+    int w = 1;
+    vector<char>letras1{'C', 'O', 'L', 'G'};
+    vector<string>letras2{"Coelho", "Ovelha", "Lobo", "Canguru"};
+
+    for(auto& animal : zoo->animais) {
+        for (int i = 0; i<letras1.size(); i++){
+            if (letras1[i] == animal->getLetra()) {
+                especie = letras2[i];
+                continue;
+            }
+        }
+            wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId();
+            wInfo << move_to(10, w) << "Saude: " << animal->getSaude();
+            wInfo << move_to(25, w) << "Especie: " << especie;
+        w++;
+    }
+    return 0;
+}
+
+int Interface::infoVisanim() {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
+    int areaVisivelX = originX + 16;
+    int areaVisivelY = originY + 16;
+    int w = 1, newLine = 0;
+    string especie;
+    vector<char>letras1{'C', 'O', 'L', 'G'};
+    vector<string>letras2{"Coelho", "Ovelha", "Lobo", "Canguru"};
+
+    for (auto& animal : zoo->animais) {
+        if (animal->getPosX() < areaVisivelX && animal->getPosX() >= originX) {
+            if (animal->getPosY() < areaVisivelY && animal->getPosY() >= originY) {
+                for (int i = 0; i<letras1.size(); i++){
+                    if (letras1[i] == animal->getLetra()) {
+                        especie = letras2[i];
+                        continue;
+                    }
+                }
+                wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId();
+                wInfo << move_to(10, w) << "Saude: " << animal->getSaude();
+                wInfo << move_to(25, w) << "Especie: " << especie;
+                w++;
+                if (w % 3 == 0)
+                    newLine++;
+            }
+        }
+    }
+    return 0;
+}
+
 // Comando info <id>
 int Interface::infoAboutId(int eid) {
     wInfo.clear();
@@ -435,6 +493,12 @@ void Interface::start() {
             if(flag == -5)
                 // executa o comando restore <nome-do-ficheiro>
                 flag = restoreSave(args.at(1));
+            if(flag == -6)
+                // executa o comando anim
+                flag = infoAnim();
+            if(flag == -7)
+                // executa o comando visanim
+                flag = infoVisanim();
 
             infoToUser();
             infoShowReserva();

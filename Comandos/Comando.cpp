@@ -34,14 +34,14 @@ int Comando::executa(string& comando, Reserva* zoo)const {
         return 0;
     }
     if(comando == "anim") {
-        Comando* pAnim = new Anim(comando, pR);
-        delete pAnim;
-        return 0;
+        //Comando* pAnim = new Anim(comando, pR);
+        //delete pAnim;
+        return -6;
     }
     if(comando == "visanim") {
-        Comando* pVisanim = new Visanim(comando, pR);
-        delete pVisanim;
-        return 0;
+        //Comando* pVisanim = new Visanim(comando, pR);
+        //delete pVisanim;
+        return -7;
     }
     if(comando == "exit"){
         Comando* pExit = new Exit(comando, pR);
