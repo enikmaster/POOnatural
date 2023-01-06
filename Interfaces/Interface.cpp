@@ -275,9 +275,7 @@ int Interface::infoAboutId(int eid) {
             wInfo << move_to(0, 5) << "Saude: " << animal->getSaude();
             wInfo << move_to(0, 6) << "Idade: " << animal->getIdade() << " turnos";
             wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
-            wInfo << move_to(0, 8) << "Movimento maximo: " << animal->getdeslMax();
-            wInfo << move_to(0, 9) << "Vivo: " << ((animal->getIsAlive()) ? "true" : "false" );
-            //wInfo << move_to(0, 10) << "Alimentos perto: " << animal->getQuantidadeAlimentosPerto();
+            wInfo << move_to(0, 8) << "Velocidade maxima: " << animal->getdeslMax();
             // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
             break;
         }
@@ -312,7 +310,7 @@ int Interface::infoSee(int posX, int posY) {
                 wInfo << move_to(numOcupas*25, 7) << "Saude: " << animal->getSaude();
                 wInfo << move_to(numOcupas*25, 8) << "Idade: " << animal->getIdade() << " turnos";
                 wInfo << move_to(numOcupas*25, 9) << "Peso: " << animal->getPeso();
-                wInfo << move_to(numOcupas*25, 10) << "Velocidade maximo: " << animal->getdeslMax();
+                wInfo << move_to(numOcupas*25, 10) << "Velocidade maxima: " << animal->getdeslMax();
                 ++numOcupas;
             }
         }

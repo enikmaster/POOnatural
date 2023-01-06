@@ -206,17 +206,17 @@ void Reserva::deleteAll() {
 }
 void Reserva::alimentar(int aid, int nutri, int tox) {
     // alimenta um animal da reserva por id
-    for (auto &it: animais) {
-        if ((*it).getAnimalId() == aid) {
-            (*it).setSaude( (*it).getSaude() + nutri - tox );
+    for (auto& animal: animais) {
+        if ((*animal).getAnimalId() == aid) {
+            (*animal).setSaude( (*animal).getSaude() + nutri - tox );
         }
     }
 }
 void Reserva::alimentarPorXY(int x, int y, int nutri, int tox) {
     // alimenta um animal da reserva por coords
-        for (auto &it: animais) {
-            if ((*it).getPosX() == x && (*it).getPosY() == y) {
-                (*it).setSaude( (*it).getSaude() + nutri - tox );
+        for (auto& animal: animais) {
+            if ((*animal).getPosX() == x && (*animal).getPosY() == y) {
+                (*animal).setSaude( (*animal).getSaude() + nutri - tox );
             }
         }
 }
