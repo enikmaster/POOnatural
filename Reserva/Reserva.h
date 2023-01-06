@@ -51,6 +51,7 @@ public:
     void limpaMortos();
     void deleteAll();
     void alimentar(int aid, int nutri, int tox);
+    void alimentarPorXY(int x, int y, int nutri, int tox);
 
 
     // TO DO IMPORTANTES

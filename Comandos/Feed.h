@@ -3,7 +3,7 @@
 #include "Comando.h"
 
 class Feed : public Comando {
-
+    Feed(std::string& cmd, int posX, int posY, int arg1, int arg2, Reserva* reservaKill);
 };
 
 

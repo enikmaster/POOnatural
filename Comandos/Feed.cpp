@@ -1,5 +1,6 @@
-//
-// Created by filip on 29/12/2022.
-//
-
 #include "Feed.h"
+
+Feed::Feed(std::string& cmd, int posX, int posY, int nutri, int toxic, Reserva* r) : Comando(cmd) {
+    r->alimentarPorXY(posX, posY, nutri, toxic);
+
+}
