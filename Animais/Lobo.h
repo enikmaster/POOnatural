@@ -1,7 +1,5 @@
 #ifndef TESTETP_LOBO_H
 #define TESTETP_LOBO_H
-#include <utility>
-
 #include "../Includes.h"
 #include "Animal.h"
 
@@ -14,43 +12,19 @@ public:
     //getters;
     std::string getAlimentacao() const { return alimentacao; };
     int getVelocidade();
-    int getReproDay() { return this->reproDay;};
-    bool getReproduziu() const { return reproduziu; };
+    int getReproDay() const { return this->reproDay;};
     // setters
     void setAlimentacao(std::string novaAlimentacao) { this->alimentacao = std::move(novaAlimentacao); };
     void setReproDay() { reproDay = aleatorio(5, constantes::vLobo); };
-    void setReproduziu(bool value) { reproduziu = value; };
     // actions
     void nasce();
     void checkSurrounding();
     void checkVitality();
-    void mata();
     Animal* fazOutro() override;
     void cicloTurno() override;
 private:
     std::string alimentacao;
     int reproDay;
-    bool reproduziu;
-/*
-private:
-    int SLobo;
-    int VLobo;
-    bool pariu;
-    int velo;
-    int posPaiX;
-    int posPaiY;
-    Reserva *reserva;
-
-public:
-    Lobo(Reserva *reserva);
-    ~Lobo();
-
-    void fomeca();
-    Animal* fazOutro(Reserva *obj, int id);
-    void dies(Reserva *a, int id);
-    void checkSurroundings(Reserva *r, Local *l, int x, int y, int radius, int id);
-    void move(int xTarget, int yTarget, const string& tipoDeAlvo);
-*/
 };
 
 #endif //TESTETP_LOBO_H

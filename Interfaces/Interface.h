@@ -74,8 +74,8 @@ public:
     bool checkArgSaves(string& arg) const;
     bool checkArgDirection(string& arg) const;
     bool checkArgIds(int arg) const;
-    bool checkArgPosX(int arg) const {return(arg <= zoo->getDimY());};
-    bool checkArgPosY(int arg) const {return (arg <= zoo->getDimY());};
+    bool checkArgPosX(int arg) const {return(arg < zoo->getDimY());};
+    bool checkArgPosY(int arg) const {return (arg < zoo->getDimY());};
     bool checkVisibility(int posX, int posY) const;
     int findComando(string& arg);
     int addSave(string nome);

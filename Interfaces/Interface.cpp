@@ -186,16 +186,14 @@ int Interface::infoAnim() {
     vector<string>letras2{"Coelho", "Ovelha", "Lobo", "Canguru"};
 
     for(auto& animal : zoo->animais) {
-        for (int i = 0; i<letras1.size(); i++){
+        for (int i = 0; i<letras1.size(); ++i){
             if (letras1[i] == animal->getLetra()) {
                 especie = letras2[i];
                 continue;
             }
         }
-            wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId();
-            wInfo << move_to(10, w) << "Saude: " << animal->getSaude();
-            wInfo << move_to(25, w) << "Especie: " << especie;
-        w++;
+        wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId() << " | Saude: " << animal->getSaude() << " | Especie: " << especie;
+        ++w;
     }
     return 0;
 }
@@ -214,18 +212,16 @@ int Interface::infoVisanim() {
     for (auto& animal : zoo->animais) {
         if (animal->getPosX() < areaVisivelX && animal->getPosX() >= originX) {
             if (animal->getPosY() < areaVisivelY && animal->getPosY() >= originY) {
-                for (int i = 0; i<letras1.size(); i++){
+                for (int i = 0; i<letras1.size(); ++i){
                     if (letras1[i] == animal->getLetra()) {
                         especie = letras2[i];
                         continue;
                     }
                 }
-                wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId();
-                wInfo << move_to(10, w) << "Saude: " << animal->getSaude();
-                wInfo << move_to(25, w) << "Especie: " << especie;
-                w++;
+                wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId() << " | Saude: " << animal->getSaude() << " | Especie: " << especie;
+                ++w;
                 if (w % 3 == 0)
-                    newLine++;
+                    ++newLine;
             }
         }
     }

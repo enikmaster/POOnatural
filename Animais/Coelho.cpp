@@ -155,7 +155,7 @@ void Coelho::cicloTurno() {
         // e move-se de acordo
         checkSurrounding();
         if(this->getIdade() % 8 == 0 ) {
-            if(aleatorio(0, 2))
+            if(aleatorio(0, 1))
                 reservaAnimal->addAnimal(fazOutro());
         }
         // atualiza a população Within Range de acordo com a nova posição

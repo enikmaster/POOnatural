@@ -33,7 +33,6 @@ int Lobo::getVelocidade() {
 // set dos valores iniciais
 void Lobo::nasce() {
     setIsAlive(true);
-    setReproduziu(false);
     setPercepcao(constantes::pLobo);
     setSaude(constantes::sLobo);
     setdeslMin(1);
@@ -77,12 +76,12 @@ void Lobo::checkSurrounding() {
             }
         }
     }
-    // verifica se há alimentos perto caso não esteja a fugir
+    // verifica se há alimentos perto caso não esteja a caçar
     if(!alimentosPerto.empty() && !direction) {
         for(auto& alimento : alimentosPerto) {
             for(int i = 0; i != alimento->getQuantidadeCheiros();++i){
                 if(alimento->getCheiro(i) == getAlimentacao()) {
-                    // distancia mais curta ao alimento que cheira a relva
+                    // distancia mais curta ao alimento que cheira a carne
                     if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
                         distAliX = abs(alimento->getPosX() - this->getPosX());
                         if(distAliX <= getdeslMax()) {
@@ -122,30 +121,34 @@ Animal* Lobo::fazOutro() {
     Animal* pA = new Lobo(*this);
     Local* pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
     reservaAnimal->addLocal(pL);
-    this->setReproduziu(true);
     return pA;
 }
 void Lobo::cicloTurno() {
-    // atualiza a vida
-    setIdade(getIdade() + 1);
-    // atualiza a fome
-    setFome(getFome() + 2);
-    if(getFome() <= 15) {
-        // atualiza a velocidade
-        setdeslMin(1);
-        setdeslMax(1);
+    // verifica se está vivo
+    // como cada animal é atualizado de cada vez, na altura a que chega a este
+    // pode já ter sido morto
+    if(getIsAlive()) {
+        // atualiza a vida
+        setIdade(getIdade() + 1);
+        // atualiza a fome
+        setFome(getFome() + 2);
+        if(getFome() <= 15) {
+            // atualiza a velocidade
+            setdeslMin(1);
+            setdeslMax(1);
+        }
+        if(getFome() > 15 && getFome() <= 25) {
+            // atualiza a velocidade e a saude
+            setSaude(this->getSaude() - 1);
+            setdeslMin(2);
+            setdeslMax(2);
+        }
+        if(getFome() > 25)
+            // atualiza a saude
+            setSaude(this->getSaude() - 2);
+        // verifica se não está morto
+        checkVitality();
     }
-    if(getFome() > 15 && getFome() <= 25) {
-        // atualiza a velocidade e a saude
-        setSaude(this->getSaude() - 1);
-        setdeslMin(2);
-        setdeslMax(2);
-    }
-    if(getFome() > 25)
-        // atualiza a saude
-        setSaude(this->getSaude() - 2);
-    // verifica se não está morot
-    checkVitality();
     // mata e luta
     if(getIsAlive()) {
         for (auto& animal : animaisPerto) {
@@ -154,7 +157,7 @@ void Lobo::cicloTurno() {
             // animais na mesma posição que o Lobo mas peso igual ou superior
             // fight!!!
             if (animal->getPosX() == getPosX() && animal->getPosY() == getPosY() && animal->getPeso() >= getPeso()) {
-                (aleatorio(0, 2)) ? animal->dies() : this->dies();
+                (aleatorio(0, 1)) ? animal->dies() : this->dies();
                 if(!getIsAlive())
                     break;
             }
@@ -184,10 +187,8 @@ void Lobo::cicloTurno() {
         // verifica tudo o que o rodeia
         // e move-se de acordo
         checkSurrounding();
-        if(this->getIdade() == this->getReproDay()) {
+        if(this->getIdade() == this->getReproDay())
             reservaAnimal->addAnimal(fazOutro());
-            setReproduziu(true);
-        }
         // atualiza a população Within Range de acordo com a nova posição
         populateWithinRange();
     }

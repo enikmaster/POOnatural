@@ -16,9 +16,9 @@ private:
     int saude;
     int idade;
     int peso;
-    int paiId;
     int fome;
     bool isAlive;
+    bool visible {true};
     //Registo* registoAlimentar;
 
 protected:
@@ -43,9 +43,9 @@ public:
     int getSaude() const {return this->saude;};
     int getIdade() const {return this->idade;};
     int getPeso() const {return this->peso;};
-    int getPaiId() const {return this->paiId;};
     bool getIsAlive() const {return this->isAlive;};
-    int getQuantidadeAlimentosPerto() {return (int)alimentosPerto.size();}
+    int getQuantidadeAlimentosPerto() {return (int)alimentosPerto.size();};
+    bool isVisible() const { return visible; };
     Reserva* getReserva() const;
     //void getRegistoAlimentar() {};
     // setters
@@ -59,11 +59,11 @@ public:
     void setSaude(int sa) {this->saude = sa;};
     void setIdade(int ia) {this->idade = ia;};
     virtual void setPeso(int pa) {this->peso = pa;};
-    void setPaiId(int pai) {this->paiId = pai;};
     void setIsAlive(bool value) {this->isAlive = value;};
     void setReserva(Reserva* reserva) {this->reservaAnimal = reserva;};
     void addAnimalPerto(Animal* novoAnimal);
     void addAlimentoPerto(Alimento* novoAlimento);
+    void setVisible(bool value) { visible = value; };
     //void setRegistoAlimentar();
 
     // actions
