@@ -10,8 +10,8 @@ Lobo::Lobo(char l, int posX, int posY, Reserva* reserva) : Animal(l, posX, posY,
 Lobo::Lobo(char l, Reserva* reserva) : Lobo(l, -1, -1, reserva) {};
 Lobo::Lobo(const Lobo& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
     this->nasce();
-    this->setPosX(aleatorio((this->getPosX() - 15 < 0) ? 0 : this->getPosX() - 15, (this->getPosX() - 15 > outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() : this->getPosX() + 15));
-    this->setPosY(aleatorio((this->getPosY() - 15 < 0) ? 0 : this->getPosY() - 15, (this->getPosY() - 15 > outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() : this->getPosY() + 15));
+    this->setPosX(aleatorio((this->getPosX() - 15 < 0) ? 0 : this->getPosX() - 15, (this->getPosX() - 15 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 15));
+    this->setPosY(aleatorio((this->getPosY() - 15 < 0) ? 0 : this->getPosY() - 15, (this->getPosY() - 15 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 15));
     this->populateWithinRange();
 }
 Lobo::~Lobo() {
@@ -47,12 +47,43 @@ void Lobo::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
     // e movimenta de acordo
     int maisPesado = 0;
-    int direction = 0;
+    bool direction{false};
     int distAliX, distAliY = getPercepcao();
     int movingDirectionX = this->getPosX();
     int movingDirectionY = this->getPosY();
-    // verifica se há animais perto
-    if(!animaisPerto.empty()) {
+    // verifica se há alimentos perto caso não esteja a caçar
+    if(!alimentosPerto.empty()) {
+        for(auto& alimento : alimentosPerto) {
+            for(int i = 0; i != alimento->getQuantidadeCheiros();++i){
+                if(alimento->getCheiro(i) == getAlimentacao()) {
+                    // distancia mais curta ao alimento que cheira a carne
+                    if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
+                        distAliX = abs(alimento->getPosX() - this->getPosX());
+                        if(distAliX <= getdeslMax()) {
+                            movingDirectionX = alimento->getPosX();
+                        } else {
+                            (alimento->getPosX() < this->getPosX()) ?
+                                    movingDirectionX = this->getPosX() - this->getVelocidade() :
+                                    movingDirectionX = this->getPosX() + this->getVelocidade() ;
+                        }
+                    }
+                    if(abs(alimento->getPosY() - this->getPosY()) <= distAliY) {
+                        distAliY = abs(alimento->getPosY() - this->getPosY());
+                        if(distAliY <= getdeslMax() && distAliX <= getdeslMax()) {
+                            movingDirectionY = alimento->getPosY();
+                        } else {
+                            (alimento->getPosY() < this->getPosY()) ?
+                                    movingDirectionY = this->getPosY() - this->getVelocidade() :
+                                    movingDirectionY = this->getPosY() + this->getVelocidade() ;
+                        }
+                    }
+                    direction = true; // assinala que está a ir numa direção não aleatória
+                }
+            }
+        }
+    }
+    // verifica se há animais perto e não vai comer
+    if(!animaisPerto.empty() && !direction ) {
         for(auto& animal : animaisPerto) {
             if(animal->getAnimalId() == this->getAnimalId())
                 continue;
@@ -72,41 +103,11 @@ void Lobo::checkSurrounding() {
                         movingDirectionY = this->getPosY() - this->getVelocidade() :
                         movingDirectionY = this->getPosY() + this->getVelocidade();
                 // vai em direção à presa mais pesada
-                direction = 1; // assinala que está a ir numa direção não aleatória
+                direction = true; // assinala que está a ir numa direção não aleatória
             }
         }
     }
-    // verifica se há alimentos perto caso não esteja a caçar
-    if(!alimentosPerto.empty() && !direction) {
-        for(auto& alimento : alimentosPerto) {
-            for(int i = 0; i != alimento->getQuantidadeCheiros();++i){
-                if(alimento->getCheiro(i) == getAlimentacao()) {
-                    // distancia mais curta ao alimento que cheira a carne
-                    if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
-                        distAliX = abs(alimento->getPosX() - this->getPosX());
-                        if(distAliX <= getdeslMax()) {
-                            movingDirectionX = alimento->getPosX();
-                        } else {
-                            (alimento->getPosX() < this->getPosX()) ?
-                                    movingDirectionX = this->getPosX() - this->getVelocidade() :
-                                    movingDirectionX = this->getPosX() + this->getVelocidade() ;
-                        }
-                    }
-                    if(abs(alimento->getPosY() - this->getPosY()) <= distAliY) {
-                        distAliY = abs(alimento->getPosY() - this->getPosY());
-                        if(distAliY <= getdeslMax() and distAliX <= getdeslMax()) {
-                            movingDirectionY = alimento->getPosY();
-                        } else {
-                            (alimento->getPosY() < this->getPosY()) ?
-                                    movingDirectionY = this->getPosY() - this->getVelocidade() :
-                                    movingDirectionY = this->getPosY() + this->getVelocidade() ;
-                        }
-                    }
-                    direction = 1; // assinala que está a ir numa direção não aleatória
-                }
-            }
-        }
-    }
+
     // se estiver a perseguir uma presa ou em direção a um alimento
     (direction) ? move(movingDirectionX, movingDirectionY) :
     // se não estiver, aleatório

@@ -11,8 +11,8 @@ Canguru::Canguru(char l, Reserva* reserva) : Canguru(l, -1, -1, reserva) {}
 Canguru::Canguru(const Canguru& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
     nasce();
     setIdPai(outro.getAnimalId());
-    setPosX(aleatorio((this->getPosX() - 3 < 0) ? 0 : this->getPosX() - 3, (this->getPosX() - 3 > outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() : this->getPosX() + 3));
-    setPosY(aleatorio((this->getPosY() - 3 < 0) ? 0 : this->getPosY() - 3, (this->getPosY() - 3 > outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() : this->getPosY() + 3));
+    setPosX(aleatorio((this->getPosX() - 3 < 0) ? 0 : this->getPosX() - 3, (this->getPosX() - 3 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 3));
+    setPosY(aleatorio((this->getPosY() - 3 < 0) ? 0 : this->getPosY() - 3, (this->getPosY() - 3 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 3));
     populateWithinRange();
 }
 Canguru::~Canguru() {

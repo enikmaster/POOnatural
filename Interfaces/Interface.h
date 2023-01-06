@@ -64,6 +64,9 @@ public:
     void infoErroCmdDesc();
     void infoErroNumArgs(string& cmd);
     void infoErroParam();
+    void infoErroNoEspecie();
+    void infoErroNoFood();
+    void infoErroForaReserva();
     void infoShowReserva();
     int infoAboutId(int eid);
     int infoAnim();
@@ -74,13 +77,14 @@ public:
     bool checkArgSaves(string& arg) const;
     bool checkArgDirection(string& arg) const;
     bool checkArgIds(int arg) const;
-    bool checkArgPosX(int arg) const {return(arg < zoo->getDimY());};
+    bool checkArgPosX(int arg) const {return (arg < zoo->getDimX());};
     bool checkArgPosY(int arg) const {return (arg < zoo->getDimY());};
     bool checkVisibility(int posX, int posY) const;
     int findComando(string& arg);
     int addSave(string nome);
     int restoreSave(const string& nome);
     void clearSaves();
+
     // start simulation
     void start();
 

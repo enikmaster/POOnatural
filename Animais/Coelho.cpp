@@ -8,8 +8,8 @@ Coelho::Coelho(char l, int posX, int posY, Reserva *reserva) : Animal(l, posX, p
 }
 Coelho::Coelho(const Coelho& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
     nasce();
-    setPosX(aleatorio((this->getPosX() - 10 < 0) ? 0 : this->getPosX() - 10, (this->getPosX() - 10 > outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() : this->getPosX() + 10));
-    setPosY(aleatorio((this->getPosY() - 10 < 0) ? 0 : this->getPosY() - 10, (this->getPosY() - 10 > outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() : this->getPosY() + 10));
+    setPosX(aleatorio((this->getPosX() - 10 < 0) ? 0 : this->getPosX() - 10, (this->getPosX() - 10 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 10));
+    setPosY(aleatorio((this->getPosY() - 10 < 0) ? 0 : this->getPosY() - 10, (this->getPosY() - 10 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 10));
     populateWithinRange();
 }
 Coelho::~Coelho() {

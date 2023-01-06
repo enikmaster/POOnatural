@@ -157,6 +157,24 @@ void Interface::infoErroParam() {
     wInfo << zoo->getAsString();
     wInfo << move_to(0, 1) << "Um dos parametros nao e' valido.";
 }
+void Interface::infoErroNoEspecie() {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
+    wInfo << move_to(0, 1) << "Animal desconhecido...";
+}
+void Interface::infoErroNoFood() {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
+    wInfo << move_to(0, 1) << "Alimento desconhecido...";
+}
+void Interface::infoErroForaReserva() {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
+    wInfo << move_to(0, 1) << "Esta a tentar criar algo fora da reserva...";
+}
 // mostra a reserva na janela certa
 void Interface::infoShowReserva() {
     wReserva.clear();
@@ -444,11 +462,33 @@ void Interface::start() {
             }
             if(nArgs == 4) {
                 // executa os comandos com 3 argumentos
-                if(args.at(0) == "animal" && !checkArgAnimais(args.at(1)) && !checkArgPosX(stoi(args.at(2))) && !checkArgPosY(stoi(args.at(3)))) {
-                    infoErroParam();
-                    continue;
+                if(args.at(0) == "animal") {
+                    if( !checkArgAnimais(args.at(1)) ) {
+                        infoErroNoEspecie();
+                        continue;
+                    }
+                    if( !checkArgPosX(stoi(args.at(2))) ) {
+                        infoErroForaReserva();
+                        continue;
+                    }
+                    if( !checkArgPosY(stoi(args.at(3))) ) {
+                        infoErroForaReserva();
+                        continue;
+                    }
                 }
-                if(args.at(0) == "food" && !checkArgAnimais(args.at(1)) && !checkArgPosX(stoi(args.at(2))) && !checkArgPosY(stoi(args.at(3)))) {
+                if(args.at(0) == "food") {
+                    if( !checkArgAlimentos(args.at(1)) ) {
+                        infoErroNoFood();
+                        continue;
+                    }
+                    if( !checkArgPosX(stoi(args.at(2))) ) {
+                        infoErroForaReserva();
+                        continue;
+                    }
+                    if( !checkArgPosY(stoi(args.at(3))) ) {
+                        infoErroForaReserva();
+                        continue;
+                    }
                     infoErroParam();
                     continue;
                 }

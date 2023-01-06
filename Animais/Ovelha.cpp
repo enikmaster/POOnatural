@@ -10,8 +10,8 @@ Ovelha::Ovelha(char l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {}
 Ovelha::Ovelha(const Ovelha& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
     this->nasce();
     this->setSaude(outro.getSaude());
-    this->setPosX(aleatorio((this->getPosX() - 12 < 0) ? 0 : this->getPosX() - 12, (this->getPosX() - 12 > outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() : this->getPosX() + 12));
-    this->setPosY(aleatorio((this->getPosY() - 12 < 0) ? 0 : this->getPosY() - 12, (this->getPosY() - 12 > outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() : this->getPosY() + 12));
+    this->setPosX(aleatorio((this->getPosX() - 12 < 0) ? 0 : this->getPosX() - 12, (this->getPosX() - 12 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 12));
+    this->setPosY(aleatorio((this->getPosY() - 12 < 0) ? 0 : this->getPosY() - 12, (this->getPosY() - 12 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 12));
     this->populateWithinRange();
 }
 Ovelha::~Ovelha() {
