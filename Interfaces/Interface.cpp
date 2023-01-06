@@ -187,7 +187,7 @@ void Interface::infoShowReserva() {
     if(!zoo->locaisOcupados.empty()) {
         for(auto& localOcupado : zoo->locaisOcupados) {
             if(checkVisibility(localOcupado->getLocalX(), localOcupado->getLocalY()) ) {
-                wReserva << move_to(localOcupado->getLocalX() - zoo->getOrigemVisX(), localOcupado->getLocalY() - zoo->getOrigemVisY()) << localOcupado->getTipoOcupante();
+                wReserva << move_to(localOcupado->getLocalX() - getOriginX(), localOcupado->getLocalY() - getOriginY()) << localOcupado->getTipoOcupante();
             }
         }
     }
@@ -277,13 +277,61 @@ int Interface::infoAboutId(int eid) {
             wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
             wInfo << move_to(0, 8) << "Movimento maximo: " << animal->getdeslMax();
             wInfo << move_to(0, 9) << "Vivo: " << ((animal->getIsAlive()) ? "true" : "false" );
-            wInfo << move_to(0, 10) << "alimentos perto: " << animal->getQuantidadeAlimentosPerto();
+            //wInfo << move_to(0, 10) << "Alimentos perto: " << animal->getQuantidadeAlimentosPerto();
             // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
             break;
         }
     }
     return 0;
 }
+int Interface::infoSee(int posX, int posY) {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
+    if(!zoo->locaisOcupados.empty()) {
+        int numOcupas {0};
+        for(auto& alimento : zoo->alimentos) {
+            if(alimento->getPosX() == posX && alimento->getPosY() == posY) {
+                wInfo << move_to(numOcupas*25, 3) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
+                wInfo << move_to(numOcupas*25, 4) << "Id: "<< alimento->getFoodId();
+                wInfo << move_to(numOcupas*25, 5) << "Valor nutritivo: " << alimento->getNutri();
+                wInfo << move_to(numOcupas*25, 6) << "Valor toxicidade: " << alimento->getToxic();
+                wInfo << move_to(numOcupas*25, 7) << "Validade: " << alimento->getDuracao() << " turnos";
+                wInfo << move_to(numOcupas*25, 8) << "Cheiros:";
+                for(int i = 0; i < alimento->getQuantidadeCheiros();++i) {
+                    wInfo << move_to(0, 9+i) << "   " << alimento->getCheiro(i);
+                }
+                ++numOcupas;
+            }
+        }
+        for(auto& animal : zoo->animais) {
+            if(animal->getPosX() == posX && animal->getPosY() == posY) {
+                wInfo << move_to(numOcupas*25, 4) << "Nome: "<< animal->getLetra() << animal->getAnimalId();
+                wInfo << move_to(numOcupas*25, 5) << "Id: "<< animal->getAnimalId();
+                wInfo << move_to(numOcupas*25, 6) << "Fome: " << animal->getFome();
+                wInfo << move_to(numOcupas*25, 7) << "Saude: " << animal->getSaude();
+                wInfo << move_to(numOcupas*25, 8) << "Idade: " << animal->getIdade() << " turnos";
+                wInfo << move_to(numOcupas*25, 9) << "Peso: " << animal->getPeso();
+                wInfo << move_to(numOcupas*25, 10) << "Velocidade maximo: " << animal->getdeslMax();
+                ++numOcupas;
+            }
+        }
+        if(numOcupas == 0) {
+            wInfo << move_to(0, 1) << "Posicao "<< posX << " x " << posY << " vazia";
+        } else {
+            wInfo << move_to(0, 1) << "Posicao "<< posX << " x " << posY << " com "<< numOcupas<< " elementos.";
+        }
+    } else {
+        wInfo << move_to(0, 1) << "Posicao "<< posX << " x " << posY << " vazia";
+    }
+    return 0;
+}
+//void Interface::infoTeste() {
+//    wInfo.clear();
+//    refresh();
+//    wInfo << move_to(0,1) << "origem X: " << getOriginX();
+//    wInfo << move_to(0,2) << "origem Y: " << getOriginY();
+//}
 // actions
 // verifica se a especie animal é válida
 bool Interface::checkArgAnimais(string& arg) const {
@@ -329,7 +377,7 @@ bool Interface::checkArgIds(int arg) const{
 }
 // verifica se o elemento está visível
 bool Interface::checkVisibility(int posX, int posY) const {
-    return (posX >= zoo->getOrigemVisX() && posX <= zoo->getOrigemVisX() + 16 && posY >= zoo->getOrigemVisY() && posY <= zoo->getOrigemVisY() + 16);
+    return (posX >= getOriginX() && posX <= getOriginX() + 15 && posY >= getOriginY() && posY <= getOriginY() + 15);
 }
 // procura o comando pedido numa listagem de comandos e devolve a posição ou 0 se não encontrar
 int Interface::findComando(string& arg) {
@@ -338,6 +386,22 @@ int Interface::findComando(string& arg) {
         ++pos;
         if(comando.getCmd() == arg)
             return pos;
+    }
+    return 0;
+}
+// comando slide
+int Interface::modifyOriginVis(const string& direction, int value) {
+    if(direction == "up") {
+        (getOriginY() - value < 0) ? setOriginY(0) : setOriginY(getOriginY() - value);
+    }
+    if(direction == "down") {
+        (getOriginY() + value > zoo->getDimY() - 16) ? setOriginY(zoo->getDimY() - 16) : setOriginY(getOriginY() + value);
+    }
+    if(direction == "left") {
+        (getOriginX() - value < 0) ? setOriginX(0) : setOriginX(getOriginX() - value);
+    }
+    if(direction == "right") {
+        (getOriginX() + value > zoo->getDimX() - 16) ? setOriginX(zoo->getDimX() - 16) : setOriginX(getOriginX() + value);
     }
     return 0;
 }
@@ -410,7 +474,7 @@ void Interface::start() {
                     infoErroParam();
                     continue;
                 }
-                if(args.at(0) == "food" && checkArgAlimentos(args.at(1))) {
+                if(args.at(0) == "food" && !checkArgAlimentos(args.at(1))) {
                     infoErroParam();
                     continue;
                 }
@@ -489,8 +553,6 @@ void Interface::start() {
                         infoErroForaReserva();
                         continue;
                     }
-                    infoErroParam();
-                    continue;
                 }
                 if(args.at(0) == "feed" && !checkArgIds(stoi(args.at(1)))) {
                     infoErroParam();
@@ -506,7 +568,7 @@ void Interface::start() {
                 }
                 flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), args.at(4), getReserva());
             }
-            if(flag) { // flag tem o valor 1
+            if(flag == 1) { // flag tem o valor 1
                 string cmd{comandos.at(pos-1).getCmd()};
                 infoErroNumArgs(cmd);
                 getHelp(cmd, 3); // executa o comando help pq deu erro num comando
@@ -535,6 +597,12 @@ void Interface::start() {
             if(flag == -7)
                 // executa o comando visanim
                 flag = infoVisanim();
+            if(flag == -8)
+                // executa o comando slide <direction> <tamanho>
+                flag = modifyOriginVis(args.at(1), stoi(args.at(2)));
+            if(flag == -9)
+                // executa o comando see <posX> <posY>
+                flag = infoSee(stoi(args.at(1)), stoi(args.at(2)));
 
             infoToUser();
             infoShowReserva();

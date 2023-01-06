@@ -14,7 +14,7 @@ public:
     }
 };
 int Reserva::contadorIds = 0;
-Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura), origemVisX(0), origemVisY(0) {};
+Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura) {};
 Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY()) {};
 // getters
 string Reserva::getAsString() const {
@@ -41,8 +41,6 @@ Alimento* Reserva::getAlimento(int id) {
     return nullptr;
 };
 // setters
-void Reserva::setOrigemVisX(int newX) { this->origemVisX = newX; }
-void Reserva::setOrigemVisY(int newY) { this->origemVisY = newY; }
 // actions
 bool Reserva::checkIdExist(int arg) const {
     // verifica se o ID existe nos locais ocupados

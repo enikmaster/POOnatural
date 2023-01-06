@@ -122,7 +122,7 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
     if(comando == "see") {
 //        Comando* pSee = new See(comando, stoi(arg1), stoi(arg2), pR);
 //        delete pSee;
-        return 0;
+        return -9;
     }
     if(comando == "n") {
         Comando* pNext = new Next(comando, pR);
@@ -130,9 +130,9 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
         return 0;
     }
     if(comando == "slide") {
-        Comando* pSlide = new Slide(comando, arg1, stoi(arg2), pR);
-        delete pSlide;
-        return 0;
+//        Comando* pSlide = new Slide(comando, arg1, stoi(arg2), pR);
+//        delete pSlide;
+        return -8;
     }
     return 1;
 }

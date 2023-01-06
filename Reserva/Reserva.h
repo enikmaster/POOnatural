@@ -10,8 +10,6 @@ class Reserva {
     static int contadorIds;
     int dimX;
     int dimY;
-    int origemVisX;
-    int origemVisY;
 protected:
     vector<Animal*> animais;
     vector<Alimento*> alimentos;
@@ -23,15 +21,11 @@ public:
     // getters
     int getDimX() const { return dimX;}
     int getDimY() const { return dimY;}
-    int getOrigemVisX() const { return origemVisX;}
-    int getOrigemVisY() const { return origemVisY;}
     string getAsString() const;
     static int getContadorIds() { return contadorIds; };
     Animal* getAnimal(int id);
     Alimento* getAlimento(int id);
     // setters
-    void setOrigemVisX(int newX);
-    void setOrigemVisY(int newY);
     // actions
     void incContadorIds() {++contadorIds;}
     bool checkIdExist(int arg) const;

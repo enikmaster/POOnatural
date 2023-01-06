@@ -71,6 +71,7 @@ public:
     int infoAboutId(int eid);
     int infoAnim();
     int infoVisanim();
+    int infoSee(int posX, int posY);
     // actions
     bool checkArgAnimais(string& arg) const;
     bool checkArgAlimentos(string& arg) const;
@@ -81,6 +82,7 @@ public:
     bool checkArgPosY(int arg) const {return (arg < zoo->getDimY());};
     bool checkVisibility(int posX, int posY) const;
     int findComando(string& arg);
+    int modifyOriginVis(const string& direction, int value);
     int addSave(string nome);
     int restoreSave(const string& nome);
     void clearSaves();
@@ -89,6 +91,8 @@ public:
     void start();
 
     friend class Comando;
+
+//    void infoTeste();
 };
 vector<string> split(const string& input);
 int countArgs(stringstream& input, string& temp);
