@@ -39,23 +39,6 @@ void Coelho::checkVitality() {
     if(getSaude() <= 0 || getIdade() >= constantes::vCoelho)
         dies();
 }
-// preenche uma lista de animais perto e
-// uma lista de alimentos perto
-void Coelho::populateWithinRange() {
-    alimentosPerto.clear();
-    animaisPerto.clear();
-    vector<int> idAnimaisPerto;
-    vector<int> idAlimentosPerto;
-    reservaAnimal->checkWithinRange(getPosX(), getPosY(), getPercepcao(), idAnimaisPerto, idAlimentosPerto);
-    if(!idAlimentosPerto.empty()){
-        for(int& it : idAlimentosPerto)
-            addAlimentoPerto(reservaAnimal->getAlimento(it));
-    }
-    if(!idAnimaisPerto.empty()) {
-        for(int& it : idAnimaisPerto)
-            addAnimalPerto(reservaAnimal->getAnimal(it));
-    }
-}
 // verifica as imediações e move-se
 void Coelho::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
@@ -124,25 +107,6 @@ void Coelho::checkSurrounding() {
     // se não estiver, aleatório
     move(aleatorio(getPosX() - getdeslMax(), getPosX() + getdeslMax()), aleatorio(getPosY() - getdeslMax(), getPosY() + getdeslMax()));
 }
-// move o animal para a nova posição
-void Coelho::move(int xTarget, int yTarget) {
-    if(xTarget >= reservaAnimal->getDimX())
-        setPosX(xTarget - reservaAnimal->getDimX());
-    if(xTarget < 0)
-        setPosX(xTarget + reservaAnimal->getDimX());
-    if(xTarget >= 0 && xTarget < reservaAnimal->getDimX())
-        setPosX(xTarget);
-    if(yTarget >= reservaAnimal->getDimY())
-        setPosX(yTarget - reservaAnimal->getDimY());
-    if(yTarget < 0)
-        setPosX(yTarget + reservaAnimal->getDimY());
-    if(yTarget >= 0 && yTarget < reservaAnimal->getDimY())
-        setPosY(yTarget);
-}
-// indica ao animal que está morto para a reserva saber que tem de o retirar
-void Coelho::dies() {
-    this->setIsAlive(false);
-}
 // faz uma cópia de si mesmo
 Animal* Coelho::fazOutro() {
     Animal *pA = new Coelho(*this);
@@ -191,7 +155,7 @@ void Coelho::cicloTurno() {
         // e move-se de acordo
         checkSurrounding();
         if(this->getIdade() % 8 == 0 ) {
-            if(aleatorio(0,1))
+            if(aleatorio(0, 2))
                 reservaAnimal->addAnimal(fazOutro());
         }
         // atualiza a população Within Range de acordo com a nova posição

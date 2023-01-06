@@ -6,7 +6,7 @@ Ovelha::Ovelha(char l, const int x, const int y, Reserva* zoo) : Animal(l, x, y,
     this->nasce();
     this->populateWithinRange();
 }
-Ovelha::Ovelha(char l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {};
+Ovelha::Ovelha(char l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {}
 Ovelha::Ovelha(const Ovelha& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
     this->nasce();
     this->setSaude(outro.getSaude());
@@ -34,22 +34,6 @@ int Ovelha::getVelocidade() {
 void Ovelha::checkVitality() {
     if(getSaude() <= 0 || getIdade() >= constantes::vOvelha)
         dies();
-}
-// preenche uma lista de elementos perto
-void Ovelha::populateWithinRange() {
-    alimentosPerto.clear();
-    animaisPerto.clear();
-    vector<int> idAnimaisPerto;
-    vector<int> idAlimentosPerto;
-    reservaAnimal->checkWithinRange(getPosX(), getPosY(), getPercepcao(), idAnimaisPerto, idAlimentosPerto);
-    if(!idAlimentosPerto.empty()){
-        for(int& it : idAlimentosPerto)
-            addAlimentoPerto(reservaAnimal->getAlimento(it));
-    }
-    if(!idAnimaisPerto.empty()) {
-        for(int& it : idAnimaisPerto)
-            addAnimalPerto(reservaAnimal->getAnimal(it));
-    }
 }
 // verifica as imediações e move-se
 void Ovelha::checkSurrounding() {
@@ -118,25 +102,6 @@ void Ovelha::checkSurrounding() {
     (direction) ? move(movingDirectionX, movingDirectionY) :
     // se não estiver, aleatório
     move(aleatorio(getPosX() - getdeslMax(), getPosX() + getdeslMax()), aleatorio(getPosY() - getdeslMax(), getPosY() + getdeslMax()));
-}
-// move o animal para a nova posição
-void Ovelha::move(int xTarget, int yTarget) {
-    if(xTarget >= reservaAnimal->getDimX())
-        setPosX(xTarget - reservaAnimal->getDimX());
-    if(xTarget < 0)
-        setPosX(xTarget + reservaAnimal->getDimX());
-    if(xTarget >= 0 && xTarget < reservaAnimal->getDimX())
-        setPosX(xTarget);
-    if(yTarget >= reservaAnimal->getDimY())
-        setPosX(yTarget - reservaAnimal->getDimY());
-    if(yTarget < 0)
-        setPosX(yTarget + reservaAnimal->getDimY());
-    if(yTarget >= 0 && yTarget < reservaAnimal->getDimY())
-        setPosY(yTarget);
-}
-// indica ao animal que está morto para a reserva saber que tem de o retirar
-void Ovelha::dies() {
-    this->setIsAlive(false);
 }
 // set dos valores iniciais
 void Ovelha::nasce() {
@@ -210,16 +175,12 @@ void Ovelha::cicloTurno() {
         // verifica tudo o que o rodeia
         // e move-se de acordo
         checkSurrounding();
-        if(this->getIdade() % 15 == 0 ) {
+        if(this->getIdade() % 15 == 0 )
             reservaAnimal->addAnimal(fazOutro());
-        }
         // atualiza a população Within Range de acordo com a nova posição
         populateWithinRange();
     }
-    if(!getIsAlive()) {
+    if(!getIsAlive())
         dies();
-    }
     reservaAnimal->updateLocal(getAnimalId(), getPosX(), getPosY());
 }
-
-

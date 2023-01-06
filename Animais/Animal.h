@@ -13,8 +13,8 @@ private:
     int percepcao;
     int deslMin;
     int deslMax;
-    int saude; //SAnimal
-    int idade; //VAnimal (ao fim de x ticks, o animal vai morrer)
+    int saude;
+    int idade;
     int peso;
     int paiId;
     int fome;
@@ -67,14 +67,13 @@ public:
     //void setRegistoAlimentar();
 
     // actions
-    virtual void move(int xTarget, int yTarget, int min, int max) {};
-    virtual void checkWithinRange() {};
-    virtual void checkSurroundings(int x, int y, int radius) {};
+    void populateWithinRange();
+    void move(int xTarget, int yTarget);
     void escolhePeso(int a, int b);
     int aleatorio(int a, int b);
     virtual Animal* fazOutro() {return nullptr;};
     void come(int nutri, int toxic);
-    virtual void dies() {};
+    void dies();
     virtual void cicloTurno() {};
 };
 
