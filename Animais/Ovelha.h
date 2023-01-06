@@ -11,16 +11,13 @@ public:
     Ovelha(const Ovelha& outro);
     ~Ovelha() override;
     // getters
-    string getAlimentacao() {return this->alimentacao;};
+    std::string getAlimentacao() const {return this->alimentacao;};
     int getVelocidade();
     // setters
     void setAlimentacao(std::string novaAlimentacao) {this->alimentacao = std::move(novaAlimentacao);};
     // actions
     void checkVitality();
-    void populateWithinRange();
     void checkSurrounding();
-    void move(int xTarget, int yTarget);
-    void dies() override;
     Animal* fazOutro() override;
     void nasce();
     void cicloTurno() override;

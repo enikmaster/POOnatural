@@ -28,6 +28,42 @@ void Animal::addAlimentoPerto(Alimento* novoAlimento) {
     alimentosPerto.push_back(novoAlimento);
 }
 // actions
+// preenche uma lista de animais perto e
+// uma lista de alimentos perto
+void Animal::populateWithinRange() {
+    alimentosPerto.clear();
+    animaisPerto.clear();
+    vector<int> idAnimaisPerto;
+    vector<int> idAlimentosPerto;
+    reservaAnimal->checkWithinRange(getPosX(), getPosY(), getPercepcao(), idAnimaisPerto, idAlimentosPerto);
+    if(!idAlimentosPerto.empty()){
+        for(int& it : idAlimentosPerto)
+            addAlimentoPerto(reservaAnimal->getAlimento(it));
+    }
+    if(!idAnimaisPerto.empty()) {
+        for(int& it : idAnimaisPerto)
+            addAnimalPerto(reservaAnimal->getAnimal(it));
+    }
+}
+// move o animal para a nova posição
+void Animal::move(int xTarget, int yTarget) {
+    if(xTarget >= reservaAnimal->getDimX())
+        setPosX(xTarget - reservaAnimal->getDimX());
+    if(xTarget < 0)
+        setPosX(xTarget + reservaAnimal->getDimX());
+    if(xTarget >= 0 && xTarget < reservaAnimal->getDimX())
+        setPosX(xTarget);
+    if(yTarget >= reservaAnimal->getDimY())
+        setPosX(yTarget - reservaAnimal->getDimY());
+    if(yTarget < 0)
+        setPosX(yTarget + reservaAnimal->getDimY());
+    if(yTarget >= 0 && yTarget < reservaAnimal->getDimY())
+        setPosY(yTarget);
+}
+// indica ao animal que está morto para a reserva saber que tem de o retirar
+void Animal::dies() {
+    this->setIsAlive(false);
+}
 void Animal::escolhePeso(int min, int max){
     this->setPeso(aleatorio(min, max));
 }

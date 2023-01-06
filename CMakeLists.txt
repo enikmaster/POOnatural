@@ -32,7 +32,8 @@ add_executable(${PROJECT_NAME}
         Alimentos/Cenoura.cpp
         Alimentos/Relva.cpp
         Animais/Animal.cpp
-        animais/Coelho.cpp
+        Animais/Coelho.cpp
+        Animais/Lobo.cpp
         Animais/Ovelha.cpp
         Reserva/Reserva.cpp
         Reserva/Local.cpp
