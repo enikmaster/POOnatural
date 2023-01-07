@@ -246,6 +246,7 @@ int Interface::infoAboutId(int eid) {
     }
     return 0;
 }
+// comando See
 int Interface::infoSee(int posX, int posY) {
     infoTamanhoReserva();
     if(!zoo->locaisOcupados.empty()) {
