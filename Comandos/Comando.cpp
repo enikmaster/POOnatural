@@ -1,13 +1,13 @@
 #include "Comando.h"
-#include "Exit.h"
 #include "CriaAnimal.h"
-#include "Killid.h"
-#include "Food.h"
-#include "Nofood.h"
-#include "Next.h"
-#include "Kill.h"
 #include "Empty.h"
+#include "Exit.h"
 #include "Feedid.h"
+#include "Food.h"
+#include "Kill.h"
+#include "Killid.h"
+#include "Next.h"
+#include "Nofood.h"
 #include "Anim.h"
 #include "Visanim.h"
 #include "Info.h"
@@ -27,74 +27,74 @@ string Comando::getAsString() const {
 }
 // executa os comandos
 int Comando::executa(string& comando, Reserva* zoo)const {
-    Reserva* pR = zoo;
+    Reserva* pR {zoo};
     if(comando == "n"){
-        Comando* pNext = new Next(comando, pR);
+        Comando* pNext {new Next(comando, pR)};
         delete pNext;
         return 0;
     }
     if(comando == "anim") {
-        //Comando* pAnim = new Anim(comando, pR);
+        //Comando* pAnim {new Anim(comando, pR)};
         //delete pAnim;
         return -6;
     }
     if(comando == "visanim") {
-        //Comando* pVisanim = new Visanim(comando, pR);
+        //Comando* pVisanim {new Visanim(comando, pR)};
         //delete pVisanim;
         return -7;
     }
     if(comando == "exit"){
-        Comando* pExit = new Exit(comando, pR);
+        Comando* pExit {new Exit(comando, pR)};
         delete pExit;
         return -2;
     }
     return 1;
 }
 int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
-    Reserva* pR = zoo;
+    Reserva* pR {zoo};
     if(comando == "animal"){
-        Comando* pCriaAnimal = new CriaAnimal(comando, (char)toupper(arg1.at(0)), pR);
+        Comando* pCriaAnimal {new CriaAnimal(comando, (char)toupper(arg1.at(0)), pR)};
         delete pCriaAnimal;
         return 0;
     }
     if(comando == "killid") {
-        Comando* pKillid = new Killid(comando, stoi(arg1), pR);
+        Comando* pKillid {new Killid(comando, stoi(arg1), pR)};
         delete pKillid;
         return 0;
     }
     if(comando == "food") {
-        Comando* pFood = new Food(comando, (char)tolower(arg1.at(0)), pR);
+        Comando* pFood {new Food(comando, (char) tolower(arg1.at(0)), pR)};
         delete pFood;
         return 0;
     }
     if(comando == "nofood") {
-        Comando* pNofood = new Nofood(comando, stoi(arg1), pR);
+        Comando* pNofood {new Nofood(comando, stoi(arg1), pR)};
         delete pNofood;
         return 0;
     }
     if(comando == "info") {
-        //Comando* pInfo = new Info(comando, stoi(arg1), pR);
+        //Comando* pInfo {new Info(comando, stoi(arg1), pR)};
         //delete pInfo;
         return -3;
     }
     if(comando == "n") {
-        Comando* pNext = new Next(comando, stoi(arg1), pR);
+        Comando* pNext {new Next(comando, stoi(arg1), pR)};
         delete pNext;
         return 0;
     }
     if(comando == "store") {
-//        Comando* pStore = new Store(comando, arg1, pR);
+//        Comando* pStore {new Store(comando, arg1, pR)};
 //        delete pStore;
         return -4;
     }
     if(comando == "restore") {
-//        Comando* pRestore = new Restore(comando, arg1, pR);
+//        Comando* pRestore {new Restore(comando, arg1, pR)};
 //        delete pRestore;
         return -5;
     }
     if(comando == "load") {
         // Pensar muito bem neste comando
-//        Comando* pLoad = new Load(comando, arg1, pR);
+//        Comando* pLoad {new Load(comando, arg1, pR)};
 //        delete pLoad;
         return 0;
     }
@@ -103,29 +103,29 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
     return 1;
 }
 int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) const {
-    Reserva* pR = zoo;
+    Reserva* pR {zoo};
     if(comando == "kill"){
-        Comando* pKill = new Kill(comando, stoi(arg1), stoi(arg2), pR);
+        Comando* pKill {new Kill(comando, stoi(arg1), stoi(arg2), pR)};
         delete pKill;
         return 0;
     }
     if(comando == "nofood") {
-        Comando* pNofood = new Nofood(comando, stoi(arg1), stoi(arg2), pR);
+        Comando* pNofood {new Nofood(comando, stoi(arg1), stoi(arg2), pR)};
         delete pNofood;
         return 0;
     }
     if(comando == "empty") {
-        Comando* pEmpty = new Empty(comando, stoi(arg1), stoi(arg2), pR);
+        Comando* pEmpty {new Empty(comando, stoi(arg1), stoi(arg2), pR)};
         delete pEmpty;
         return 0;
     }
     if(comando == "see") {
-//        Comando* pSee = new See(comando, stoi(arg1), stoi(arg2), pR);
+//        Comando* pSee {new See(comando, stoi(arg1), stoi(arg2), pR)};
 //        delete pSee;
         return -9;
     }
     if(comando == "n") {
-        Comando* pNext = new Next(comando, pR);
+        Comando* pNext {new Next(comando, pR)};
         delete pNext;
         return 0;
     }
@@ -137,26 +137,26 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
     return 1;
 }
 int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo) const {
-    Reserva* pR = zoo;
+    Reserva* pR {zoo};
     if(comando == "animal"){
-        Comando* pCriaAnimal = new CriaAnimal(comando, (char)toupper(arg1.at(0)), stoi(arg2), stoi(arg3), pR);
+        Comando* pCriaAnimal {new CriaAnimal(comando, (char) toupper(arg1.at(0)), stoi(arg2), stoi(arg3), pR)};
         delete pCriaAnimal;
         return 0;
     }
     if(comando == "food") {
-        Comando* pFood = new Food(comando, (char)tolower(arg1.at(0)), stoi(arg2), stoi(arg3), pR);
+        Comando* pFood {new Food(comando, (char) tolower(arg1.at(0)), stoi(arg2), stoi(arg3), pR)};
         delete pFood;
         return 0;
     }
     if(comando == "feedid") {
-        Comando* pFeedid = new Feedid(comando, stoi(arg1), stoi(arg2), stoi(arg3), pR);
+        Comando* pFeedid {new Feedid(comando, stoi(arg1), stoi(arg2), stoi(arg3), pR)};
         delete pFeedid;
         return 0;
     }
     return 1;
 }
 int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4, Reserva* zoo) const {
-    Reserva* pR = zoo;
+    Reserva* pR {zoo};
     if(comando == "feed") {
 //        Comando* pFeed = new Feed(comando, stoi(arg1), stoi(arg2), stoi(arg3), stoi(arg4), pR);
 //        delete pFeed;

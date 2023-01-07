@@ -19,9 +19,9 @@ Lobo::~Lobo() {
     animaisPerto.clear();
     alimentosPerto.clear();
     // criar um novo alimento corpo junto a esta posição
-    Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), 10, this->getReserva());
+    Alimento* pCorpo {new Corpo(this->getPosX() + 1, this->getPosY(), 10, this->getReserva())};
     reservaAnimal->addFood(pCorpo);
-    Local* pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), this->getReserva());
+    Local* pLocal {new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), this->getReserva())};
     reservaAnimal->addLocal(pLocal);
 }
 //getters;
@@ -46,15 +46,16 @@ void Lobo::nasce() {
 void Lobo::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
     // e movimenta de acordo
-    int maisPesado = 0;
-    bool direction{false};
-    int distAliX, distAliY = getPercepcao();
-    int movingDirectionX = this->getPosX();
-    int movingDirectionY = this->getPosY();
+    int maisPesado {0};
+    bool direction {false};
+    int distAliX {getPercepcao()};
+    int distAliY {getPercepcao()};
+    int movingDirectionX {this->getPosX()};
+    int movingDirectionY {this->getPosY()};
     // verifica se há alimentos perto caso não esteja a caçar
     if(!alimentosPerto.empty()) {
         for(auto& alimento : alimentosPerto) {
-            for(int i = 0; i != alimento->getQuantidadeCheiros();++i){
+            for(int i {0}; i != alimento->getQuantidadeCheiros();++i){
                 if(alimento->getCheiro(i) == getAlimentacao()) {
                     // distancia mais curta ao alimento que cheira a carne
                     if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
@@ -119,8 +120,8 @@ void Lobo::checkVitality() {
 }
 // faz uma cópia de si mesmo
 Animal* Lobo::fazOutro() {
-    Animal* pA = new Lobo(*this);
-    Local* pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
+    Animal* pA {new Lobo(*this)};
+    Local* pL {new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva())};
     reservaAnimal->addLocal(pL);
     return pA;
 }
@@ -172,7 +173,7 @@ void Lobo::cicloTurno() {
     if(getIsAlive()) {
         for (auto& alimento : alimentosPerto) {
             if (alimento->getPosX() == getPosX() && alimento->getPosY() == getPosY()) {
-                for (int i = 0; i != alimento->getQuantidadeCheiros(); ++i) {
+                for (int i {0}; i != alimento->getQuantidadeCheiros(); ++i) {
                     if (alimento->getCheiro(i) == getAlimentacao()) {
                         come(alimento->getNutri(), alimento->getToxic());
                         alimento->setIsAlive(false);

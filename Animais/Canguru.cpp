@@ -20,7 +20,7 @@ Canguru::~Canguru() {
     animaisPerto.clear();
     alimentosPerto.clear();
     // criar um novo alimento corpo junto a esta posição
-    Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), 15, this->getReserva());
+    Alimento* pCorpo {new Corpo(this->getPosX() + 1, this->getPosY(), 15, this->getReserva())};
     pCorpo->setToxic(5);
     reservaAnimal->addFood(pCorpo);
     Local* pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), this->getReserva());
@@ -52,8 +52,8 @@ void Canguru::nasce() {
 void Canguru::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
     // e movimenta de acordo
-    int movingDirectionX = aleatorio(getPosX() - getdeslMax(), getPosX() + getdeslMax());
-    int movingDirectionY = aleatorio(getPosY() - getdeslMax(), getPosY() + getdeslMax());
+    int movingDirectionX {aleatorio(getPosX() - getdeslMax(), getPosX() + getdeslMax())};
+    int movingDirectionY {aleatorio(getPosY() - getdeslMax(), getPosY() + getdeslMax())};
     int posPaiX {getPosX()};
     int posPaiY {getPosY()};
     bool orfan {true};
@@ -69,9 +69,8 @@ void Canguru::checkSurrounding() {
                         posPaiY = animal->getPosY();
                     }
                 }
-                if (orfan) {
+                if (orfan)
                     setIdPai(0);
-                }
             }
             // se for bebe, fica sempre perto do progenitor
             if (!orfan && isBaby()) {
@@ -82,7 +81,7 @@ void Canguru::checkSurrounding() {
                     movingDirectionY = aleatorio(getPosY() - getdeslMax(), getPosY() + getdeslMax());
                 } while (!(movingDirectionY > posPaiY - 4 && movingDirectionY < posPaiY + 4));
             }
-            for (auto &animal: animaisPerto) {
+            for (auto& animal : animaisPerto) {
                 if (animal->getAnimalId() == this->getAnimalId() || animal->getAnimalId() == this->getIdPai()) {
                     setMedo(false);
                     setdeslMax(1);
@@ -160,8 +159,8 @@ bool Canguru::isAdult() const {
 }
 // faz uma cópia de si mesmo
 Animal* Canguru::fazOutro() {
-    Animal* pA = new Canguru(*this);
-    Local* pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
+    Animal* pA {new Canguru(*this)};
+    Local* pL {new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva())};
     reservaAnimal->addLocal(pL);
     return pA;
 }
@@ -191,9 +190,6 @@ void Canguru::cicloTurno() {
         checkSurroundings(Animal::getPosX(), Animal::getPosY(), Animal::getPercepcao());
     } else
         Animal::moveRand(Animal::getdeslMin(),Animal::getdeslMax());
-
-
-
 };
 
 // substituir futuramente por um fim no getInput ?
@@ -280,15 +276,10 @@ bool Canguru::bolsaMarsupial(Reserva *r, int paiID) {
         setTickMarsupial(getTickMarsupial()+1);
         return true;
     }
-
-
-
 }
 
 void Canguru::checkSurroundings(Reserva *r, Local *l, int x, int y, int radius, int paiID) {
-
     Animal *pai = r->getAnimalById(r,paiID);
-
     for (int i = x-radius; i < x+radius+1; i++) {
         for (int j = y+radius; i > j-radius-1; j--) {
             if ( i == x && j == y ) {
@@ -298,7 +289,6 @@ void Canguru::checkSurroundings(Reserva *r, Local *l, int x, int y, int radius, 
                     return;
                 }
             }
-
             // se estiver no range
             if (l->getLocalX() == j && l->getLocalY() == i){
                 if (l->getTipoOcupante() == "animal" && l->getOcupaId() != paiID) {
@@ -329,8 +319,6 @@ void Canguru::checkSurroundings(Reserva *r, Local *l, int x, int y, int radius, 
         }
     }
 }
-
 Canguru::~Canguru() {
-
     cout << "Canguru Destruido!\n";
 };*/

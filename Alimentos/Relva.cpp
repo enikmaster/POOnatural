@@ -21,15 +21,15 @@ void Relva::dimDuracao() {
 }
 Alimento* Relva::fazOutro() {
     if(getDuracao() <= getSpawnTime()) {
-        int tempX = this->aleatorio(4, 8);
-        int tempY = this->aleatorio(4, 8);
+        int tempX {this->aleatorio(4, 8)};
+        int tempY {this->aleatorio(4, 8)};
         if(!reservaAlimento->checkPosOcupado(tempX, tempY)) {
             setSpawnTime(-1);
-            Alimento* pA = new Relva(*this);
+            Alimento* pA {new Relva(*this)};
             pA->setPosX(tempX);
             pA->setPosY(tempY);
             reservaAlimento->addFood(pA);
-            Local* pL = new Local(pA->getFoodId(), pA->getPosX(), pA->getPosY(),pA->getLetra() ,pA->getReserva());
+            Local* pL {new Local(pA->getFoodId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva())};
             reservaAlimento->addLocal(pL);
             return pA;
         }

@@ -43,10 +43,13 @@ void Coelho::checkVitality() {
 void Coelho::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
     // e movimenta de acordo
-    int direction = 0;
-    int distAliX, distAliY, distPredX, distPredY = getPercepcao();
-    int movingDirectionX = this->getPosX();
-    int movingDirectionY = this->getPosY();
+    int direction {0};
+    int distAliX {getPercepcao()};
+    int distAliY {getPercepcao()};
+    int distPredX {getPercepcao()};
+    int distPredY {getPercepcao()};
+    int movingDirectionX {this->getPosX()};
+    int movingDirectionY {this->getPosY()};
     // verifica se há animais perto
     if(!animaisPerto.empty()) {
         for(auto& animal : animaisPerto) {
@@ -74,7 +77,7 @@ void Coelho::checkSurrounding() {
     // verifica se há alimentos perto caso não esteja a fugir
     if(!alimentosPerto.empty() && !direction) {
         for(auto& alimento : alimentosPerto) {
-            for(int i = 0; i != alimento->getQuantidadeCheiros();++i){
+            for(int i {0}; i != alimento->getQuantidadeCheiros();++i){
                 if(alimento->getCheiro(i) == getAlimentacao()) {
                     // distancia mais curta ao alimento que cheira a relva
                     if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
@@ -109,8 +112,8 @@ void Coelho::checkSurrounding() {
 }
 // faz uma cópia de si mesmo
 Animal* Coelho::fazOutro() {
-    Animal *pA = new Coelho(*this);
-    Local *pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
+    Animal *pA {new Coelho(*this)};
+    Local *pL {new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva())};
     reservaAnimal->addLocal(pL);
     return pA;
 }
@@ -138,7 +141,7 @@ void Coelho::cicloTurno() {
         // primeiro come se houver alimento na posição
         for (auto& alimento : alimentosPerto) {
             if (alimento->getPosX() == getPosX() && alimento->getPosY() == getPosY()) {
-                for (int i = 0; i != alimento->getQuantidadeCheiros(); ++i) {
+                for(int i {0}; i != alimento->getQuantidadeCheiros(); ++i) {
                     if (alimento->getCheiro(i) == getAlimentacao()) {
                         come(alimento->getNutri(), alimento->getToxic());
                         alimento->setIsAlive(false);

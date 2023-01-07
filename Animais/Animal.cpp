@@ -6,7 +6,8 @@ Animal::Animal(char l, const int x, const int y, Reserva* novaReserva) : letra(l
     this->setAnimalID(reservaAnimal->getContadorIds());
     reservaAnimal->incContadorIds();
     if(x == -1) {
-        int tempX, tempY = 0;
+        int tempX {0};
+        int tempY {0};
         do {
             tempX = this->aleatorio(0, reservaAnimal->getDimX());
             tempY = this->aleatorio(0, reservaAnimal->getDimY());
@@ -17,7 +18,7 @@ Animal::Animal(char l, const int x, const int y, Reserva* novaReserva) : letra(l
 }
 // getters
 Reserva* Animal::getReserva() const {
-    Reserva* pCopiaReserva = reservaAnimal;
+    Reserva* pCopiaReserva {reservaAnimal};
     return pCopiaReserva;
 }
 // setters
@@ -33,16 +34,16 @@ void Animal::addAlimentoPerto(Alimento* novoAlimento) {
 void Animal::populateWithinRange() {
     alimentosPerto.clear();
     animaisPerto.clear();
-    vector<int> idAnimaisPerto;
-    vector<int> idAlimentosPerto;
+    vector<int> idAnimaisPerto {};
+    vector<int> idAlimentosPerto {};
     reservaAnimal->checkWithinRange(getPosX(), getPosY(), getPercepcao(), idAnimaisPerto, idAlimentosPerto);
     if(!idAlimentosPerto.empty()){
-        for(int& it : idAlimentosPerto)
-            addAlimentoPerto(reservaAnimal->getAlimento(it));
+        for(int& iAliP : idAlimentosPerto)
+            addAlimentoPerto(reservaAnimal->getAlimento(iAliP));
     }
     if(!idAnimaisPerto.empty()) {
-        for(int& it : idAnimaisPerto)
-            addAnimalPerto(reservaAnimal->getAnimal(it));
+        for(int& iAniP : idAnimaisPerto)
+            addAnimalPerto(reservaAnimal->getAnimal(iAniP));
     }
 }
 // move o animal para a nova posição

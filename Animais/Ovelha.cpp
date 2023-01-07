@@ -19,9 +19,9 @@ Ovelha::~Ovelha() {
     animaisPerto.clear();
     alimentosPerto.clear();
     // criar um novo alimento corpo junto a esta posição
-    Alimento* pCorpo = new Corpo(this->getPosX()+1, this->getPosY(), this->getPeso(), this->getReserva());
+    Alimento* pCorpo {new Corpo(this->getPosX() + 1, this->getPosY(), this->getPeso(), this->getReserva())};
     reservaAnimal->addFood(pCorpo);
-    Local* pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), this->getReserva());
+    Local* pLocal {new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), this->getReserva())};
     reservaAnimal->addLocal(pLocal);
 }
 // getters
@@ -39,10 +39,13 @@ void Ovelha::checkVitality() {
 void Ovelha::checkSurrounding() {
     // verifica o que está dentro do raio de percepção
     // e movimenta de acordo
-    int direction = 0;
-    int distAliX, distAliY, distPredX, distPredY = getPercepcao();
-    int movingDirectionX = this->getPosX();
-    int movingDirectionY = this->getPosY();
+    int direction {0};
+    int distAliX {getPercepcao()};
+    int distAliY {getPercepcao()};
+    int distPredX {getPercepcao()};
+    int distPredY {getPercepcao()};
+    int movingDirectionX {this->getPosX()};
+    int movingDirectionY {this->getPosY()};
     // verifica se há animais perto
     if(!animaisPerto.empty()) {
         for(auto& animal : animaisPerto) {
@@ -70,7 +73,7 @@ void Ovelha::checkSurrounding() {
     // verifica se há alimentos perto caso não esteja a fugir
     if(!alimentosPerto.empty() && !direction) {
         for(auto& alimento : alimentosPerto) {
-            for(int i = 0; i != alimento->getQuantidadeCheiros();++i){
+            for(int i {0}; i != alimento->getQuantidadeCheiros();++i){
                 if(alimento->getCheiro(i) == getAlimentacao()) {
                     // distancia mais curta ao alimento que cheira a relva
                     if(abs(alimento->getPosX() - this->getPosX()) <= distAliX) {
@@ -117,8 +120,8 @@ void Ovelha::nasce() {
 }
 // faz uma cópia de si mesmo
 Animal* Ovelha::fazOutro() {
-    Animal* pA = new Ovelha(*this);
-    Local* pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
+    Animal* pA {new Ovelha(*this)};
+    Local* pL {new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva())};
     reservaAnimal->addLocal(pL);
     return pA;
     /*if ((Animal::getTick() % 15) == 0) {
@@ -159,7 +162,7 @@ void Ovelha::cicloTurno() {
         // primeiro come se houver alimento na posição
         for (auto& alimento : alimentosPerto) {
             if (alimento->getPosX() == getPosX() && alimento->getPosY() == getPosY()) {
-                for (int i = 0; i != alimento->getQuantidadeCheiros(); ++i) {
+                for (int i {0}; i != alimento->getQuantidadeCheiros(); ++i) {
                     if (alimento->getCheiro(i) == getAlimentacao()) {
                         come(alimento->getNutri(), alimento->getToxic());
                         alimento->setIsAlive(false);
