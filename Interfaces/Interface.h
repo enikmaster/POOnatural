@@ -19,6 +19,7 @@ class Interface {
     vector<Save*> saves;
     const vector<string> directions {"up", "down", "left", "right"};
     const vector<char> letraEspecies {'C','O', 'L', 'G', 'M', 'H'};
+    const vector<string> especie {"Coelho", "Ovelha", "Lobo", "Canguru", "Macaco", "Humano"};
     const vector<char> letraAlimentos {'r', 't', 'p', 'b', 'a'};
     const vector<Comando> comandos {{"animal","Cria um novo animal na reserva. O utilizador indica a especie e a posicao X e Y dentro da reserva.","<especie> <posicao_X> <posicao_Y>"},
                                {"animal","Cria um novo animal na reserva. O utilizador indica a especie. A posicao dentro da reserva e' atribuida aleatoraiamente.","<especie>"},
@@ -59,6 +60,7 @@ public:
     void setOriginY(int newOriginY) {this->originY = newOriginY;}
     void setSavedZoo(Reserva* reservaSaved);
     // informations
+    void infoTamanhoReserva();
     void infoToUser();
     void infoErroArgs(int num);
     void infoErroCmdDesc();

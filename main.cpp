@@ -7,13 +7,13 @@ using namespace term;
 
 int main() {
     // cria um novo objeto Constantes em memória
-    Constantes* pConstantes = new Constantes();
+    Constantes* pConstantes {new Constantes()};
     // liberta a memória do objeto Constantes
     delete pConstantes;
     srand((unsigned) time(nullptr));
     fflush(stdin);
-    Terminal& t = Terminal::instance();
-    for(int i=1; i<20; i++) {
+    Terminal& t {Terminal::instance()};
+    for(int i {1}; i < 20; ++i) {
         t.init_color(i, i, 0);
     }
 

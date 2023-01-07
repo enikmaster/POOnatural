@@ -17,7 +17,7 @@ protected:
 public:
     Reserva(int largura, int altura);
     Reserva(const Reserva& outra);
-    ~Reserva() {};
+    //~Reserva() {};
     // getters
     int getDimX() const { return dimX;}
     int getDimY() const { return dimY;}
@@ -28,9 +28,6 @@ public:
     // setters
     // actions
     void incContadorIds() {++contadorIds;}
-    bool checkIdExist(int arg) const;
-    bool checkIdAlimentos(int arg) const;
-    bool checkIdAnimais(int arg) const;
     bool checkPosOcupado(int posX, int posY) const;
     void checkWithinRange(int elX, int elY, int percepcao, vector<int>& idAnimais, vector<int>& idAlimentos) const;
     void addFood(Alimento* alimento);

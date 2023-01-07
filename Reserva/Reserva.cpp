@@ -13,7 +13,7 @@ public:
         return true;
     }
 };
-int Reserva::contadorIds = 0;
+int Reserva::contadorIds {0};
 Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura) {};
 Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY()) {};
 // getters
@@ -25,7 +25,7 @@ string Reserva::getAsString() const {
 Animal* Reserva::getAnimal(int id) {
     for(auto& animal : animais) {
         if(animal->getAnimalId() == id ) {
-            Animal* animalPerto = animal;
+            Animal* animalPerto {animal};
             return animalPerto;
         }
     }
@@ -34,7 +34,7 @@ Animal* Reserva::getAnimal(int id) {
 Alimento* Reserva::getAlimento(int id) {
     for(auto& alimento : alimentos) {
         if(alimento->getFoodId() == id) {
-            Alimento* alimentoPerto = alimento;
+            Alimento* alimentoPerto {alimento};
             return alimentoPerto;
         }
     }
@@ -42,36 +42,6 @@ Alimento* Reserva::getAlimento(int id) {
 };
 // setters
 // actions
-bool Reserva::checkIdExist(int arg) const {
-    // verifica se o ID existe nos locais ocupados
-    if(arg <= getContadorIds()) {
-        for (auto& local : locaisOcupados) {
-            if (arg == local->getOcupaId())
-                return true;
-        }
-    }
-    return false;
-}
-bool Reserva::checkIdAlimentos(int arg) const {
-    // verifica se o id alimento existe
-    if(!alimentos.empty()) {
-        for(auto& alimento : alimentos) {
-            if(alimento->getFoodId() == arg)
-                return true;
-        }
-    }
-    return false;
-}
-bool Reserva::checkIdAnimais(int arg) const {
-    // verifica se o id animal existe
-    if(!animais.empty()) {
-        for(auto& animal : animais) {
-            if(animal->getAnimalId() == arg)
-                return true;
-        }
-    }
-    return false;
-}
 bool Reserva::checkPosOcupado(int posX, int posY) const {
     // verifica se a posição x,y está ocupada
     if(!locaisOcupados.empty()) {
@@ -99,7 +69,7 @@ void Reserva::addFood(Alimento* alimento) {
 }
 void Reserva::removeFood(int fid) {
     // remove um alimento da reserva por id
-    for(vector<Alimento*>::iterator alimento = alimentos.begin(); alimento != alimentos.end(); ++alimento){
+    for(vector<Alimento*>::iterator alimento {alimentos.begin()}; alimento != alimentos.end(); ++alimento){
         if((*alimento)->getFoodId() == fid) {
             // remove o local que o alimento ocupa
             removeLocal(fid);
@@ -111,7 +81,7 @@ void Reserva::removeFood(int fid) {
 }
 void Reserva::removeFood(int posX, int posY) {
     // remove um alimento da reserva por posição
-    for(vector<Alimento*>::iterator alimento = alimentos.begin(); alimento != alimentos.end(); ++alimento){
+    for(vector<Alimento*>::iterator alimento {alimentos.begin()}; alimento != alimentos.end(); ++alimento){
         if((*alimento)->getPosX() == posX && (*alimento)->getPosY() == posY) {
             // remove o local que o alimento ocupa
             removeLocal((*alimento)->getFoodId());
@@ -123,12 +93,12 @@ void Reserva::removeFood(int posX, int posY) {
 }
 void Reserva::addAnimal(Animal* animal) {
     // adiciona um ponteiro animal à lista de animais da reserva
-    animal->setReserva(this); // dúvida!!!!
+    animal->setReserva(this);
     animais.push_back(animal);
 }
 void Reserva::removeAnimal(int aid) {
     // remove um animal da reserva por id
-    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end(); ++animal) {
+    for(vector<Animal*>::iterator animal{animais.begin()}; animal != animais.end(); ++animal) {
         if((*animal)->getAnimalId() == aid) {
             // remove o local que o animal ocupa
             removeLocal(aid);
@@ -140,7 +110,7 @@ void Reserva::removeAnimal(int aid) {
 }
 bool Reserva::removeAnimal(int posX, int posY) {
     // remove um animal da reserva por posição
-    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end(); ++animal) {
+    for(vector<Animal*>::iterator animal {animais.begin()}; animal != animais.end(); ++animal) {
         if((*animal)->getPosY() == posX && (*animal)->getPosY() == posY) {
             // remove o local que o animal ocupa
             removeLocal((*animal)->getAnimalId());
@@ -158,7 +128,7 @@ void Reserva::addLocal(Local* local) {
 }
 bool Reserva::removeLocal(int lid) {
     // remove um local ocupado
-    for(vector<Local*>::iterator local = locaisOcupados.begin(); local != locaisOcupados.end(); ++local ) {
+    for(vector<Local*>::iterator local {locaisOcupados.begin()}; local != locaisOcupados.end(); ++local ) {
         if((*local)->getOcupaId() == lid) {
             delete *local;
             locaisOcupados.erase(local);
@@ -169,7 +139,7 @@ bool Reserva::removeLocal(int lid) {
 }
 void Reserva::updateLocal(int id, int posX, int posY) {
     // atualiza a posição de um local ocupado
-    for(vector<Local*>::iterator local = locaisOcupados.begin(); local != locaisOcupados.end(); ++local) {
+    for(vector<Local*>::iterator local {locaisOcupados.begin()}; local != locaisOcupados.end(); ++local) {
         if((*local)->getOcupaId() == id) {
             (*local)->setLocalX(posX);
             (*local)->setLocalY(posY);
@@ -178,7 +148,7 @@ void Reserva::updateLocal(int id, int posX, int posY) {
 }
 void Reserva::limpaMortos() {
     // remove os animais e alimentos da reserva
-    for(vector<Animal*>::iterator animal = animais.begin(); animal != animais.end(); ++animal) {
+    for(vector<Animal*>::iterator animal {animais.begin()}; animal != animais.end(); ++animal) {
         if(!(*animal)->getIsAlive()) {
             removeLocal((*animal)->getAnimalId());
             delete *animal;
@@ -186,7 +156,7 @@ void Reserva::limpaMortos() {
             --animal;
         }
     }
-    for(vector<Alimento*>::iterator alimento = alimentos.begin(); alimento != alimentos.end(); ++alimento) {
+    for(vector<Alimento*>::iterator alimento {alimentos.begin()}; alimento != alimentos.end(); ++alimento) {
         if(!(*alimento)->getIsAlive()) {
             removeLocal((*alimento)->getFoodId());
             delete *alimento;

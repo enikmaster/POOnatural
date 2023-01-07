@@ -17,17 +17,16 @@ Interface::Interface(Reserva* reserva)
     wInputs << set_color(0) << move_to(0, 0);
     mvprintw(18,1," Input ");
 }
-
 // externas
 // divide o input em várias strings e devolve um vetor com tudo
 vector<string> split(const string& input) {
     vector<string> ret;
     typedef string::size_type string_size;
-    string_size i = 0;
+    string_size i{0};
     while (i != input.size()) {
         while (i != input.size() && isspace(input.at(i)))
             ++i;
-        string_size j = i;
+        string_size j{i};
         while (j != input.size() && !isspace(input.at(j)))
             j++;
         if (i != j) {
@@ -38,27 +37,27 @@ vector<string> split(const string& input) {
     return ret;
 }
 // conta o número de argumentos
-int countArgs(stringstream &input, string& temp) {
-    int cnt(0);
+int countArgs(stringstream& input, string& temp) {
+    int cnt{0};
     while(input >> temp)
         ++cnt;
     return cnt;
 }
 // verifica e devolve as dimensoes da reserva a ser criada
 void getReservaDims(int& DimX, int& DimY, term::Terminal& janela) {
-    string input;
-    bool flag = false;
+    string input{};
+    bool flag {false};
     do {
         janela << term::move_to(0, 23) << "Insira a dimensao da reserva (altura comprimento) ou 0 0 para um tamanho aleatorio: ";
         janela >> input;
         stringstream iss (input);
         string temp{};
-        int nArgs = countArgs(iss, temp);
+        int nArgs {countArgs(iss, temp)};
         if(nArgs > 2 || nArgs == 0) {
             janela << term::move_to(4, 24) << "Numero de argumentos invalido...";
             continue;
         }
-        vector<string> args = split(input);
+        vector<string> args {split(input)};
         if((stoi(args.at(0)) == 0) && (stoi(args.at(1)) == 0)) {
             //DimX = dimR(gen);
             //DimY = dimR(gen);
@@ -73,7 +72,6 @@ void getReservaDims(int& DimX, int& DimY, term::Terminal& janela) {
         }
     }while(!flag);
 }
-
 // getters
 // recebe o input do utilizador
 string Interface::getInput() {
@@ -100,7 +98,7 @@ int Interface::getHelp(string& cmd, int writePos) {
 }
 // devolve uma cópia do ponteiro da reserva atual
 Reserva* Interface::getReserva() const {
-    Reserva* pCopiaReserva = zoo;
+    Reserva* pCopiaReserva {zoo};
     return pCopiaReserva;
 }
 // setters
@@ -111,6 +109,12 @@ void Interface::setSavedZoo(Reserva *reservaSaved) {
     zoo = reservaSaved;
 }
 // informations
+// tamanho da reserva
+void Interface::infoTamanhoReserva() {
+    wInfo.clear();
+    refresh();
+    wInfo << zoo->getAsString();
+}
 // envia para o output uma mensagem
 void Interface::infoToUser() {
     wInputs.clear();
@@ -121,66 +125,50 @@ void Interface::infoToUser() {
 // envia um erro de número de argumentos fora dos limites para o user
 void Interface::infoErroArgs(int num) {
     if(num > 5) {
-        wInfo.clear();
-        refresh();
-        wInfo << zoo->getAsString();
+        infoTamanhoReserva();
         wInfo << move_to(0,1) << "Demasiados argumentos...";
         infoToUser();
     }
     if(num < 1) {
-        wInfo.clear();
-        refresh();
-        wInfo << zoo->getAsString();
+        infoTamanhoReserva();
         wInfo << move_to(0, 1) << "Sem instrucoes...";
         infoToUser();
     }
 }
 // envia para o user um erro de comando desconhecido
 void Interface::infoErroCmdDesc() {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Comando desconhecido...";
     infoToUser();
 }
 // envia para o user um erro de comando com número de argumentos errado
 void Interface::infoErroNumArgs(string& cmd) {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Comando "<< cmd <<" com numero de argumentos invalido...";
 }
 // envia para o user um erro parametros inválidos
 void Interface::infoErroParam() {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Um dos parametros nao e' valido.";
 }
 void Interface::infoErroNoEspecie() {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Animal desconhecido...";
 }
 void Interface::infoErroNoFood() {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Alimento desconhecido...";
 }
 void Interface::infoErroForaReserva() {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Esta a tentar criar algo fora da reserva...";
 }
 // mostra a reserva na janela certa
 void Interface::infoShowReserva() {
     wReserva.clear();
     refresh();
-    for( int i = 0; i < 16; ++i) {
-        for( int j = 0; j < 16; ++j) {
+    for( int i {0}; i < 16; ++i) {
+        for( int j {0}; j < 16; ++j) {
             wReserva << move_to(j, i) << ".";
         }
     }
@@ -192,65 +180,41 @@ void Interface::infoShowReserva() {
         }
     }
 }
-
-
+// comando Anim
 int Interface::infoAnim() {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
-    string especie;
-    int w = 1;
-    vector<char>letras1{'C', 'O', 'L', 'G'};
-    vector<string>letras2{"Coelho", "Ovelha", "Lobo", "Canguru"};
-
+    infoTamanhoReserva();
+    int linha {0};
     for(auto& animal : zoo->animais) {
-        for (int i = 0; i<letras1.size(); ++i){
-            if (letras1[i] == animal->getLetra()) {
-                especie = letras2[i];
-                continue;
-            }
+        int index {0};
+        for(auto& letra : letraEspecies) {
+            if(letra == animal->getLetra())
+                wInfo << move_to(0, ++linha) << "Id: "<< animal->getAnimalId() << " | Saude: " << animal->getSaude() << " | Especie: " << especie.at(index);
+            ++index;
         }
-        wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId() << " | Saude: " << animal->getSaude() << " | Especie: " << especie;
-        ++w;
     }
     return 0;
 }
-
+// comando Visanim
 int Interface::infoVisanim() {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
-    int areaVisivelX = originX + 16;
-    int areaVisivelY = originY + 16;
-    int w = 1, newLine = 0;
-    string especie;
-    vector<char>letras1{'C', 'O', 'L', 'G'};
-    vector<string>letras2{"Coelho", "Ovelha", "Lobo", "Canguru"};
-
+    infoTamanhoReserva();
+    int areaVisivelX {getOriginX() + 15};
+    int areaVisivelY {getOriginY() + 15};
+    int linha {0};
     for (auto& animal : zoo->animais) {
-        if (animal->getPosX() < areaVisivelX && animal->getPosX() >= originX) {
-            if (animal->getPosY() < areaVisivelY && animal->getPosY() >= originY) {
-                for (int i = 0; i<letras1.size(); ++i){
-                    if (letras1[i] == animal->getLetra()) {
-                        especie = letras2[i];
-                        continue;
-                    }
-                }
-                wInfo << move_to(0, w) << "Id: "<< animal->getAnimalId() << " | Saude: " << animal->getSaude() << " | Especie: " << especie;
-                ++w;
-                if (w % 3 == 0)
-                    ++newLine;
+        if ((animal->getPosX() <= areaVisivelX && animal->getPosX() >= getOriginX()) && (animal->getPosY() <= areaVisivelY && animal->getPosY() >= getOriginY()) ) {
+            int index {0};
+            for(auto& letra : letraEspecies) {
+                if(letra == animal->getLetra())
+                    wInfo << move_to(0, ++linha) << "Id: "<< animal->getAnimalId() << " | Saude: " << animal->getSaude() << " | Especie: " << especie.at(index);
+                ++index;
             }
         }
     }
     return 0;
 }
-
 // Comando info <id>
 int Interface::infoAboutId(int eid) {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     for(auto& alimento : zoo->alimentos) {
         if(alimento->getFoodId() == eid) {
             wInfo << move_to(0, 1) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
@@ -260,7 +224,7 @@ int Interface::infoAboutId(int eid) {
             wInfo << move_to(0, 5) << "Valor toxicidade: " << alimento->getToxic();
             wInfo << move_to(0, 6) << "Validade: " << alimento->getDuracao() << " turnos";
             wInfo << move_to(0, 7) << "Cheiros:";
-            for(int i = 0; i < alimento->getQuantidadeCheiros();++i) {
+            for(int i {0}; i < alimento->getQuantidadeCheiros(); ++i) {
                 wInfo << move_to(0, 8+i) << "   " << alimento->getCheiro(i);
             }
             return 0;
@@ -283,9 +247,7 @@ int Interface::infoAboutId(int eid) {
     return 0;
 }
 int Interface::infoSee(int posX, int posY) {
-    wInfo.clear();
-    refresh();
-    wInfo << zoo->getAsString();
+    infoTamanhoReserva();
     if(!zoo->locaisOcupados.empty()) {
         int numOcupas {0};
         for(auto& alimento : zoo->alimentos) {
@@ -324,16 +286,10 @@ int Interface::infoSee(int posX, int posY) {
     }
     return 0;
 }
-//void Interface::infoTeste() {
-//    wInfo.clear();
-//    refresh();
-//    wInfo << move_to(0,1) << "origem X: " << getOriginX();
-//    wInfo << move_to(0,2) << "origem Y: " << getOriginY();
-//}
 // actions
 // verifica se a especie animal é válida
 bool Interface::checkArgAnimais(string& arg) const {
-    char temp = (char)toupper(arg.at(0));
+    char temp{(char) toupper(arg.at(0))};
     for(auto& letra : letraEspecies){
         if(letra == temp)
             return true;
@@ -342,7 +298,7 @@ bool Interface::checkArgAnimais(string& arg) const {
 }
 // verifica se o tipo de alimento é válido
 bool Interface::checkArgAlimentos(string& arg) const {
-    char temp = (char)tolower(arg.at(0));
+    char temp {(char)tolower(arg.at(0))};
     for(auto& letra : letraAlimentos){
         if(letra == temp)
             return true;
@@ -379,36 +335,33 @@ bool Interface::checkVisibility(int posX, int posY) const {
 }
 // procura o comando pedido numa listagem de comandos e devolve a posição ou 0 se não encontrar
 int Interface::findComando(string& arg) {
-    int pos = 0;
+    int index {0};
     for(auto& comando : comandos) {
-        ++pos;
+        ++index;
         if(comando.getCmd() == arg)
-            return pos;
+            return index;
     }
     return 0;
 }
 // comando slide
 int Interface::modifyOriginVis(const string& direction, int value) {
-    if(direction == "up") {
+    if(direction == "up")
         (getOriginY() - value < 0) ? setOriginY(0) : setOriginY(getOriginY() - value);
-    }
-    if(direction == "down") {
+    if(direction == "down")
         (getOriginY() + value > zoo->getDimY() - 16) ? setOriginY(zoo->getDimY() - 16) : setOriginY(getOriginY() + value);
-    }
-    if(direction == "left") {
+    if(direction == "left")
         (getOriginX() - value < 0) ? setOriginX(0) : setOriginX(getOriginX() - value);
-    }
-    if(direction == "right") {
+    if(direction == "right")
         (getOriginX() + value > zoo->getDimX() - 16) ? setOriginX(zoo->getDimX() - 16) : setOriginX(getOriginX() + value);
-    }
     return 0;
 }
 // adiciona um novo save game
 int Interface::addSave(string nome) {
     // duplica a reserva
-    Reserva* pReserva = new Reserva(*zoo);
+    Reserva* pReserva {new Reserva(*zoo)};
     // passa a reserva nova para o Save
-    Save* pSave = new Save(std::move(nome), pReserva);
+    Save* pSave {new Save(std::move(nome), pReserva)};
+    // guarda o save num vector de Saves
     saves.push_back(pSave);
     return 0;
 }
@@ -422,7 +375,7 @@ int Interface::restoreSave(const string& nome) {
 }
 // elimina todos os save games
 void Interface::clearSaves() {
-    for(vector<Save*>::iterator save = saves.begin(); save != saves.end(); ) {
+    for(vector<Save*>::iterator save {saves.begin()}; save != saves.end(); ) {
         (*save)->clearReserva();
         delete *save;
         saves.erase(save);
@@ -431,7 +384,7 @@ void Interface::clearSaves() {
 // start simulation
 void Interface::start() {
     wInfo << zoo->getAsString();
-    bool on = true;
+    bool on {true};
     infoShowReserva();
     do {
         // pede informação ao user
@@ -441,24 +394,22 @@ void Interface::start() {
         refresh();
         stringstream iss (userInput);
         string temp{};
-        int nArgs = countArgs(iss, temp);
+        int nArgs {countArgs(iss, temp)};
         // verifica se os argumentos introduzidos estão dentro dos limites válidos
         if(nArgs < 1 || nArgs > 5) {
             infoErroArgs(nArgs);
             continue;
         }
         // divide a string em palavras
-        vector<string> args = split(userInput);
+        vector<string> args {split(userInput)};
         // verifica se o comando existe
-        int pos = findComando(args.at(0));
+        int pos {findComando(args.at(0))};
         if(!pos) {
             infoErroCmdDesc();
             continue;
         } else {
-            wInfo.clear();
-            refresh();
-            wInfo << zoo->getAsString();
-            int flag = 0;
+            infoTamanhoReserva();
+            int flag {0};
             if(nArgs == 1)
                 // executa os comandos sem argumentos
                 flag = comandos.at(pos-1).executa( args.at(0), getReserva() );
@@ -513,7 +464,7 @@ void Interface::start() {
                     continue;
                 }
                 if(args.at(0) == "n") {
-                    for(int rep = 1; rep <= stoi(args.at(1)); ++rep) {
+                    for(int rep {1}; rep <= stoi(args.at(1)); ++rep) {
                         flag = comandos.at(pos-1).executa(args.at(0), getReserva());
                         infoShowReserva();
                         sleep(stoi(args.at(2)));
