@@ -5,7 +5,7 @@
 
 class Exit : public Comando {
 public:
-    Exit(string& cmd, Reserva* reserva);
+    Exit(string& cmd, Reserva* reserva, Interface* inter);
 };
 
 #endif //POONATURAL_EXIT_H

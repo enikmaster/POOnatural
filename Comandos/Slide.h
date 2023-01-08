@@ -4,7 +4,7 @@
 
 class Slide : public Comando {
 public:
-    Slide(string& cmd, string& arg1, int arg2, Reserva* reserva);
+    Slide(string& cmd, string& arg1, int arg2, Interface* inter);
 };
 
 

@@ -1,3 +1,6 @@
 #include "Info.h"
+#include "../Interfaces/Interface.h"
 
-Info::Info(string& cmd, int arg1, Reserva* reserva) : Comando(cmd) {};
+Info::Info(string& cmd, int arg1, Interface* inter) : Comando(cmd) {
+    inter->infoAboutId(arg1);
+};

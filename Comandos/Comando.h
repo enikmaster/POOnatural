@@ -4,6 +4,7 @@
 #include "../Reserva/Reserva.h"
 
 using namespace std;
+class Interface;
 class Comando {
 public:
     Comando(string c, string d = "", string a = "") : cmd(std::move(c)), descr(std::move(d)), args(std::move(a)) {};
@@ -14,11 +15,12 @@ public:
     string getArgs() const { return args; }
     string getAsString() const;
     // actions
-    int executa(string& comando, Reserva* zoo)const;
-    int executa(string& comando, string& arg1, Reserva* zoo)const;
-    int executa(string& comando, string& arg1, string& arg2, Reserva* zoo)const;
-    int executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo)const;
+    int executa(string& comando, Reserva* zoo = nullptr, Interface* inter = nullptr)const;
+    int executa(string& comando, string& arg1, Reserva* zoo = nullptr, Interface* inter = nullptr )const;
+    int executa(string& comando, string& arg1, string& arg2, Reserva* zoo = nullptr, Interface* inter = nullptr)const;
+    int executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo, Interface* inter = nullptr)const;
     int executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4, Reserva* zoo)const;
+    //int executa(string& comando, Reserva* res, Interface& outro);
 
 private:
     string cmd;

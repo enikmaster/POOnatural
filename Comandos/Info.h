@@ -4,7 +4,7 @@
 
 class Info : public Comando {
 public:
-    Info(string& cmd, int arg1, Reserva* reserva);
+    Info(string& cmd, int arg1, Interface* inter);
 };
 
 #endif //POONATURAL_INFO_H

@@ -3,10 +3,9 @@
 #include "../Includes.h"
 #include "Comando.h"
 
-
 class Alim : public Comando{
 public:
-    Alim(string& cmd, Reserva* reserva);
+    Alim(string& cmd, Interface* inter);
 };
 
 

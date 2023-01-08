@@ -1,5 +1,6 @@
-//
-// Created by filip on 29/12/2022.
-//
-
 #include "Restore.h"
+#include "../Interfaces/Interface.h"
+
+Restore::Restore(string& cmd, string& filename, Interface* inter) : Comando(cmd) {
+    inter->restoreSave(filename);
+}

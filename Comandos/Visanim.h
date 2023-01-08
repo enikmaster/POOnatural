@@ -5,7 +5,7 @@
 
 class Visanim : public Comando {
 public:
-    Visanim(string& cmd, Reserva* reserva);
+    Visanim(string& cmd, Interface* inter);
 };
 
 #endif //POONATURAL_VISANIM_H

@@ -1,5 +1,6 @@
-//
-// Created by filip on 29/12/2022.
-//
-
 #include "Store.h"
+#include "../Interfaces/Interface.h"
+
+Store::Store(string& cmd, string& filename, Interface* inter) : Comando(cmd) {
+    inter->addSave(filename);
+}

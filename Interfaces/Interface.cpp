@@ -112,6 +112,10 @@ void Interface::infoTamanhoReserva() {
     refresh();
     wInfo << zoo->getAsString();
 }
+// mensagem de sucesso
+void Interface::infoSucesso() {
+    wInfo << "Comando executado com sucesso!";
+}
 // envia para o output uma mensagem
 void Interface::infoToUser() {
     wInputs.clear();
@@ -189,11 +193,14 @@ int Interface::infoAnim() {
     for(auto& animal : zoo->animais) {
         int index {0};
         for(auto& letra : letraEspecies) {
-            if(letra == animal->getLetra())
+            if(letra == animal->getLetra()) {
                 wInfo << move_to(0, ++linha) << "Id: "<< animal->getAnimalId() << " | Saude: " << animal->getSaude() << " | Especie: " << especie.at(index);
+            }
             ++index;
         }
     }
+    wInfo << move_to(0, linha + 2);
+    infoSucesso();
     return 0;
 }
 // comando Visanim
@@ -212,6 +219,8 @@ int Interface::infoVisanim() {
             }
         }
     }
+    wInfo << move_to(0, linha + 2);
+    infoSucesso();
     return 0;
 }
 // comando Alim
@@ -226,6 +235,8 @@ int Interface::infoAlim() {
             ++index;
         }
     }
+    wInfo << move_to(0, linha + 2);
+    infoSucesso();
     return 0;
 }
 // comando Visalim
@@ -244,70 +255,78 @@ int Interface::infoVisalim() {
             }
         }
     }
+    wInfo << move_to(0, linha + 2);
+    infoSucesso();
     return 0;
 }
 // Comando info <id>
 int Interface::infoAboutId(int eid) {
     infoTamanhoReserva();
+    int linha {0};
     for(auto& alimento : zoo->alimentos) {
         if(alimento->getFoodId() == eid) {
-            wInfo << move_to(0, 1) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
-            wInfo << move_to(0, 2) << "Id: "<< alimento->getFoodId();
-            wInfo << move_to(0, 3) << "Posicao X: "<< alimento->getPosX() << " Posicao Y: " << alimento->getPosY();
-            wInfo << move_to(0, 4) << "Valor nutritivo: " << alimento->getNutri();
-            wInfo << move_to(0, 5) << "Valor toxicidade: " << alimento->getToxic();
-            wInfo << move_to(0, 6) << "Validade: " << alimento->getDuracao() << " turnos";
-            wInfo << move_to(0, 7) << "Cheiros:";
+            wInfo << move_to(0, ++linha) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
+            wInfo << move_to(0, ++linha) << "Id: "<< alimento->getFoodId();
+            wInfo << move_to(0, ++linha) << "Posicao X: "<< alimento->getPosX() << " Posicao Y: " << alimento->getPosY();
+            wInfo << move_to(0, ++linha) << "Valor nutritivo: " << alimento->getNutri();
+            wInfo << move_to(0, ++linha) << "Valor toxicidade: " << alimento->getToxic();
+            wInfo << move_to(0, ++linha) << "Validade: " << alimento->getDuracao() << " turnos";
+            wInfo << move_to(0, ++linha) << "Cheiros:";
             for(int i {0}; i < alimento->getQuantidadeCheiros(); ++i) {
-                wInfo << move_to(0, 8+i) << "   " << alimento->getCheiro(i);
+                wInfo << move_to(0, ++linha) << "   " << alimento->getCheiro(i);
             }
             return 0;
         }
     }
     for(auto& animal : zoo->animais) {
         if(animal->getAnimalId() == eid) {
-            wInfo << move_to(0, 1) << "Nome: "<< animal->getLetra() << animal->getAnimalId();
-            wInfo << move_to(0, 2) << "Id: "<< animal->getAnimalId();
-            wInfo << move_to(0, 3) << "Posicao X: "<< animal->getPosX() << " Posicao Y: " << animal->getPosY();
-            wInfo << move_to(0, 4) << "Fome: " << animal->getFome();
-            wInfo << move_to(0, 5) << "Saude: " << animal->getSaude();
-            wInfo << move_to(0, 6) << "Idade: " << animal->getIdade() << " turnos";
-            wInfo << move_to(0, 7) << "Peso: " << animal->getPeso();
-            wInfo << move_to(0, 8) << "Velocidade maxima: " << animal->getdeslMax();
+            wInfo << move_to(0, ++linha) << "Nome: "<< animal->getLetra() << animal->getAnimalId();
+            wInfo << move_to(0, ++linha) << "Id: "<< animal->getAnimalId();
+            wInfo << move_to(0, ++linha) << "Posicao X: "<< animal->getPosX() << " Posicao Y: " << animal->getPosY();
+            wInfo << move_to(0, ++linha) << "Fome: " << animal->getFome();
+            wInfo << move_to(0, ++linha) << "Saude: " << animal->getSaude();
+            wInfo << move_to(0, ++linha) << "Idade: " << animal->getIdade() << " turnos";
+            wInfo << move_to(0, ++linha) << "Peso: " << animal->getPeso();
+            wInfo << move_to(0, ++linha) << "Velocidade maxima: " << animal->getdeslMax();
             // falta um ciclo para o registo alimentar ou indicar o tamanho do registo
             break;
         }
     }
+    wInfo << move_to(0, linha + 2);
+    infoSucesso();
     return 0;
 }
 // comando See
 int Interface::infoSee(int posX, int posY) {
     infoTamanhoReserva();
+    int linha {2};
+    int reLinha {2};
     if(!zoo->locaisOcupados.empty()) {
         int numOcupas {0};
         for(auto& alimento : zoo->alimentos) {
             if(alimento->getPosX() == posX && alimento->getPosY() == posY) {
-                wInfo << move_to(numOcupas*25, 3) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
-                wInfo << move_to(numOcupas*25, 4) << "Id: "<< alimento->getFoodId();
-                wInfo << move_to(numOcupas*25, 5) << "Valor nutritivo: " << alimento->getNutri();
-                wInfo << move_to(numOcupas*25, 6) << "Valor toxicidade: " << alimento->getToxic();
-                wInfo << move_to(numOcupas*25, 7) << "Validade: " << alimento->getDuracao() << " turnos";
-                wInfo << move_to(numOcupas*25, 8) << "Cheiros:";
+                wInfo << move_to(numOcupas*25, ++linha) << "Nome: "<< alimento->getLetra() << alimento->getFoodId();
+                wInfo << move_to(numOcupas*25, ++linha) << "Id: "<< alimento->getFoodId();
+                wInfo << move_to(numOcupas*25, ++linha) << "Valor nutritivo: " << alimento->getNutri();
+                wInfo << move_to(numOcupas*25, ++linha) << "Valor toxicidade: " << alimento->getToxic();
+                wInfo << move_to(numOcupas*25, ++linha) << "Validade: " << alimento->getDuracao() << " turnos";
+                wInfo << move_to(numOcupas*25, ++linha) << "Cheiros:";
                 for(int i = 0; i < alimento->getQuantidadeCheiros();++i) {
-                    wInfo << move_to(0, 9+i) << "   " << alimento->getCheiro(i);
+                    wInfo << move_to(0, ++linha) << "   " << alimento->getCheiro(i);
                 }
                 ++numOcupas;
             }
         }
         for(auto& animal : zoo->animais) {
+            reLinha = 2;
             if(animal->getPosX() == posX && animal->getPosY() == posY) {
-                wInfo << move_to(numOcupas*25, 4) << "Nome: "<< animal->getLetra() << animal->getAnimalId();
-                wInfo << move_to(numOcupas*25, 5) << "Id: "<< animal->getAnimalId();
-                wInfo << move_to(numOcupas*25, 6) << "Fome: " << animal->getFome();
-                wInfo << move_to(numOcupas*25, 7) << "Saude: " << animal->getSaude();
-                wInfo << move_to(numOcupas*25, 8) << "Idade: " << animal->getIdade() << " turnos";
-                wInfo << move_to(numOcupas*25, 9) << "Peso: " << animal->getPeso();
-                wInfo << move_to(numOcupas*25, 10) << "Velocidade maxima: " << animal->getdeslMax();
+                wInfo << move_to(numOcupas*25, ++reLinha) << "Nome: "<< animal->getLetra() << animal->getAnimalId();
+                wInfo << move_to(numOcupas*25, ++reLinha) << "Id: "<< animal->getAnimalId();
+                wInfo << move_to(numOcupas*25, ++reLinha) << "Fome: " << animal->getFome();
+                wInfo << move_to(numOcupas*25, ++reLinha) << "Saude: " << animal->getSaude();
+                wInfo << move_to(numOcupas*25, ++reLinha) << "Idade: " << animal->getIdade() << " turnos";
+                wInfo << move_to(numOcupas*25, ++reLinha) << "Peso: " << animal->getPeso();
+                wInfo << move_to(numOcupas*25, ++reLinha) << "Velocidade maxima: " << animal->getdeslMax();
                 ++numOcupas;
             }
         }
@@ -319,6 +338,8 @@ int Interface::infoSee(int posX, int posY) {
     } else {
         wInfo << move_to(0, 1) << "Posicao "<< posX << " x " << posY << " vazia";
     }
+    wInfo << move_to(0, (linha >= reLinha) ? linha + 2 : reLinha + 2);
+    infoSucesso();
     return 0;
 }
 // actions
@@ -404,6 +425,8 @@ int Interface::modifyOriginVis(const string& direction, int value) {
         (getOriginX() - value < 0) ? setOriginX(0) : setOriginX(getOriginX() - value);
     if(direction == "right")
         (getOriginX() + value > zoo->getDimX() - 16) ? setOriginX(zoo->getDimX() - 16) : setOriginX(getOriginX() + value);
+    wInfo << move_to(0, 2);
+    infoSucesso();
     return 0;
 }
 // adiciona um novo save game
@@ -414,6 +437,8 @@ int Interface::addSave(string nome) {
     Save* pSave {new Save(std::move(nome), pReserva)};
     // guarda o save num vector de Saves
     saves.push_back(pSave);
+    wInfo << move_to(0,2);
+    infoSucesso();
     return 0;
 }
 // reinicia uma reserva guardada
@@ -465,7 +490,7 @@ void Interface::start() {
             int flag {0};
             if(nArgs == 1)
                 // executa os comandos sem argumentos
-                flag = comandos.at(pos-1).executa( args.at(0), getReserva() );
+                flag = comandos.at(pos-1).executa( args.at(0), getReserva(), this );
             if(nArgs == 2) {
                 // executa os comandos com 1 argumento
                 if(args.at(0) == "animal" && !checkArgAnimais(args.at(1))) {
@@ -492,7 +517,7 @@ void Interface::start() {
                     infoErroParam();
                     continue;
                 }
-                flag = comandos.at(pos-1).executa(args.at(0), args.at(1), getReserva());
+                flag = comandos.at(pos-1).executa(args.at(0), args.at(1), getReserva(), this);
             }
             if(nArgs == 3) {
                 // executa os comandos com 2 argumentos
@@ -518,12 +543,12 @@ void Interface::start() {
                 }
                 if(args.at(0) == "n") {
                     for(int rep {1}; rep <= stoi(args.at(1)); ++rep) {
-                        flag = comandos.at(pos-1).executa(args.at(0), getReserva());
+                        flag = comandos.at(pos-1).executa(args.at(0), getReserva(), this);
                         infoShowReserva();
                         sleep(stoi(args.at(2)));
                     }
                 } else {
-                    flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), getReserva());
+                    flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), getReserva(), this);
                 }
             }
             if(nArgs == 4) {
@@ -588,38 +613,36 @@ void Interface::start() {
                 // executa o comando help
                 flag = getHelp(args.at(1), 1);
             }
-            if(flag == -2) {
-                // executa o comando exit
-                clearSaves();
+            if(flag == -2)
+                // sai do while loop
                 on = false;
-            }
-            if(flag == -3)
-                // executa o comando info <id>
-                flag = infoAboutId(stoi(args.at(1)));
-            if(flag == -4)
-                // executa o comando save <nome-do-ficheiro>
-                flag = addSave(args.at(1));
-            if(flag == -5)
+//            if(flag == -3)
+//                // executa o comando info <id>
+//                flag = infoAboutId(stoi(args.at(1)));
+//            if(flag == -4)
+                // executa o comando store <nome-do-ficheiro>
+//                flag = addSave(args.at(1));
+//            if(flag == -5)
                 // executa o comando restore <nome-do-ficheiro>
-                flag = restoreSave(args.at(1));
-            if(flag == -6)
+//                flag = restoreSave(args.at(1));
+//            if(flag == -6)
                 // executa o comando anim
-                flag = infoAnim();
-            if(flag == -7)
+//                flag = infoAnim();
+//            if(flag == -7)
                 // executa o comando visanim
-                flag = infoVisanim();
-            if(flag == -8)
+//                flag = infoVisanim();
+//            if(flag == -8)
                 // executa o comando slide <direction> <tamanho>
-                flag = modifyOriginVis(args.at(1), stoi(args.at(2)));
-            if(flag == -9)
-                // executa o comando see <posX> <posY>
-                flag = infoSee(stoi(args.at(1)), stoi(args.at(2)));
-            if(flag == -10)
+//                flag = modifyOriginVis(args.at(1), stoi(args.at(2)));
+//            if(flag == -9)
+//                 executa o comando see <posX> <posY>
+//                flag = infoSee(stoi(args.at(1)), stoi(args.at(2)));
+//            if(flag == -10)
                 // executa o comando alim
-                flag = infoAlim();
-            if(flag == -11)
+//                flag = infoAlim();
+//            if(flag == -11)
                 // executa o comando visalim
-                flag = infoVisalim();
+//                flag = infoVisalim();
 
             infoToUser();
             infoShowReserva();

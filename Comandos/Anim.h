@@ -5,7 +5,7 @@
 
 class Anim : public Comando {
 public:
-    Anim(string& cmd, Reserva* reserva);
+    Anim(string& cmd, Interface* hub);
 };
 
 #endif //POONATURAL_ANIM_H

@@ -5,7 +5,7 @@
 
 class Visalim : public Comando{
 public:
-    Visalim(string& cmd, Reserva* reserva);
+    Visalim(string& cmd, Interface* inter);
 };
 
 

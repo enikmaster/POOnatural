@@ -19,6 +19,7 @@
 #include "Load.h"
 #include "See.h"
 #include "Slide.h"
+#include "../Interfaces/Interface.h"
 
 using namespace std;
 string Comando::getAsString() const {
@@ -28,7 +29,7 @@ string Comando::getAsString() const {
     return os.str();
 }
 // executa os comandos
-int Comando::executa(string& comando, Reserva* zoo)const {
+int Comando::executa(string& comando, Reserva* zoo, Interface* inter)const {
     Reserva* pR {zoo};
     if(comando == "n"){
         Comando* pNext {new Next(comando, pR)};
@@ -36,34 +37,33 @@ int Comando::executa(string& comando, Reserva* zoo)const {
         return 0;
     }
     if(comando == "anim") {
-        //Comando* pAnim {new Anim(comando, pR)};
-        //delete pAnim;
-        return -6;
+        Comando* pAnim {new Anim(comando, inter)};
+        delete pAnim;
+        return 0;
     }
     if(comando == "visanim") {
-        //Comando* pVisanim {new Visanim(comando, pR)};
-        //delete pVisanim;
-        return -7;
+        Comando* pVisanim {new Visanim(comando, inter)};
+        delete pVisanim;
+        return 0;
     }
     if(comando == "alim") {
-        //Comando* pAlim {new Alim(comando, pR)};
-        //delete pAlim;
-        return -10;
+        Comando* pAlim {new Alim(comando, inter)};
+        delete pAlim;
+        return 0;
     }
     if(comando == "visalim") {
-        //Comando* pVisalim {new Visalim(comando, pR)};
-        //delete pVisalim;
-        return -11;
+        Comando* pVisalim {new Visalim(comando, inter)};
+        delete pVisalim;
+        return 0;
     }
-
     if(comando == "exit"){
-        Comando* pExit {new Exit(comando, pR)};
+        Comando* pExit {new Exit(comando, pR, inter)};
         delete pExit;
         return -2;
     }
     return 1;
 }
-int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
+int Comando::executa(string& comando, string& arg1, Reserva* zoo, Interface* inter) const {
     Reserva* pR {zoo};
     if(comando == "animal"){
         Comando* pCriaAnimal {new CriaAnimal(comando, (char)toupper(arg1.at(0)), pR)};
@@ -86,9 +86,9 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
         return 0;
     }
     if(comando == "info") {
-        //Comando* pInfo {new Info(comando, stoi(arg1), pR)};
-        //delete pInfo;
-        return -3;
+        Comando* pInfo {new Info(comando, stoi(arg1), inter)};
+        delete pInfo;
+        return 0;
     }
     if(comando == "n") {
         Comando* pNext {new Next(comando, stoi(arg1), pR)};
@@ -96,14 +96,14 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
         return 0;
     }
     if(comando == "store") {
-//        Comando* pStore {new Store(comando, arg1, pR)};
-//        delete pStore;
-        return -4;
+        Comando* pStore {new Store(comando, arg1, inter)};
+        delete pStore;
+        return 0;
     }
     if(comando == "restore") {
-//        Comando* pRestore {new Restore(comando, arg1, pR)};
-//        delete pRestore;
-        return -5;
+        Comando* pRestore {new Restore(comando, arg1, inter)};
+        delete pRestore;
+        return 0;
     }
     if(comando == "load") {
         // Pensar muito bem neste comando
@@ -115,7 +115,7 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo) const {
         return -1;
     return 1;
 }
-int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) const {
+int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo, Interface* inter) const {
     Reserva* pR {zoo};
     if(comando == "kill"){
         Comando* pKill {new Kill(comando, stoi(arg1), stoi(arg2), pR)};
@@ -133,9 +133,9 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
         return 0;
     }
     if(comando == "see") {
-//        Comando* pSee {new See(comando, stoi(arg1), stoi(arg2), pR)};
-//        delete pSee;
-        return -9;
+        Comando* pSee {new See(comando, stoi(arg1), stoi(arg2), inter)};
+        delete pSee;
+        return 0;
     }
     if(comando == "n") {
         Comando* pNext {new Next(comando, pR)};
@@ -143,13 +143,13 @@ int Comando::executa(string& comando, string& arg1, string& arg2, Reserva* zoo) 
         return 0;
     }
     if(comando == "slide") {
-//        Comando* pSlide = new Slide(comando, arg1, stoi(arg2), pR);
-//        delete pSlide;
-        return -8;
+        Comando* pSlide = new Slide(comando, arg1, stoi(arg2), inter);
+        delete pSlide;
+        return 0;
     }
     return 1;
 }
-int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo) const {
+int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo, Interface* inter) const {
     Reserva* pR {zoo};
     if(comando == "animal"){
         Comando* pCriaAnimal {new CriaAnimal(comando, (char) toupper(arg1.at(0)), stoi(arg2), stoi(arg3), pR)};

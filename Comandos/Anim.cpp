@@ -1,4 +1,6 @@
 #include "Anim.h"
+#include "../Interfaces/Interface.h"
 
-Anim::Anim(string& cmd, Reserva* reserva) : Comando(cmd) {
+Anim::Anim(string& cmd, Interface* hub) : Comando(cmd) {
+    hub->infoAnim();
 };
