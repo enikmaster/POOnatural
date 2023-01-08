@@ -74,7 +74,9 @@ public:
     void infoShowReserva();
     int infoAboutId(int eid);
     int infoAnim();
+    int infoAlim();
     int infoVisanim();
+    int infoVisalim();
     int infoSee(int posX, int posY);
     // actions
     bool checkArgAnimais(string& arg) const;
