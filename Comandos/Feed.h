@@ -4,7 +4,7 @@
 
 class Feed : public Comando {
 public:
-    Feed(std::string& cmd, int posX, int posY, int arg1, int arg2, Reserva* r);
+    Feed(std::string& cmd, int posX, int posY, int arg1, int arg2, Reserva* reservaKill);
 };
 
 

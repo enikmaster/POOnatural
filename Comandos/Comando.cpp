@@ -2,6 +2,7 @@
 #include "CriaAnimal.h"
 #include "Empty.h"
 #include "Exit.h"
+#include "Feed.h"
 #include "Feedid.h"
 #include "Food.h"
 #include "Kill.h"
@@ -16,7 +17,6 @@
 #include "Load.h"
 #include "See.h"
 #include "Slide.h"
-#include "Feed.h"
 
 using namespace std;
 string Comando::getAsString() const {

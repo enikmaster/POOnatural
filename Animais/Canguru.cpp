@@ -19,12 +19,15 @@ Canguru::~Canguru() {
     // remove todas as listas de percepção
     animaisPerto.clear();
     alimentosPerto.clear();
-    // criar um novo alimento corpo junto a esta posição
-    Alimento* pCorpo {new Corpo(this->getPosX() + 1, this->getPosY(), 15, this->getReserva())};
-    pCorpo->setToxic(5);
-    reservaAnimal->addFood(pCorpo);
-    Local* pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(), this->getReserva());
-    reservaAnimal->addLocal(pLocal);
+    if(!getToEmpty()){
+        // criar um novo alimento corpo junto a esta posição
+        Alimento *pCorpo{new Corpo(this->getPosX() + 1, this->getPosY(), 15, this->getReserva())};
+        pCorpo->setToxic(5);
+        reservaAnimal->addFood(pCorpo);
+        Local *pLocal = new Local(pCorpo->getFoodId(), pCorpo->getPosX(), pCorpo->getPosY(), pCorpo->getLetra(),
+                                  this->getReserva());
+        reservaAnimal->addLocal(pLocal);
+    }
 }
 // getters
 int Canguru::getVelocidade() {
@@ -102,7 +105,7 @@ void Canguru::checkSurrounding() {
                         if (getIdadeNaBolsa() == getIdade()) {
                             setNaBolsa(false);
                             setMedo(false);
-                            setVisible(true);
+//                            setVisible(true);
                         }
                         movingDirectionX = posPaiX;
                         movingDirectionY = posPaiY;
@@ -110,7 +113,7 @@ void Canguru::checkSurrounding() {
                         if (this->getPosX() == posPaiX &&
                             this->getPosY() == posPaiY) { // se já está na posição do progenitor
                             setNaBolsa(true);
-                            setVisible(false);
+//                            setVisible(false);
                             setIdadeNaBolsa(this->getIdade());
                         } else { // se não está na posição do progenitor
                             setMedo(true);
@@ -143,7 +146,7 @@ void Canguru::checkSurrounding() {
         if (!orfan && !naBolsa) {
             if (this->getPosX() == posPaiX && this->getPosY() == posPaiY) { // se já está na posição do progenitor
                 setNaBolsa(true);
-                setVisible(false);
+//                setVisible(false);
                 setIdadeNaBolsa(this->getIdade());
             }
         }

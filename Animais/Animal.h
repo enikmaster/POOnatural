@@ -18,7 +18,7 @@ private:
     int peso;
     int fome;
     bool isAlive;
-    bool visible {true};
+    bool toEmpty {false};
     //Registo* registoAlimentar;
 
 protected:
@@ -45,7 +45,7 @@ public:
     int getPeso() const {return this->peso;};
     bool getIsAlive() const {return this->isAlive;};
     int getQuantidadeAlimentosPerto() {return (int)alimentosPerto.size();};
-    bool isVisible() const { return visible; };
+    bool getToEmpty() const { return toEmpty; };
     Reserva* getReserva() const;
     //void getRegistoAlimentar() {};
     // setters
@@ -63,7 +63,7 @@ public:
     void setReserva(Reserva* reserva) {this->reservaAnimal = reserva;};
     void addAnimalPerto(Animal* novoAnimal);
     void addAlimentoPerto(Alimento* novoAlimento);
-    void setVisible(bool value) { visible = value; };
+    void setToEmpty(bool value) { toEmpty = value; };
     //void setRegistoAlimentar();
 
     // actions

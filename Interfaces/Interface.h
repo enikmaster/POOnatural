@@ -21,6 +21,7 @@ class Interface {
     const vector<char> letraEspecies {'C','O', 'L', 'G', 'M', 'H'};
     const vector<string> especie {"Coelho", "Ovelha", "Lobo", "Canguru", "Macaco", "Humano"};
     const vector<char> letraAlimentos {'r', 't', 'p', 'b', 'a'};
+
     const vector<Comando> comandos {{"animal","Cria um novo animal na reserva. O utilizador indica a especie e a posicao X e Y dentro da reserva.","<especie> <posicao_X> <posicao_Y>"},
                                {"animal","Cria um novo animal na reserva. O utilizador indica a especie. A posicao dentro da reserva e' atribuida aleatoraiamente.","<especie>"},
                                {"kill","Mata um animal da reserva. O utilizador indica a posicao X e Y dentro da reserva.","<posicao_X> <posicao_Y>"},
@@ -66,6 +67,7 @@ public:
     void infoErroCmdDesc();
     void infoErroNumArgs(string& cmd);
     void infoErroParam();
+    void infoErroLocalVazio();
     void infoErroNoEspecie();
     void infoErroNoFood();
     void infoErroForaReserva();
@@ -82,6 +84,8 @@ public:
     bool checkArgIds(int arg) const;
     bool checkArgPosX(int arg) const {return (arg < zoo->getDimX());};
     bool checkArgPosY(int arg) const {return (arg < zoo->getDimY());};
+    bool checkAnimAtPos(int posX, int posY) const;
+    bool checkAlimAtPos(int posX, int posY) const;
     bool checkVisibility(int posX, int posY) const;
     int findComando(string& arg);
     int modifyOriginVis(const string& direction, int value);

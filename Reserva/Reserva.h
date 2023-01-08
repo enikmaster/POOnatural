@@ -26,6 +26,7 @@ public:
     Animal* getAnimal(int id);
     Alimento* getAlimento(int id);
     // setters
+    void setToEmptyByPos(int posx, int posY);
     // actions
     void incContadorIds() {++contadorIds;}
     bool checkPosOcupado(int posX, int posY) const;

@@ -82,13 +82,10 @@ string Interface::getInput() {
 }
 // devolve a informação sobre o comando pedido
 int Interface::getHelp(string& cmd, int writePos) {
-    if(writePos == 1) {
-        wInfo.clear();
-        refresh();
-        wInfo << zoo->getAsString();
-    }
+    if(writePos == 1)
+        infoTamanhoReserva();
     for(auto& comando : comandos) {
-        if(cmd == comando.getCmd()){
+        if(cmd == comando.getCmd()) {
             wInfo << move_to(0, writePos) << comando.getCmd() << " " << comando.getArgs();
             wInfo << move_to(0, ++writePos) << comando.getDescr();
             writePos += 2;
@@ -150,6 +147,11 @@ void Interface::infoErroNumArgs(string& cmd) {
 void Interface::infoErroParam() {
     infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Um dos parametros nao e' valido.";
+}
+// envia para o user um erro de local vazio
+void Interface::infoErroLocalVazio() {
+    infoTamanhoReserva();
+    wInfo << move_to(0, 1) << "Este local encontra-se vazio...";
 }
 void Interface::infoErroNoEspecie() {
     infoTamanhoReserva();
@@ -330,6 +332,22 @@ bool Interface::checkArgIds(int arg) const{
     }
     return false;
 }
+// verifica se a posição está ocupada com Animal
+bool Interface::checkAnimAtPos(int posX, int posY) const{
+    for(auto& animal : zoo->animais) {
+        if(animal->getPosX() == posX && animal->getPosY() == posY)
+            return true;
+    }
+    return false;
+}
+// verifica se a posição está ocupada com Animal
+bool Interface::checkAlimAtPos(int posX, int posY) const{
+    for(auto& alimento : zoo->alimentos) {
+        if(alimento->getPosX() == posX && alimento->getPosY() == posY)
+            return true;
+    }
+    return false;
+}
 // verifica se o elemento está visível
 bool Interface::checkVisibility(int posX, int posY) const {
     return (posX >= getOriginX() && posX <= getOriginX() + 15 && posY >= getOriginY() && posY <= getOriginY() + 15);
@@ -369,8 +387,10 @@ int Interface::addSave(string nome) {
 // reinicia uma reserva guardada
 int Interface::restoreSave(const string& nome) {
     for(auto& save : saves) {
-        if(save->getNome() == nome)
+        if(save->getNome() == nome) {
             setSavedZoo(save->getReservaSave());
+            break;
+        }
     }
     return 0;
 }
@@ -512,9 +532,18 @@ void Interface::start() {
             }
             if(nArgs == 5) {
                 // executa os comandos com 4 argumentos
-                if(args.at(0) == "feed" && !checkArgPosX(stoi(args.at(1))) && !checkArgPosY(stoi(args.at(2)))) {
-                    infoErroParam();
-                    continue;
+                if(args.at(0) == "feed") {
+                    if( !checkArgPosX(stoi(args.at(1))) ) {
+                        infoErroForaReserva();
+                        continue;
+                    }
+                    if( !checkArgPosY(stoi(args.at(2))) ) {
+                        infoErroForaReserva();
+                        continue;
+                    }
+                    if( !checkAnimAtPos(stoi(args.at(1)), stoi(args.at(2))) ) {
+                        infoErroLocalVazio();
+                    }
                 }
                 flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), args.at(4), getReserva());
             }

@@ -41,6 +41,12 @@ Alimento* Reserva::getAlimento(int id) {
     return nullptr;
 };
 // setters
+void Reserva::setToEmptyByPos(int posX, int posY) {
+    for(auto& animal : animais) {
+        if(animal->getPosX() == posX && animal->getPosY() == posY)
+            animal->setToEmpty(false);
+    }
+}
 // actions
 bool Reserva::checkPosOcupado(int posX, int posY) const {
     // verifica se a posição x,y está ocupada
