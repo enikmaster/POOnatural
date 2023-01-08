@@ -130,6 +130,8 @@ void Lobo::cicloTurno() {
     // como cada animal é atualizado de cada vez, na altura a que chega a este
     // pode já ter sido morto
     if(getIsAlive()) {
+        // atualiza a população Within Range de acordo com a nova posição
+        populateWithinRange();
         // atualiza a vida
         setIdade(getIdade() + 1);
         // atualiza a fome
@@ -191,8 +193,6 @@ void Lobo::cicloTurno() {
         checkSurrounding();
         if(this->getIdade() == this->getReproDay())
             reservaAnimal->addAnimal(fazOutro());
-        // atualiza a população Within Range de acordo com a nova posição
-        populateWithinRange();
     }
     if(!getIsAlive())
         dies();

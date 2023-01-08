@@ -118,10 +118,12 @@ Animal* Coelho::fazOutro() {
     return pA;
 }
 void Coelho::cicloTurno() {
-    // atualiza vida
-    setIdade(this->getIdade() + 1);
-    checkVitality();
     if(getIsAlive()) {
+        // atualiza a população Within Range de acordo com a nova posição
+        populateWithinRange();
+        // atualiza vida
+        setIdade(this->getIdade() + 1);
+        checkVitality();
         // atualiza a fome
         setFome(this->getFome() + 1);
         // atualiza a saúde e a velocidade de acordo com a fome
@@ -133,8 +135,9 @@ void Coelho::cicloTurno() {
             setSaude(this->getSaude() - 1);
             setdeslMax(3);
         }
-        if(this->getFome() <= 10)
+        if(this->getFome() <= 10) {
             setdeslMax(2);
+        }
         checkVitality();
     }
     if(getIsAlive()) {
@@ -158,11 +161,10 @@ void Coelho::cicloTurno() {
         // e move-se de acordo
         checkSurrounding();
         if(this->getIdade() % 8 == 0 ) {
-            if(aleatorio(0, 1))
+            if(aleatorio(0, 1)) {
                 reservaAnimal->addAnimal(fazOutro());
+            }
         }
-        // atualiza a população Within Range de acordo com a nova posição
-        populateWithinRange();
     }
     if(!getIsAlive())
         dies();

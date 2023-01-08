@@ -141,10 +141,12 @@ Animal* Ovelha::fazOutro() {
     return nullptr;*/
 }
 void Ovelha::cicloTurno() {
-    // atualiza vida
-    setIdade(this->getIdade() + 1);
-    checkVitality();
     if(getIsAlive()) {
+        // atualiza a população Within Range antes de tudo o resto
+        populateWithinRange();
+        // atualiza vida
+        setIdade(this->getIdade() + 1);
+        checkVitality();
         // atualiza a fome
         setFome(this->getFome() + 1);
         // atualiza a saúde e a velocidade de acordo com a fome
@@ -180,8 +182,6 @@ void Ovelha::cicloTurno() {
         checkSurrounding();
         if(this->getIdade() % 15 == 0 )
             reservaAnimal->addAnimal(fazOutro());
-        // atualiza a população Within Range de acordo com a nova posição
-        populateWithinRange();
     }
     if(!getIsAlive())
         dies();

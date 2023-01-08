@@ -167,6 +167,7 @@ Animal* Canguru::fazOutro() {
 void Canguru::cicloTurno() {
     // verifica se não foi morto
     if(getIsAlive()){
+        populateWithinRange();
         // atualiza a vida
         setIdade(getIdade() + 1);
         if(isAdult())
