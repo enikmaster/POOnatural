@@ -74,6 +74,7 @@ public:
     void infoErroNoEspecie();
     void infoErroNoFood();
     void infoErroForaReserva();
+    void infoErroFileOpen();
     void infoShowReserva();
     int infoAboutId(int eid);
     int infoAnim();

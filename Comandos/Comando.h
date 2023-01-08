@@ -20,7 +20,7 @@ public:
     int executa(string& comando, string& arg1, string& arg2, Reserva* zoo = nullptr, Interface* inter = nullptr)const;
     int executa(string& comando, string& arg1, string& arg2, string& arg3, Reserva* zoo, Interface* inter = nullptr)const;
     int executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4, Reserva* zoo)const;
-    //int executa(string& comando, Reserva* res, Interface& outro);
+    int executa(string& comando, string& arg1, vector<string>& guardaFrases, Interface* inter) const;
 
 private:
     string cmd;

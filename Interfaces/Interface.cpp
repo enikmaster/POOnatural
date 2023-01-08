@@ -169,6 +169,10 @@ void Interface::infoErroForaReserva() {
     infoTamanhoReserva();
     wInfo << move_to(0, 1) << "Esta a tentar criar algo fora da reserva...";
 }
+void Interface::infoErroFileOpen() {
+    infoTamanhoReserva();
+    wInfo << move_to(0, 1) << "Erro a abrir o ficheiro...";
+}
 // mostra a reserva na janela certa
 void Interface::infoShowReserva() {
     wReserva.clear();
@@ -464,25 +468,37 @@ void Interface::start() {
     wInfo << zoo->getAsString();
     bool on {true};
     infoShowReserva();
+    vector<string> inputsFromFile;
     do {
-        // pede informação ao user
-        infoToUser();
-        string userInput{getInput()};
-        wInputs.clear();
-        refresh();
-        stringstream iss (userInput);
-        string temp{};
-        int nArgs {countArgs(iss, temp)};
-        // verifica se os argumentos introduzidos estão dentro dos limites válidos
-        if(nArgs < 1 || nArgs > 5) {
-            infoErroArgs(nArgs);
-            continue;
+        vector<string> args;
+        int nArgs{0};
+        if(!inputsFromFile.empty()) {
+            stringstream iss(inputsFromFile.at(0));
+            string temp{};
+            nArgs = countArgs(iss, temp);
+            // divide a string em palavras
+            args = split(inputsFromFile.at(0));
+            inputsFromFile.erase(inputsFromFile.begin());
+        } else {
+            // pede informação ao user
+            infoToUser();
+            string userInput{getInput()};
+            wInputs.clear();
+            refresh();
+            stringstream iss(userInput);
+            string temp{};
+            nArgs = countArgs(iss, temp);
+            // verifica se os argumentos introduzidos estão dentro dos limites válidos
+            if (nArgs < 1 || nArgs > 5) {
+                infoErroArgs(nArgs);
+                continue;
+            }
+            // divide a string em palavras
+            args = split(userInput);
         }
-        // divide a string em palavras
-        vector<string> args {split(userInput)};
         // verifica se o comando existe
-        int pos {findComando(args.at(0))};
-        if(!pos) {
+        int posCmd {findComando(args.at(0))};
+        if(!posCmd) {
             infoErroCmdDesc();
             continue;
         } else {
@@ -490,7 +506,7 @@ void Interface::start() {
             int flag {0};
             if(nArgs == 1)
                 // executa os comandos sem argumentos
-                flag = comandos.at(pos-1).executa( args.at(0), getReserva(), this );
+                flag = comandos.at(posCmd-1).executa( args.at(0), getReserva(), this );
             if(nArgs == 2) {
                 // executa os comandos com 1 argumento
                 if(args.at(0) == "animal" && !checkArgAnimais(args.at(1))) {
@@ -517,7 +533,11 @@ void Interface::start() {
                     infoErroParam();
                     continue;
                 }
-                flag = comandos.at(pos-1).executa(args.at(0), args.at(1), getReserva(), this);
+                if(args.at(0) == "load") {
+                    flag = comandos.at(posCmd-1).executa(args.at(0), args.at(1), inputsFromFile, this);
+                } else {
+                    flag = comandos.at(posCmd-1).executa(args.at(0), args.at(1), getReserva(), this);
+                }
             }
             if(nArgs == 3) {
                 // executa os comandos com 2 argumentos
@@ -543,12 +563,12 @@ void Interface::start() {
                 }
                 if(args.at(0) == "n") {
                     for(int rep {1}; rep <= stoi(args.at(1)); ++rep) {
-                        flag = comandos.at(pos-1).executa(args.at(0), getReserva(), this);
+                        flag = comandos.at(posCmd-1).executa(args.at(0), getReserva(), this);
                         infoShowReserva();
                         sleep(stoi(args.at(2)));
                     }
                 } else {
-                    flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), getReserva(), this);
+                    flag = comandos.at(posCmd-1).executa(args.at(0), args.at(1), args.at(2), getReserva(), this);
                 }
             }
             if(nArgs == 4) {
@@ -585,7 +605,7 @@ void Interface::start() {
                     infoErroParam();
                     continue;
                 }
-                flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), getReserva());
+                flag = comandos.at(posCmd-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), getReserva());
             }
             if(nArgs == 5) {
                 // executa os comandos com 4 argumentos
@@ -602,12 +622,13 @@ void Interface::start() {
                         infoErroLocalVazio();
                     }
                 }
-                flag = comandos.at(pos-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), args.at(4), getReserva());
+                flag = comandos.at(posCmd-1).executa(args.at(0), args.at(1), args.at(2), args.at(3), args.at(4), getReserva());
             }
             if(flag == 1) { // flag tem o valor 1
-                string cmd{comandos.at(pos-1).getCmd()};
+                string cmd{comandos.at(posCmd-1).getCmd()};
                 infoErroNumArgs(cmd);
-                getHelp(cmd, 3); // executa o comando help pq deu erro num comando
+                // executa o comando help pq deu erro num comando
+                getHelp(cmd, 3);
             }
             if(flag == -1) {
                 // executa o comando help
@@ -616,33 +637,6 @@ void Interface::start() {
             if(flag == -2)
                 // sai do while loop
                 on = false;
-//            if(flag == -3)
-//                // executa o comando info <id>
-//                flag = infoAboutId(stoi(args.at(1)));
-//            if(flag == -4)
-                // executa o comando store <nome-do-ficheiro>
-//                flag = addSave(args.at(1));
-//            if(flag == -5)
-                // executa o comando restore <nome-do-ficheiro>
-//                flag = restoreSave(args.at(1));
-//            if(flag == -6)
-                // executa o comando anim
-//                flag = infoAnim();
-//            if(flag == -7)
-                // executa o comando visanim
-//                flag = infoVisanim();
-//            if(flag == -8)
-                // executa o comando slide <direction> <tamanho>
-//                flag = modifyOriginVis(args.at(1), stoi(args.at(2)));
-//            if(flag == -9)
-//                 executa o comando see <posX> <posY>
-//                flag = infoSee(stoi(args.at(1)), stoi(args.at(2)));
-//            if(flag == -10)
-                // executa o comando alim
-//                flag = infoAlim();
-//            if(flag == -11)
-                // executa o comando visalim
-//                flag = infoVisalim();
 
             infoToUser();
             infoShowReserva();

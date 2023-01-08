@@ -177,6 +177,11 @@ int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, 
     }
     return 1;
 }
+int Comando::executa(string& comando, string& filename, vector<string>& guardaFrases, Interface* inter) const {
+    Comando* pC = new Load(comando, filename, guardaFrases, inter);
+    delete pC;
+    return 0;
+}
 
 ostream& operator<<(ostream& out, const Comando& a) {
     out << a.getAsString();
