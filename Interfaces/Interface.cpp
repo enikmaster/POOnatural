@@ -214,6 +214,38 @@ int Interface::infoVisanim() {
     }
     return 0;
 }
+// comando Alim
+int Interface::infoAlim() {
+    infoTamanhoReserva();
+    int linha {0};
+    for(auto& alim : zoo->alimentos) {
+        int index {0};
+        for(auto& letra : letraAlimentos) {
+            if(letra == alim->getLetra())
+                wInfo << move_to(0, ++linha) << "Id: "<< alim->getFoodId() << " | Nutri: " << alim->getNutri() << " | Tipo: " << tipoAlim.at(index);
+            ++index;
+        }
+    }
+    return 0;
+}
+// comando Visalim
+int Interface::infoVisalim() {
+    infoTamanhoReserva();
+    int areaVisivelX {getOriginX() + 15};
+    int areaVisivelY {getOriginY() + 15};
+    int linha {0};
+    for (auto& alim : zoo->alimentos) {
+        if ((alim->getPosX() <= areaVisivelX && alim->getPosX() >= getOriginX()) && (alim->getPosY() <= areaVisivelY && alim->getPosY() >= getOriginY()) ) {
+            int index {0};
+            for(auto& letra : letraAlimentos) {
+                if(letra == alim->getLetra())
+                    wInfo << move_to(0, ++linha) << "Id: "<< alim->getFoodId() << " | Nutri: " << alim->getNutri() << " | Tipo: " << tipoAlim.at(index);
+                ++index;
+            }
+        }
+    }
+    return 0;
+}
 // Comando info <id>
 int Interface::infoAboutId(int eid) {
     infoTamanhoReserva();
@@ -582,6 +614,12 @@ void Interface::start() {
             if(flag == -9)
                 // executa o comando see <posX> <posY>
                 flag = infoSee(stoi(args.at(1)), stoi(args.at(2)));
+            if(flag == -10)
+                // executa o comando alim
+                flag = infoAlim();
+            if(flag == -11)
+                // executa o comando visalim
+                flag = infoVisalim();
 
             infoToUser();
             infoShowReserva();

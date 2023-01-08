@@ -43,5 +43,5 @@ add_executable(${PROJECT_NAME}
         Interfaces/Interface.cpp
         Interfaces/Save.cpp
         Terminal.cpp
-        )
+        Comandos/Alim.cpp Comandos/Alim.h Comandos/Visalim.cpp Comandos/Visalim.h)
 target_link_libraries(${PROJECT_NAME} C:/pdcurses/pdcurses.a)

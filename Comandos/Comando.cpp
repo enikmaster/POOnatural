@@ -11,6 +11,8 @@
 #include "Nofood.h"
 #include "Anim.h"
 #include "Visanim.h"
+#include "Alim.h"
+#include "Visalim.h"
 #include "Info.h"
 #include "Store.h"
 #include "Restore.h"
@@ -43,6 +45,17 @@ int Comando::executa(string& comando, Reserva* zoo)const {
         //delete pVisanim;
         return -7;
     }
+    if(comando == "alim") {
+        //Comando* pAlim {new Alim(comando, pR)};
+        //delete pAlim;
+        return -10;
+    }
+    if(comando == "visalim") {
+        //Comando* pVisalim {new Visalim(comando, pR)};
+        //delete pVisalim;
+        return -11;
+    }
+
     if(comando == "exit"){
         Comando* pExit {new Exit(comando, pR)};
         delete pExit;

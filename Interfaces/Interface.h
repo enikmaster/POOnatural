@@ -19,8 +19,9 @@ class Interface {
     vector<Save*> saves;
     const vector<string> directions {"up", "down", "left", "right"};
     const vector<char> letraEspecies {'C','O', 'L', 'G', 'M', 'H'};
-    const vector<string> especie {"Coelho", "Ovelha", "Lobo", "Canguru", "Macaco", "Humano"};
     const vector<char> letraAlimentos {'r', 't', 'p', 'b', 'a'};
+    const vector<string> especie {"Coelho", "Ovelha", "Lobo", "Canguru", "Macaco", "Humano"};
+    const vector<string> tipoAlim {"Relva", "Cenoura", "Corpo", "Bife", "Banana"};
 
     const vector<Comando> comandos {{"animal","Cria um novo animal na reserva. O utilizador indica a especie e a posicao X e Y dentro da reserva.","<especie> <posicao_X> <posicao_Y>"},
                                {"animal","Cria um novo animal na reserva. O utilizador indica a especie. A posicao dentro da reserva e' atribuida aleatoraiamente.","<especie>"},
@@ -40,6 +41,8 @@ class Interface {
                                {"n","Avanca N turnos com um intervalo de tempo entre eles.","<n_turnos> <tempo>"},
                                {"anim","Lista todos os animais da reserva."},
                                {"visanim","Lista todos os animais da area visivel da reserva."},
+                               {"alim","Lista todos os animais da reserva."},
+                               {"visalim","Lista todos os animais da area visivel da reserva."},
                                {"store","Armazena o estado da reserva em memoria, associando-lhe um nome. O utilizador indica um nome.","<nome>"},
                                {"restore","Reativa um estado da reserva previamente armazenado em memoria. O utilizador indica o nome.","<nome>"},
                                {"load","Carrega e executa comandos a partir de um ficheiro de texto. O utilizador indica o nome do ficheiro.","<nome_ficheiro>"},
@@ -75,6 +78,8 @@ public:
     int infoAboutId(int eid);
     int infoAnim();
     int infoVisanim();
+    int infoAlim();
+    int infoVisalim();
     int infoSee(int posX, int posY);
     // actions
     bool checkArgAnimais(string& arg) const;
