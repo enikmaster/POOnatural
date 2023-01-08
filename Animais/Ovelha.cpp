@@ -124,21 +124,6 @@ Animal* Ovelha::fazOutro() {
     Local* pL {new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva())};
     reservaAnimal->addLocal(pL);
     return pA;
-    /*if ((Animal::getTick() % 15) == 0) {
-        Animal* p = new Ovelha(r);
-        r->pushBackVectorAnimais(p);
-        Reserva::contAnimais++;
-        int aux1=rand() % 25 - 12;
-        int aux2=rand() % 25 - 12;
-        p->setPosX(aux1);
-        p->setPosY(aux2);
-        p->setSaude(SOvelha);
-        Local *a = new Local(Reserva::contPosOcupadas, p->getPosX()+aux1, p->getPosY()+aux2, "animal",'C', r);
-        r->pushBackVectorPosOcupadas(a);
-        Reserva::contPosOcupadas++;
-        return p;
-    }
-    return nullptr;*/
 }
 void Ovelha::cicloTurno() {
     if(getIsAlive()) {

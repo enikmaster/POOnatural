@@ -103,8 +103,6 @@ public:
     void start();
 
     friend class Comando;
-
-//    void infoTeste();
 };
 vector<string> split(const string& input);
 int countArgs(stringstream& input, string& temp);
