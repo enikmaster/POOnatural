@@ -158,8 +158,8 @@ int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, 
 int Comando::executa(string& comando, string& arg1, string& arg2, string& arg3, string& arg4, Reserva* zoo) const {
     Reserva* pR {zoo};
     if(comando == "feed") {
-//        Comando* pFeed = new Feed(comando, stoi(arg1), stoi(arg2), stoi(arg3), stoi(arg4), pR);
-//        delete pFeed;
+        Comando* pFeed = new Feed(comando, stoi(arg1), stoi(arg2), stoi(arg3), stoi(arg4), pR);
+        delete pFeed;
         return 0;
     }
     return 1;

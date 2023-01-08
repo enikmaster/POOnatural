@@ -3,6 +3,7 @@
 #include "../Animais/Coelho.h"
 #include "../Animais/Lobo.h"
 #include "../Animais/Canguru.h"
+#include "../Animais/Macaco.h"
 
 CriaAnimal::CriaAnimal(string& cmd, char arg1, int arg2, int arg3, Reserva* reserva) : Comando(cmd) {
     if(arg1 == 'O') {
@@ -30,9 +31,9 @@ CriaAnimal::CriaAnimal(string& cmd, char arg1, int arg2, int arg3, Reserva* rese
         reserva->addLocal(pLocal);
     }
     if(arg1 == 'M') {
-//        Animal* pMacaco = new Macaco(arg1, arg2, arg3, reserva);
-//        reserva->addAnimal(pMacaco);
-//        Local* pLocal = new Local(pMacaco->getAnimalId(), pMacaco->getPosX(), pMacaco->getPosY(), pMacaco->getLetra(), reserva);
-//        reserva->addLocal(pLocal);
+        Animal* pMacaco = new Macaco(arg1, arg2, arg3, reserva);
+        reserva->addAnimal(pMacaco);
+        Local* pLocal = new Local(pMacaco->getAnimalId(), pMacaco->getPosX(), pMacaco->getPosY(), pMacaco->getLetra(), reserva);
+        reserva->addLocal(pLocal);
     }
 }

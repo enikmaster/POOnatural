@@ -36,6 +36,8 @@ add_executable(${PROJECT_NAME}
         Animais/Coelho.cpp
         Animais/Lobo.cpp
         Animais/Ovelha.cpp
+        Animais/Macaco.cpp
+        Animais/Humano.cpp
         Reserva/Reserva.cpp
         Reserva/Local.cpp
         Interfaces/Interface.cpp
