@@ -12,6 +12,7 @@ using namespace term;
 class Interface {
     int originX;
     int originY;
+    bool on;
     Window wReserva;
     Window wInfo;
     Window wInputs;
@@ -50,7 +51,9 @@ class Interface {
                                {"help","Apresenta o comando, a sintaxe e uma descricao do que faz.","<comando>"}};
 
 public:
-    Interface(Reserva* reserva);
+    Interface();
+    //Interface(Reserva* reserva);
+    ~Interface();
 
     // getters
     int getOriginX() const {return originX;}
@@ -58,10 +61,12 @@ public:
     string getInput();
     int getHelp(string& cmd, int writePos);
     Reserva* getReserva() const;
+    void getReservaDims();
     // setters
     void setOriginX(int newOriginX) {this->originX = newOriginX;}
     void setOriginY(int newOriginY) {this->originY = newOriginY;}
     void setSavedZoo(Reserva* reservaSaved);
+    void setOn(bool value) {this->on = value;}
     // informations
     void infoTamanhoReserva();
     void infoSucesso();
@@ -106,5 +111,5 @@ public:
 };
 vector<string> split(const string& input);
 int countArgs(stringstream& input, string& temp);
-void getReservaDims(int& DimX, int& DimY, term::Terminal& janela);
+
 #endif //INC_03_LEARN_INTERFACE_H

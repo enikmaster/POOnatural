@@ -7,7 +7,19 @@
 //uniform_int_distribution<> movimento(1, 2);
 //mt19937 gen;
 
-Interface::Interface(Reserva* reserva)
+Interface::Interface()
+        : originX(0), originY(0), zoo(nullptr), on(true), wReserva(term::Window(0, 0, 18, 18)), wInfo(term::Window(19, 0, 99, 18)), wInputs(term::Window(0, 18, 118, 5)) {
+    wReserva << move_to(0, 0);
+    mvprintw(0,1," Reserva ");
+    wInfo << set_color(0) << move_to(0, 0);
+    wInputs << set_color(0) << move_to(0, 0);
+    mvprintw(18,1," Input ");
+};
+Interface::~Interface() {
+    comandos.clear();
+    delete zoo;
+}
+/*Interface::Interface(Reserva* reserva)
         : originX(0), originY(0), zoo(reserva), wReserva(term::Window(0, 0, 18, 18)), wInfo(term::Window(19, 0, 99, 18)), wInputs(term::Window(0, 18, 118, 5)) {
     this->zoo->incContadorIds();
     wReserva << set_color(0) << move_to(0, 0);
@@ -16,7 +28,7 @@ Interface::Interface(Reserva* reserva)
     //mvwprintw((0,34,"Info");
     wInputs << set_color(0) << move_to(0, 0);
     mvprintw(18,1," Input ");
-}
+}*/
 // externas
 // divide o input em várias strings e devolve um vetor com tudo
 vector<string> split(const string& input) {
@@ -44,30 +56,37 @@ int countArgs(stringstream& input, string& temp) {
     return cnt;
 }
 // verifica e devolve as dimensoes da reserva a ser criada
-void getReservaDims(int& DimX, int& DimY, term::Terminal& janela) {
+void Interface::getReservaDims() {
     string input{};
     bool flag {false};
     do {
-        janela << term::move_to(0, 23) << "Insira a dimensao da reserva (altura comprimento) ou 0 0 para um tamanho aleatorio: ";
-        janela >> input;
+        wInfo.clear();
+        refresh();
+        wInfo << move_to(0, 0) << "Bem-Vindo!";
+        wInfo << move_to(0, 1) << "Reserva Natural POO";
+        wInfo << move_to(0, 2) << "Para iniciar a Reserva deve indicar as dimensoes. O maximo admitido e' 500 e o minimo e' 16.";
+        wInfo << move_to(0, 3) << "Se pretender uma Reserva criada com dimensoes aleatorias, coloque 0 0.";
+        wInputs << move_to(0, 0) << "Insira a dimensao da reserva (altura comprimento) ou 0 0 para um tamanho aleatorio: ";
+        wInputs << move_to(0, 1);
+        wInputs >> input;
         stringstream iss (input);
         string temp{};
         int nArgs {countArgs(iss, temp)};
         if(nArgs > 2 || nArgs == 0) {
-            janela << term::move_to(4, 24) << "Numero de argumentos invalido...";
+            wInfo << move_to(0, 6) << "Numero de argumentos invalido...";
             continue;
         }
         vector<string> args {split(input)};
         if((stoi(args.at(0)) == 0) && (stoi(args.at(1)) == 0)) {
             //DimX = dimR(gen);
             //DimY = dimR(gen);
-            DimX = 16 + (rand() % 485);
-            DimY = 16 + (rand() % 485);
+            Reserva* pReserva{new Reserva(16 + (rand() % 485), 16 + (rand() % 485))};
+            zoo = pReserva;
             flag = true;
         }
         if((stoi(args.at(0)) >= 16 && stoi(args.at(0)) <= 500) && (stoi(args.at(1)) >= 16 && stoi(args.at(1)) <= 500)) {
-            DimX = stoi(args.at(0));
-            DimY = stoi(args.at(1));
+            Reserva* pReserva{new Reserva(stoi(args.at(0)), stoi(args.at(1)))};
+            zoo = pReserva;
             flag = true;
         }
     }while(!flag);
@@ -465,6 +484,9 @@ void Interface::clearSaves() {
 }
 // start simulation
 void Interface::start() {
+    getReservaDims();
+    wInfo.clear();
+    refresh();
     wInfo << zoo->getAsString();
     bool on {true};
     infoShowReserva();
