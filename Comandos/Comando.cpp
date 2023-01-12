@@ -61,6 +61,11 @@ int Comando::executa(string& comando, Reserva* zoo, Interface* inter)const {
         delete pExit;
         return -2;
     }
+    if(comando == "KEY_UP" || comando == "KEY_DOWN" || comando == "KEY_LEFT" || comando == "KEY_RIGHT" ){
+        Comando* pSlide {new Slide(comando, comando, 1, inter)};
+        delete pSlide;
+        return 0;
+    }
     return 1;
 }
 int Comando::executa(string& comando, string& arg1, Reserva* zoo, Interface* inter) const {
@@ -103,12 +108,6 @@ int Comando::executa(string& comando, string& arg1, Reserva* zoo, Interface* int
     if(comando == "restore") {
         Comando* pRestore {new Restore(comando, arg1, inter)};
         delete pRestore;
-        return 0;
-    }
-    if(comando == "load") {
-        // Pensar muito bem neste comando
-//        Comando* pLoad {new Load(comando, arg1, pR)};
-//        delete pLoad;
         return 0;
     }
     if(comando == "help")

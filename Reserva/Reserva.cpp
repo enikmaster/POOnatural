@@ -117,7 +117,7 @@ void Reserva::removeAnimal(int aid) {
 bool Reserva::removeAnimal(int posX, int posY) {
     // remove um animal da reserva por posição
     for(vector<Animal*>::iterator animal {animais.begin()}; animal != animais.end(); ++animal) {
-        if((*animal)->getPosY() == posX && (*animal)->getPosY() == posY) {
+        if((*animal)->getPosX() == posX && (*animal)->getPosY() == posY) {
             // remove o local que o animal ocupa
             removeLocal((*animal)->getAnimalId());
             delete *animal;

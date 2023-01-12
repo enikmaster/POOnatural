@@ -16,7 +16,7 @@ Interface::Interface()
     mvprintw(18,1," Input ");
 };
 Interface::~Interface() {
-    comandos.clear();
+    clearSaves();
     delete zoo;
 }
 /*Interface::Interface(Reserva* reserva)
@@ -440,13 +440,13 @@ int Interface::findComando(string& arg) {
 }
 // comando slide
 int Interface::modifyOriginVis(const string& direction, int value) {
-    if(direction == "up")
+    if(direction == "up" || direction == "KEY_UP")
         (getOriginY() - value < 0) ? setOriginY(0) : setOriginY(getOriginY() - value);
-    if(direction == "down")
+    if(direction == "down" || direction == "KEY_DOWN")
         (getOriginY() + value > zoo->getDimY() - 16) ? setOriginY(zoo->getDimY() - 16) : setOriginY(getOriginY() + value);
-    if(direction == "left")
+    if(direction == "left" || direction == "KEY_LEFT")
         (getOriginX() - value < 0) ? setOriginX(0) : setOriginX(getOriginX() - value);
-    if(direction == "right")
+    if(direction == "right" || direction == "KEY_RIGHT")
         (getOriginX() + value > zoo->getDimX() - 16) ? setOriginX(zoo->getDimX() - 16) : setOriginX(getOriginX() + value);
     wInfo << move_to(0, 2);
     infoSucesso();
@@ -526,9 +526,15 @@ void Interface::start() {
         } else {
             infoTamanhoReserva();
             int flag {0};
-            if(nArgs == 1)
-                // executa os comandos sem argumentos
-                flag = comandos.at(posCmd-1).executa( args.at(0), getReserva(), this );
+            if(nArgs == 1) {
+                if (args.at(0) == "KEY_UP" || args.at(0) == "KEY_DOWN" || args.at(0) == "KEY_LEFT" || args.at(0) == "KEY_RIGHT" ){
+                    // executa os comandos sem argumentos
+                    flag = comandos.at(22).executa(args.at(0), getReserva(), this);
+                } else {
+                    // executa os comandos sem argumentos
+                    flag = comandos.at(posCmd - 1).executa(args.at(0), getReserva(), this);
+                }
+            }
             if(nArgs == 2) {
                 // executa os comandos com 1 argumento
                 if(args.at(0) == "animal" && !checkArgAnimais(args.at(1))) {
