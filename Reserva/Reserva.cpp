@@ -16,6 +16,9 @@ public:
 int Reserva::contadorIds {0};
 Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura) {};
 Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY()) {};
+Reserva::~Reserva() {
+    this->deleteAll();
+}
 // getters
 string Reserva::getAsString() const {
     ostringstream os;

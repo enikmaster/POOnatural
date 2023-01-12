@@ -17,6 +17,7 @@ protected:
 public:
     Reserva(int largura, int altura);
     Reserva(const Reserva& outra);
+    ~Reserva();
     //~Reserva() {};
     // getters
     int getDimX() const { return dimX;}
