@@ -20,6 +20,7 @@ private:
     bool isAlive;
     bool toEmpty {false};
     bool toClone;
+    std::vector<std::string> registoAlimentar;
     //Registo* registoAlimentar;
 
 protected:
