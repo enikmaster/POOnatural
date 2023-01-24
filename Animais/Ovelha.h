@@ -8,7 +8,8 @@ class Ovelha : public Animal {
 public:
     Ovelha(char l, int x, int y, Reserva* zoo);
     Ovelha(char l, Reserva* zoo);
-    Ovelha(const Ovelha& outro);
+    //Ovelha(const Ovelha& outro, bool value);
+    Ovelha(const Ovelha& outro, bool value=false);
     ~Ovelha() override;
     // getters
     std::string getAlimentacao() const {return this->alimentacao;};
@@ -21,6 +22,7 @@ public:
     Animal* fazOutro() override;
     void nasce();
     void cicloTurno() override;
+    Ovelha* clone() override {return new Ovelha(*this, true);};
 private:
     std::string alimentacao;
 };

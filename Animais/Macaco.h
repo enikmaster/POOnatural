@@ -26,6 +26,7 @@ public:
     Animal* fazOutro() override;
     void nasce();
     void cicloTurno() override;
+    Macaco* clone() override { return new Macaco(*this);};
 
     void xpGain();
     int getContadorXp();

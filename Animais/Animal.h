@@ -19,6 +19,7 @@ private:
     int fome;
     bool isAlive;
     bool toEmpty {false};
+    bool toClone;
     //Registo* registoAlimentar;
 
 protected:
@@ -27,9 +28,9 @@ protected:
     Reserva* reservaAnimal;
 public:
     // constructores:
-    Animal(char l, int x, int y, Reserva* novaReserva);
+    Animal(char l, int x, int y, Reserva* novaReserva, bool value=false);
     Animal(char l, Reserva* novaReserva) : Animal(l, -1, -1, novaReserva) {};
-    Animal(const Animal& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {};
+    Animal(const Animal& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {};
     virtual ~Animal() {};
     // getters
     int getPosX() const {return this->posX;};
@@ -46,6 +47,7 @@ public:
     bool getIsAlive() const {return this->isAlive;};
     int getQuantidadeAlimentosPerto() {return (int)alimentosPerto.size();};
     bool getToEmpty() const { return toEmpty; };
+    bool getToClone() const { return toClone; };
     Reserva* getReserva() const;
     //void getRegistoAlimentar() {};
     // setters
@@ -64,6 +66,7 @@ public:
     void addAnimalPerto(Animal* novoAnimal);
     void addAlimentoPerto(Alimento* novoAlimento);
     void setToEmpty(bool value) { toEmpty = value; };
+    void setToClone(bool value) { this->toClone = value;};
     //void setRegistoAlimentar();
 
     // actions
@@ -75,6 +78,7 @@ public:
     void come(int nutri, int toxic);
     void dies();
     virtual void cicloTurno() {};
+    virtual Animal* clone() = 0;
 };
 
 

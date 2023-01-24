@@ -22,6 +22,7 @@ public:
     void checkVitality();
     Animal* fazOutro() override;
     void cicloTurno() override;
+    Lobo* clone() override { return new Lobo(*this);};
 private:
     std::string alimentacao;
     int reproDay;

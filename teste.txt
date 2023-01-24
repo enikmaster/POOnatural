@@ -1,2 +1,17 @@
 animal c 1 1
-animal r 2 2
+animal c 3 1
+animal o 4 4
+kill 4 4
+animal o 1 5
+animal l
+animal G
+animal m 4 4
+food r
+food r
+food r
+food r
+food r
+food r 6 6
+food a
+food t
+food b

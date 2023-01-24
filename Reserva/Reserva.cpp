@@ -15,7 +15,15 @@ public:
 };
 int Reserva::contadorIds {0};
 Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura) {};
-Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY()) {};
+Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY()) {
+//    for(auto& alimento : outra.alimentos) {
+        //Alimento* pAli = new Alimento(*alimento);
+//    }
+    for(auto animal(outra.animais.begin()); animal != outra.animais.end(); ++animal) {
+        Animal* pAnim = (*animal)->clone();
+        this->animais.push_back(pAnim);
+    }
+};
 Reserva::~Reserva() {
     this->deleteAll();
 }

@@ -7,12 +7,21 @@ Ovelha::Ovelha(char l, const int x, const int y, Reserva* zoo) : Animal(l, x, y,
     this->populateWithinRange();
 }
 Ovelha::Ovelha(char l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {}
-Ovelha::Ovelha(const Ovelha& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
-    this->nasce();
-    this->setSaude(outro.getSaude());
-    this->setPosX(aleatorio((this->getPosX() - 12 < 0) ? 0 : this->getPosX() - 12, (this->getPosX() - 12 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 12));
-    this->setPosY(aleatorio((this->getPosY() - 12 < 0) ? 0 : this->getPosY() - 12, (this->getPosY() - 12 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 12));
-    this->populateWithinRange();
+Ovelha::Ovelha(const Ovelha& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva(), value) {
+    if(!getToClone()) {
+        this->nasce();
+        this->setSaude(outro.getSaude());
+        this->setPosX(aleatorio((this->getPosX() - 12 < 0) ? 0 : this->getPosX() - 12, (this->getPosX() - 12 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() - 1 : this->getPosX() + 12));
+        this->setPosY(aleatorio((this->getPosY() - 12 < 0) ? 0 : this->getPosY() - 12, (this->getPosY() - 12 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() - 1 : this->getPosY() + 12));
+        this->populateWithinRange();
+    } else {
+        this->nasce();
+        this->setSaude(outro.getSaude());
+        this->setPeso(outro.getPeso());
+        this->setFome(outro.getFome());
+        this->setIdade(outro.getIdade());
+        setToClone(false);
+    }
 }
 Ovelha::~Ovelha() {
     // remove todas as listas de percepção

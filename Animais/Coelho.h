@@ -21,6 +21,7 @@ public:
     Animal* fazOutro() override;
     void nasce();
     void cicloTurno() override;
+    Coelho* clone() override { return new Coelho(*this);};
 private:
     std::string alimentacao;
 };

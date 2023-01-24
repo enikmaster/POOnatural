@@ -19,6 +19,7 @@ public:
     void checkDirection();
     void nasce();
     void cicloTurno() override;
+    Humano* clone() override {return new Humano(*this);};
 };
 
 

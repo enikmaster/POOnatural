@@ -315,8 +315,13 @@ int Interface::infoAboutId(int eid) {
             break;
         }
     }
-    wInfo << move_to(0, linha + 2);
-    infoSucesso();
+    if(linha != 0) {
+        wInfo << move_to(0, linha + 2);
+        infoSucesso();
+    } else {
+        wInfo << move_to(0, linha + 1);
+        infoErroNoEspecie();
+    }
     return 0;
 }
 // comando See
@@ -454,6 +459,7 @@ int Interface::modifyOriginVis(const string& direction, int value) {
 }
 // adiciona um novo save game
 int Interface::addSave(string nome) {
+    wInfo << move_to(0,1) << "Reserva '" << nome << "' guardada com sucesso";
     // duplica a reserva
     Reserva* pReserva {new Reserva(*zoo)};
     // passa a reserva nova para o Save
@@ -462,6 +468,8 @@ int Interface::addSave(string nome) {
     saves.push_back(pSave);
     wInfo << move_to(0,2);
     infoSucesso();
+    wInfo << move_to(0,3);
+    infoAboutId(pReserva->animais[0]->getAnimalId());
     return 0;
 }
 // reinicia uma reserva guardada

@@ -30,6 +30,7 @@ public:
     bool isAdult() const;
     Animal* fazOutro() override;
     void cicloTurno() override;
+    Canguru* clone() override { return new Canguru(*this);};
 private:
     std::string alimentacao;
     int idPai;

@@ -2,18 +2,22 @@
 #include "../Alimentos/Alimento.h"
 #include "../Reserva/Reserva.h"
 
-Animal::Animal(char l, const int x, const int y, Reserva* novaReserva) : letra(l), posX(x), posY(y), reservaAnimal(novaReserva) {
-    this->setAnimalID(reservaAnimal->getContadorIds());
-    reservaAnimal->incContadorIds();
-    if(x == -1) {
-        int tempX {0};
-        int tempY {0};
-        do {
-            tempX = this->aleatorio(0, reservaAnimal->getDimX());
-            tempY = this->aleatorio(0, reservaAnimal->getDimY());
-        } while(reservaAnimal->checkPosOcupado(tempX, tempY));
-        this->setPosX(tempX);
-        this->setPosY(tempY);
+Animal::Animal(char l, const int x, const int y, Reserva* novaReserva, bool value) : letra(l), posX(x), posY(y), reservaAnimal(novaReserva), toClone(value) {
+    if(!getToClone()) {
+        this->setAnimalID(reservaAnimal->getContadorIds());
+        reservaAnimal->incContadorIds();
+        if (x == -1) {
+            int tempX{0};
+            int tempY{0};
+            do {
+                tempX = this->aleatorio(0, reservaAnimal->getDimX());
+                tempY = this->aleatorio(0, reservaAnimal->getDimY());
+            } while (reservaAnimal->checkPosOcupado(tempX, tempY));
+            this->setPosX(tempX);
+            this->setPosY(tempY);
+        }
+    } else {
+        setToClone(false);
     }
 }
 // getters
