@@ -46,6 +46,7 @@ public:
     // actions
     virtual void cicloTurno() {};
     virtual Alimento* fazOutro() {return nullptr;};
+    virtual Alimento* clone() = 0;
     int aleatorio(int min, int max) const { return min + rand() % (max + 1 - min);};
 };
 

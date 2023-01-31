@@ -8,6 +8,7 @@ Banana::Banana(char l, int posX, int posY, Reserva *reservaFood) : Alimento(l, p
     this->setCheiros("fruta");
     setIsAlive(true);
 }
+Banana::Banana(const Banana& outro) {}
 // actions
 void Banana::dimNutri() {
     (getDuracao() > 50) ? setNutri(getNutri() + 1) : setNutri(getNutri() - 1);

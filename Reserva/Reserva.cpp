@@ -26,7 +26,7 @@ Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY(
         pAnim->setReserva(this);
         this->animais.push_back(pAnim);
     }
-    for(auto local(outra.locaisOcupados.begin()); local != outra.locaisOcupados.end(); ++local) {
+    for(auto local{outra.locaisOcupados.begin()}; local != outra.locaisOcupados.end(); ++local) {
         Local* pLocal = (*local)->clone();
         pLocal->setReserva(this);
         this->locaisOcupados.push_back(pLocal);
