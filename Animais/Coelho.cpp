@@ -3,30 +3,56 @@
 #include "../Reserva/Local.h"
 
 Coelho::Coelho(char l, int posX, int posY, Reserva *reserva) : Animal(l, posX, posY, reserva) {
-    nasce();
-    populateWithinRange();
+    reserva->incContadorIds();
+    this->setAnimalID(reserva->getContadorIds());
+    if (posX == -1) {
+        int tempX{0};
+        int tempY{0};
+        do {
+            tempX = this->aleatorio(0, reservaAnimal->getDimX() - 1);
+            tempY = this->aleatorio(0, reservaAnimal->getDimY() - 1);
+        } while (reserva->checkPosOcupado(tempX, tempY));
+        this->setPosX(tempX);
+        this->setPosY(tempY);
+    }
+    this->nasce();
+    this->populateWithinRange();
 }
-Coelho::Coelho(const Coelho& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
-    nasce();
-    setPosX(aleatorio((this->getPosX() - 10 < 0) ? 0 : this->getPosX() - 10, (this->getPosX() - 10 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 10));
-    setPosY(aleatorio((this->getPosY() - 10 < 0) ? 0 : this->getPosY() - 10, (this->getPosY() - 10 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 10));
-    populateWithinRange();
+Coelho::Coelho(char l, Reserva* reserva) : Coelho(l, -1, -1, reserva) {};
+Coelho::Coelho(const Coelho& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva(), value) {
+    if(!getToClone()) {
+        outro.reservaAnimal->incContadorIds();
+        this->setAnimalID(outro.reservaAnimal->getContadorIds());
+        this->nasce();
+        this->setPosX(aleatorio((this->getPosX() - 10 < 0) ? 0 : this->getPosX() - 10, (this->getPosX() - 10 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 10));
+        this->setPosY(aleatorio((this->getPosY() - 10 < 0) ? 0 : this->getPosY() - 10, (this->getPosY() - 10 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 10));
+        this->populateWithinRange();
+    } else {
+        this->nasce();
+        this->setAnimalID(outro.getAnimalId());
+        this->setSaude(outro.getSaude());
+        this->setPeso(outro.getPeso());
+        this->setFome(outro.getFome());
+        this->setIdade(outro.getIdade());
+        this->setToClone(false);
+    }
 }
 Coelho::~Coelho() {
     // remove todas as listas de percepção
     animaisPerto.clear();
     alimentosPerto.clear();
 }
+// set dos valores iniciais
 void Coelho::nasce() {
-    setIsAlive(true);
-    setSaude(constantes::sCoelho);
-    setPercepcao(constantes::pCoelho);
-    setdeslMin(1);
-    setdeslMax(2);
-    setIdade(0);
-    escolhePeso(1, 4);
-    setFome(0);
-    setAlimentacao("verdura");
+    this->setIsAlive(true);
+    this->setSaude(constantes::sCoelho);
+    this->setPercepcao(constantes::pCoelho);
+    this->setdeslMin(1);
+    this->setdeslMax(2);
+    this->setIdade(0);
+    this->escolhePeso(1, 4);
+    this->setFome(0);
+    this->setAlimentacao("verdura");
 }
 // getters
 int Coelho::getVelocidade() {

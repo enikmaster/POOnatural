@@ -4,16 +4,45 @@
 #include "../Reserva/Local.h"
 
 Canguru::Canguru(char l, int posX, int posY, Reserva* reserva) : Animal(l, posX, posY, reserva) {
+    reserva->incContadorIds();
+    this->setAnimalID(reserva->getContadorIds());
+    if (posX == -1) {
+        int tempX{0};
+        int tempY{0};
+        do {
+            tempX = this->aleatorio(0, reservaAnimal->getDimX() - 1);
+            tempY = this->aleatorio(0, reservaAnimal->getDimY() - 1);
+        } while (reserva->checkPosOcupado(tempX, tempY));
+        this->setPosX(tempX);
+        this->setPosY(tempY);
+    }
     nasce();
     populateWithinRange();
 }
-Canguru::Canguru(char l, Reserva* reserva) : Canguru(l, -1, -1, reserva) {}
-Canguru::Canguru(const Canguru& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
-    nasce();
-    setIdPai(outro.getAnimalId());
-    setPosX(aleatorio((this->getPosX() - 3 < 0) ? 0 : this->getPosX() - 3, (this->getPosX() - 3 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 3));
-    setPosY(aleatorio((this->getPosY() - 3 < 0) ? 0 : this->getPosY() - 3, (this->getPosY() - 3 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 3));
-    populateWithinRange();
+Canguru::Canguru(char l, Reserva* reserva) : Canguru(l, -1, -1, reserva) {};
+Canguru::Canguru(const Canguru& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva(), value) {
+    if(!getToClone()) {
+        outro.reservaAnimal->incContadorIds();
+        this->setAnimalID(outro.reservaAnimal->getContadorIds());
+        this->nasce();
+        this->setIdPai(outro.getAnimalId());
+        this->setPosX(aleatorio((this->getPosX() - 3 < 0) ? 0 : this->getPosX() - 3,
+                          (this->getPosX() - 3 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() - 1 :
+                          this->getPosX() + 3));
+        this->setPosY(aleatorio((this->getPosY() - 3 < 0) ? 0 : this->getPosY() - 3,
+                          (this->getPosY() - 3 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() - 1 :
+                          this->getPosY() + 3));
+        this->populateWithinRange();
+    } else {
+        this->nasce();
+        this->setAnimalID(outro.getAnimalId());
+        this->setIdPai(outro.getIdPai());
+        this->setSaude(outro.getSaude());
+        this->setPeso(outro.getPeso());
+        this->setIdade(outro.getIdade());
+        this->setFome(outro.getFome());
+        this->setToClone(false);
+    }
 }
 Canguru::~Canguru() {
     // remove todas as listas de percepção

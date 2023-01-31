@@ -20,8 +20,8 @@ private:
     bool isAlive;
     bool toEmpty {false};
     bool toClone;
-    std::vector<std::string> registoAlimentar;
     //Registo* registoAlimentar;
+    std::vector<std::string> registoAlimentar;
 
 protected:
     std::vector<Animal*> animaisPerto;
@@ -75,10 +75,10 @@ public:
     void move(int xTarget, int yTarget);
     void escolhePeso(int a, int b);
     int aleatorio(int a, int b);
-    virtual Animal* fazOutro() {return nullptr;};
     void come(int nutri, int toxic);
     void dies();
     virtual void cicloTurno() {};
+    virtual Animal* fazOutro() {return nullptr;};
     virtual Animal* clone() = 0;
 };
 

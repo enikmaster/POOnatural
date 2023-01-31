@@ -7,8 +7,8 @@
 class Coelho : public Animal {
 public:
     Coelho(char l, int posX, int posY, Reserva *reserva);
-    Coelho(char l, Reserva* reserva) : Coelho(l, -1, -1, reserva) {};
-    Coelho(const Coelho& outro);
+    Coelho(char l, Reserva* reserva);
+    Coelho(const Coelho& outro, bool value = false);
     ~Coelho() override;
     // getters
     string getAlimentacao() const {return this->alimentacao;};
@@ -18,10 +18,10 @@ public:
     // actions
     void checkVitality();
     void checkSurrounding();
-    Animal* fazOutro() override;
     void nasce();
     void cicloTurno() override;
-    Coelho* clone() override { return new Coelho(*this);};
+    Animal* fazOutro() override;
+    Coelho* clone() override { return new Coelho(*this, true);};
 private:
     std::string alimentacao;
 };

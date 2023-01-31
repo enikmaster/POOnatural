@@ -3,12 +3,26 @@
 #include "../Reserva/Local.h"
 
 Ovelha::Ovelha(char l, const int x, const int y, Reserva* zoo) : Animal(l, x, y, zoo) {
+    zoo->incContadorIds();
+    this->setAnimalID(zoo->getContadorIds());
+    if (x == -1) {
+        int tempX{0};
+        int tempY{0};
+        do {
+            tempX = this->aleatorio(0, reservaAnimal->getDimX() - 1);
+            tempY = this->aleatorio(0, reservaAnimal->getDimY() - 1);
+        } while (zoo->checkPosOcupado(tempX, tempY));
+        this->setPosX(tempX);
+        this->setPosY(tempY);
+    }
     this->nasce();
     this->populateWithinRange();
 }
 Ovelha::Ovelha(char l, Reserva* zoo) : Ovelha(l, -1, -1, zoo) {}
 Ovelha::Ovelha(const Ovelha& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva(), value) {
     if(!getToClone()) {
+        outro.reservaAnimal->incContadorIds();
+        this->setAnimalID(outro.reservaAnimal->getContadorIds());
         this->nasce();
         this->setSaude(outro.getSaude());
         this->setPosX(aleatorio((this->getPosX() - 12 < 0) ? 0 : this->getPosX() - 12, (this->getPosX() - 12 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() - 1 : this->getPosX() + 12));
@@ -16,6 +30,7 @@ Ovelha::Ovelha(const Ovelha& outro, bool value) : Animal(outro.getLetra(), outro
         this->populateWithinRange();
     } else {
         this->nasce();
+        this->setAnimalID(outro.getAnimalId());
         this->setSaude(outro.getSaude());
         this->setPeso(outro.getPeso());
         this->setFome(outro.getFome());
@@ -119,9 +134,9 @@ void Ovelha::checkSurrounding() {
 void Ovelha::nasce() {
     this->setIsAlive(true);
     this->setPercepcao(constantes::pOvelha);
+    this->setSaude(constantes::sOvelha);
     this->setdeslMin(1);
     this->setdeslMax(1);
-    this->setSaude(constantes::sOvelha);
     this->setIdade(0);
     this->escolhePeso(4, 8);
     this->setFome(0);

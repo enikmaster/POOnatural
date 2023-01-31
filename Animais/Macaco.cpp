@@ -8,11 +8,28 @@ Macaco::Macaco(char l, int posX, int posY, Reserva *reserva) : Animal(l, posX, p
     nasce();
     populateWithinRange();
 };
-Macaco::Macaco(const Macaco& outro) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
-    nasce();
-    setPosX(aleatorio((this->getPosX() - 2 < 0) ? 0 : this->getPosX() - 2, (this->getPosX() - 2 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX()-1 : this->getPosX() + 2));
-    setPosY(aleatorio((this->getPosY() - 2 < 0) ? 0 : this->getPosY() - 2, (this->getPosY() - 2 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY()-1 : this->getPosY() + 2));
-    populateWithinRange();
+Macaco::Macaco(const Macaco& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva(), value) {
+    if(!getToClone()) {
+        outro.reservaAnimal->incContadorIds();
+        this->setAnimalID(outro.reservaAnimal->getContadorIds());
+        this->nasce();
+        this->setPosX(aleatorio((this->getPosX() - 2 < 0) ? 0 : this->getPosX() - 2,
+                          (this->getPosX() - 2 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() - 1 :
+                          this->getPosX() + 2));
+        this->setPosY(aleatorio((this->getPosY() - 2 < 0) ? 0 : this->getPosY() - 2,
+                          (this->getPosY() - 2 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() - 1 :
+                          this->getPosY() + 2));
+        this->populateWithinRange();
+    } else {
+        this->nasce();
+        this->setAnimalID(outro.getAnimalId());
+        this->setSaude(outro.getSaude());
+        this->setPeso(outro.getPeso());
+        this->setIdade(outro.getIdade());
+        this->setFome(outro.getFome());
+        this->setXP(outro.getXP());
+        this->setToClone(false);
+    }
 }
 Macaco::~Macaco() {
     // remove todas as listas de percepção
@@ -20,18 +37,17 @@ Macaco::~Macaco() {
     alimentosPerto.clear();
 }
 void Macaco::nasce() {
-    setIsAlive(true);
-    setSaude(constantes::sMacaco);
-    setPercepcao(constantes::pMacaco);
-    setdeslMin(1);
-    setdeslMax(1);
-    setIdade(0);
-    escolhePeso(10, 20);
-    setFome(0);
-    contadorXp = 0;
-    setAlimentacao("fruta");
+    this->setIsAlive(true);
+    this->setSaude(constantes::sMacaco);
+    this->setPercepcao(constantes::pMacaco);
+    this->setdeslMin(1);
+    this->setdeslMax(1);
+    this->escolhePeso(10, 20);
+    this->setIdade(0);
+    this->setFome(0);
+    this->setXP(0);
+    this->setAlimentacao("fruta");
 }
-
 
 void Macaco::checkVitality() {
     if(getSaude() <= 0 || getIdade() >= constantes::vMacaco)
@@ -40,9 +56,6 @@ void Macaco::checkVitality() {
 int Macaco::getVelocidade() {
     return aleatorio(getdeslMin(), getdeslMax());
 }
-
-
-int Macaco::getContadorXp() { return this->contadorXp;}
 
 // verifica as imediações e move-se
 void Macaco::checkSurrounding() {
@@ -89,7 +102,7 @@ void Macaco::checkSurrounding() {
 }
 
 Animal* Macaco::fazOutro() {
-    if (getContadorXp() < 100) {
+    if (getXP() < 100) {
     Animal *pA = new Macaco(*this);
     Local *pL = new Local(pA->getAnimalId(), pA->getPosX(), pA->getPosY(), pA->getLetra(), pA->getReserva());
     reservaAnimal->addLocal(pL);

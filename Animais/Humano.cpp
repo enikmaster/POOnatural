@@ -1,7 +1,42 @@
 #include "Humano.h"
+#include "../Alimentos/Alimento.h"
+#include "../Alimentos/Corpo.h"
+#include "../Reserva/Local.h"
 
 Humano::Humano(char l, int posX, int posY, Reserva *reserva) : Animal(l, posX, posY, reserva){
+    reserva->incContadorIds();
+    this->setAnimalID(reserva->getContadorIds());
+    if(posX == -1) {
+        int tempX{0};
+        int tempY{0};
+        do {
+            tempX = this->aleatorio(0, reservaAnimal->getDimX() - 1);
+            tempY = this->aleatorio(0, reservaAnimal->getDimY() - 1);
+        } while (reserva->checkPosOcupado(tempX, tempY));
+        this->setPosX(tempX);
+        this->setPosY(tempY);
+    }
     nasce();
+    populateWithinRange();
+}
+Humano::Humano(char l, Reserva* reserva) : Humano(l, -1, -1, reserva) {};
+Humano::Humano(const Humano& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva(), value) {
+    if(!getToClone()) {
+        outro.reservaAnimal->incContadorIds();
+        this->setAnimalID(outro.reservaAnimal->getContadorIds());
+        this->nasce();
+        this->setPosX(aleatorio((this->getPosX() - 15 < 0) ? 0 : this->getPosX() - 15, (this->getPosX() - 15 >= outro.reservaAnimal->getDimX()) ? outro.reservaAnimal->getDimX() - 1 : this->getPosX() + 15));
+        this->setPosY(aleatorio((this->getPosY() - 15 < 0) ? 0 : this->getPosY() - 15, (this->getPosY() - 15 >= outro.reservaAnimal->getDimY()) ? outro.reservaAnimal->getDimY() - 1 : this->getPosY() + 15));
+        this->populateWithinRange();
+    } else {
+        this->nasce();
+        this->setAnimalID(outro.getAnimalId());
+        this->setSaude(outro.getSaude());
+        this->setPeso(outro.getPeso());
+        this->setIdade(outro.getIdade());
+        this->setFome(outro.getFome());
+        this->setToClone(false);
+    }
 }
 Humano::~Humano() {
     // remove todas as listas de percepção

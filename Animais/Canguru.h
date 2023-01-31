@@ -7,7 +7,7 @@ class Canguru : public Animal {
 public:
     Canguru(char l, int posX, int posY, Reserva* reserva);
     Canguru(char l, Reserva* reserva);
-    Canguru(const Canguru& outro);
+    Canguru(const Canguru& outro, bool value = false);
     ~Canguru() override;
     //getters
     int getVelocidade();

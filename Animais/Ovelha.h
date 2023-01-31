@@ -19,9 +19,9 @@ public:
     // actions
     void checkVitality();
     void checkSurrounding();
-    Animal* fazOutro() override;
     void nasce();
     void cicloTurno() override;
+    Animal* fazOutro() override;
     Ovelha* clone() override {return new Ovelha(*this, true);};
 private:
     std::string alimentacao;

@@ -16,12 +16,20 @@ public:
 int Reserva::contadorIds {0};
 Reserva::Reserva(int largura, int altura) : dimX(largura), dimY(altura) {};
 Reserva::Reserva(const Reserva& outra) : Reserva(outra.getDimX(), outra.getDimY()) {
-//    for(auto& alimento : outra.alimentos) {
-        //Alimento* pAli = new Alimento(*alimento);
+//    for(auto alimento(outra.alimentos.begin()); alimento != outra.alimentos.end(); ++alimento) {
+//        Alimento* pAl = (*alimento)->clone();
+//        pAl->setReserva(this);
+//        this->alimentos.push_back(pAl);
 //    }
     for(auto animal(outra.animais.begin()); animal != outra.animais.end(); ++animal) {
         Animal* pAnim = (*animal)->clone();
+        pAnim->setReserva(this);
         this->animais.push_back(pAnim);
+    }
+    for(auto local(outra.locaisOcupados.begin()); local != outra.locaisOcupados.end(); ++local) {
+        Local* pLocal = (*local)->clone();
+        pLocal->setReserva(this);
+        this->locaisOcupados.push_back(pLocal);
     }
 };
 Reserva::~Reserva() {

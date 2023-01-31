@@ -6,13 +6,15 @@
 
 class Humano : public Animal {
 private:
-    string direction;
+    std::string direction;
 
 public:
     Humano(char l, int posX, int posY, Reserva *reserva);
-    ~Humano();
+    Humano(char l, Reserva* reserva);
+    Humano(const Humano& outro, bool value = false);
+    ~Humano() override;
 
-    void setDirection(string dir) { direction = dir;}
+    void setDirection(std::string dir) { direction = std::move(dir);}
     int getVelocidade();
     void checkVitality();
     void checkSurrounding();
