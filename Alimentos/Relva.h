@@ -7,18 +7,19 @@ class Relva : public Alimento{
 public:
     Relva(char l, int x, int y, Reserva* zoo);
     Relva(char l, Reserva* zoo);
-    Relva(const Relva& outro);
+    Relva(const Relva& outro, bool clone = false);
     ~Relva() override = default;
     // getters
     int getSpawnTime() const {return this->spawnTime;};
     // setters
-    void setSpawnTime(int st) {this->spawnTime = st;};
+    void setSpawnTime(const int st) {this->spawnTime = st;};
     // actions
     void nasce();
     void dimDuracao();
-    Alimento* fazOutro() override;
     void checkVitality();
     void cicloTurno() override;
+    Alimento* fazOutro() override;
+    Relva* clone() override { return new Relva(*this, true); }
 private:
     int spawnTime; // altura em que deve duplicar-se
 };
