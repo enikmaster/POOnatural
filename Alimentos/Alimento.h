@@ -30,7 +30,7 @@ public:
     int getNutri() const { return this->nutri;};
     int getToxic() const { return this->toxic;};
     int getDuracao() const { return this->duracao;};
-    string getCheiro(int pos) const {return this->cheiros.at(pos);};
+    string getCheiro(const int pos) const {return this->cheiros.at(pos);};
     int getQuantidadeCheiros() const {return (int)this->cheiros.size();};
     bool getIsAlive() const { return this->isAlive;};
     // setters

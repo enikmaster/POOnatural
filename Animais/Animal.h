@@ -32,7 +32,7 @@ public:
     Animal(char l, int x, int y, Reserva* novaReserva, bool value=false);
     Animal(char l, Reserva* novaReserva) : Animal(l, -1, -1, novaReserva) {};
     Animal(const Animal& outro, bool value) : Animal(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {};
-    virtual ~Animal() {};
+    virtual ~Animal() = default;;
     // getters
     int getPosX() const {return this->posX;};
     int getPosY() const {return this->posY;};
@@ -52,22 +52,22 @@ public:
     Reserva* getReserva() const;
     //void getRegistoAlimentar() {};
     // setters
-    void setPosX(int offsetX) {this->posX = offsetX;};
-    void setPosY(int offsetY) {this->posY = offsetY;};
-    void setdeslMin(int min) { this->deslMin = min;};
-    void setdeslMax(int max) { this->deslMax = max;};
-    void setAnimalID(int ai) {this->animalId = ai;};
-    void setPercepcao(int perc) {this->percepcao = perc;};
-    void setFome(int fa) {this->fome = fa;};
-    void setSaude(int sa) {this->saude = sa;};
-    void setIdade(int ia) {this->idade = ia;};
-    virtual void setPeso(int pa) {this->peso = pa;};
-    void setIsAlive(bool value) {this->isAlive = value;};
+    void setPosX(const int offsetX) {this->posX = offsetX;};
+    void setPosY(const int offsetY) {this->posY = offsetY;};
+    void setdeslMin(const int min) { this->deslMin = min;};
+    void setdeslMax(const int max) { this->deslMax = max;};
+    void setAnimalID(const int ai) {this->animalId = ai;};
+    void setPercepcao(const int perc) {this->percepcao = perc;};
+    void setFome(const int fa) {this->fome = fa;};
+    void setSaude(const int sa) {this->saude = sa;};
+    void setIdade(const int ia) {this->idade = ia;};
+    virtual void setPeso(const int pa) {this->peso = pa;};
+    void setIsAlive(const bool value) {this->isAlive = value;};
     void setReserva(Reserva* reserva) {this->reservaAnimal = reserva;};
     void addAnimalPerto(Animal* novoAnimal);
     void addAlimentoPerto(Alimento* novoAlimento);
-    void setToEmpty(bool value) { toEmpty = value; };
-    void setToClone(bool value) { this->toClone = value;};
+    void setToEmpty(const bool value) { this->toEmpty = value; };
+    void setToClone(const bool value) { this->toClone = value;};
     //void setRegistoAlimentar();
 
     // actions
@@ -78,7 +78,7 @@ public:
     void come(int nutri, int toxic);
     void dies();
     virtual void cicloTurno() {};
-    virtual Animal* fazOutro() {return nullptr;};
+    virtual Animal* fazOutro() = 0;
     virtual Animal* clone() = 0;
 };
 
