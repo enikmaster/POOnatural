@@ -78,7 +78,7 @@ public:
     void come(int nutri, int toxic);
     void dies();
     virtual void cicloTurno() {};
-    virtual Animal* fazOutro() = 0;
+    virtual Animal* fazOutro() { return nullptr; };
     virtual Animal* clone() = 0;
 };
 

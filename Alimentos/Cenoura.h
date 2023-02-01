@@ -14,6 +14,7 @@ public:
     void incToxic(){ setToxic(getToxic() + 1); };
     void incDuracao() { setDuracao(getDuracao() + 1); };
     void cicloTurno() override;
+    Cenoura* clone() override { return new Cenoura(*this); }
 };
 
 #endif //TESTETP_CENOURA_H
