@@ -7,6 +7,7 @@ class Cenoura : public Alimento{
 public:
     Cenoura(char l, int posX, int posY, Reserva* reservaFood);
     Cenoura(char l, Reserva* reservaFood);
+    Cenoura(const Cenoura& outra);
     ~Cenoura() override = default;
     // actions
     void nasce();

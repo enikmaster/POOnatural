@@ -21,12 +21,16 @@ Banana::Banana(char l, int posX, int posY, Reserva *reservaFood) : Alimento(l, p
     this->setIsAlive(true);
 }
 Banana::Banana(const Banana& outro) : Alimento(outro.getLetra(), outro.getPosX(), outro.getPosY(), outro.getReserva()) {
+    this->setFoodId(outro.getFoodId());
+    this->setPosX(outro.getPosX());
+    this->setPosY(outro.getPosY());
     this->setNutri(outro.getNutri());
     this->setToxic(outro.getToxic());
     this->setDuracao(outro.getDuracao());
     this->setCheiros("fruta");
     this->setIsAlive(outro.getIsAlive());
 }
+Banana::Banana(char l, Reserva* reservaFood) : Banana(l, -1, -1, reservaFood) {};
 // actions
 void Banana::dimNutri() {
     (getDuracao() > 50) ? setNutri(getNutri() + 1) : setNutri(getNutri() - 1);

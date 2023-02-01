@@ -7,6 +7,7 @@ class Banana : public Alimento {
 public:
     Banana(char l, int posX, int posY, Reserva* reservaFood);
     Banana(const Banana& outro);
+    Banana(char l, Reserva* reservaFood);
     ~Banana() override = default;
     // actions
     void dimNutri();
