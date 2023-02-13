@@ -5,6 +5,18 @@
 
 
 Macaco::Macaco(char l, int posX, int posY, Reserva *reserva) : Animal(l, posX, posY, reserva){
+    reserva->incContadorIds();
+    this->setAnimalID(reserva->getContadorIds());
+    if (posX == -1) {
+        int tempX{0};
+        int tempY{0};
+        do {
+            tempX = this->aleatorio(0, reservaAnimal->getDimX() - 1);
+            tempY = this->aleatorio(0, reservaAnimal->getDimY() - 1);
+        } while (reserva->checkPosOcupado(tempX, tempY));
+        this->setPosX(tempX);
+        this->setPosY(tempY);
+    }
     nasce();
     populateWithinRange();
 };

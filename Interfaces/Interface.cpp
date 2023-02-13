@@ -474,9 +474,10 @@ int Interface::addSave(string nome) {
 }
 // reinicia uma reserva guardada
 int Interface::restoreSave(const string& nome) {
-    for(auto& save : saves) {
-        if(save->getNome() == nome) {
-            setSavedZoo(save->getReservaSave());
+    for(vector<Save*>::iterator save {saves.begin()}; save != saves.end(); ++save) {
+        if((*save)->getNome() == nome) {
+            setSavedZoo((*save)->getReservaSave());
+            saves.erase(save);
             break;
         }
     }
