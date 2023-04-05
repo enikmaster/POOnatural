@@ -2,6 +2,7 @@
 #define TRABALHOPRATICO_CONSTANTES_H
 // valores iniciais dos animais
 namespace constantes {
+    // inline constexpr int sCoelho{ chama function };
     extern int sCoelho;
     extern int vCoelho;
     extern int pCoelho;
