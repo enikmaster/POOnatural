@@ -2,25 +2,24 @@
 #define TRABALHOPRATICO_CONSTANTES_H
 // valores iniciais dos animais
 namespace constantes {
-    // inline constexpr int sCoelho{ chama function };
-    extern int sCoelho;
-    extern int vCoelho;
-    extern int pCoelho;
-    extern int sOvelha;
-    extern int vOvelha;
-    extern int pOvelha;
-    extern int sLobo;
-    extern int vLobo;
-    extern int pLobo;
-    extern int sCanguru;
-    extern int vCanguru;
-    extern int pCanguru;
-    extern int sMacaco;
-    extern int vMacaco;
-    extern int pMacaco;
-    extern int sHumano;
-    extern int vHumano;
-    extern int pHumano;
+    inline int sCoelho;
+    inline int vCoelho;
+    inline int pCoelho;
+    inline int sOvelha;
+    inline int vOvelha;
+    inline int pOvelha;
+    inline int sLobo;
+    inline int vLobo;
+    inline int pLobo;
+    inline int sCanguru;
+    inline int vCanguru;
+    inline int pCanguru;
+    inline int sMacaco;
+    inline int vMacaco;
+    inline int pMacaco;
+    inline int sHumano;
+    inline int vHumano;
+    inline int pHumano;
 }
 class Constantes {
 public:
