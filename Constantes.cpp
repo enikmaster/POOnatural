@@ -2,24 +2,26 @@
 #include "Includes.h"
 #include "Interfaces/Interface.h"
 
-int constantes::sCoelho;
-int constantes::vCoelho;
-int constantes::pCoelho;
-int constantes::sOvelha;
-int constantes::vOvelha;
-int constantes::pOvelha;
-int constantes::sLobo;
-int constantes::vLobo;
-int constantes::pLobo;
-int constantes::sCanguru;
-int constantes::vCanguru;
-int constantes::pCanguru;
-int constantes::sMacaco;
-int constantes::vMacaco;
-int constantes::pMacaco;
-int constantes::sHumano;
-int constantes::vHumano;
-int constantes::pHumano;
+// Estas variáveis não são necessárias ser declaradas aqui.
+//int constantes::sCoelho;
+//int constantes::vCoelho;
+//int constantes::pCoelho;
+//int constantes::sOvelha;
+//int constantes::vOvelha;
+//int constantes::pOvelha;
+//int constantes::sLobo;
+//int constantes::vLobo;
+//int constantes::pLobo;
+//int constantes::sCanguru;
+//int constantes::vCanguru;
+//int constantes::pCanguru;
+//int constantes::sMacaco;
+//int constantes::vMacaco;
+//int constantes::pMacaco;
+//int constantes::sHumano;
+//int constantes::vHumano;
+//int constantes::pHumano;
+// Se não sabes porquê, vê a declaração das mesmas no header file correspondente
 
 void Constantes::getFromFile() {
     // corre o ficheiro das constantes e passa os valores para variáveis globais
