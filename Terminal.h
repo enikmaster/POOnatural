@@ -18,8 +18,6 @@
 #endif
 
 namespace term {
-
-
     class TerminalFormatter {
     public:
         enum class Type {
