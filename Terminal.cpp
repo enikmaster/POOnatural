@@ -9,8 +9,6 @@
 #include "Terminal.h"
 
 namespace term {
-
-
     TerminalFormatter move_to(int x, int y) {
         TerminalFormatter tf(TerminalFormatter::Type::MOVE, x, y);
         return tf;
@@ -26,15 +24,11 @@ namespace term {
         return tf;
     }
 
-
-
     Window::Window(int x, int y, int w, int h, bool with_border) {
         if( with_border ) {
             border = newwin(h, w, y, x);
             window = newwin(h-2, w-2, y+1, x+1);
             box(border, 0, 0);
-            //wborder(border, '|', '|', '-', '-', '+', '+', '+', '+');
-            //wborder(border, 0xb3, 0xb3, 0xc4, 0xc4, 0xda, 0xbf, 0xc0, 0xd9);
             wrefresh(border);
         } else {
             window = newwin(h, w, y, x);
@@ -50,7 +44,6 @@ namespace term {
     }
 
     Window::~Window() {
-
         if( border!=NULL ) {
             wborder(border, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
             wrefresh(border);
@@ -59,9 +52,7 @@ namespace term {
         if( window!=NULL ) {
             delwin(window);
         }
-
     }
-
 
     Window& Window::operator<<(const std::string& str) {
         ::wprintw(window, "%s", str.c_str());
@@ -161,11 +152,9 @@ namespace term {
         ::wclear(window);
     }
 
-
     Terminal::Terminal() {
         ::initscr();
         ::start_color();
-        //::init_pair(1, COLOR_RED, COLOR_BLACK);
     }
 
     Terminal::~Terminal() {
@@ -286,6 +275,4 @@ namespace term {
     int Terminal::getNumRows() {
         return LINES;
     }
-
-
 }
